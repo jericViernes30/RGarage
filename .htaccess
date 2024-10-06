@@ -1,6 +1,7 @@
 RewriteEngine On
+RewriteBase /RGarage/
 
-# Redirect all requests to index.php
+# Redirect clean URLs to index.php?action=controller/method
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?action=$1 [L,QSA]
