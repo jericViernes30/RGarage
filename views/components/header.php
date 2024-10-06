@@ -11,7 +11,7 @@
         <a href="">Contact Us</a>
     </div>
     <div class="w-1/4 flex items-center justify-end gap-5">
-        <a href="#" class="text-lg text-white">Login</a>
-        <button class="btn">Signup</button>
+        <a href="/RGarage/user/login" class="text-lg text-white">Login</a>
+        <button onclick="window.location.href='/RGarage/user/signup'" class="btn">Signup</button>
     </div>
 </div>
