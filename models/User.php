@@ -7,8 +7,12 @@ class User{
 
     // for columns in the table
     public $id;
-    public $name;
-    public $email;
+    public $first_name;
+    public $last_name;
+    public $contact_number;
+    public $address;
+    public $email_address;
+    public $password;
 
     // database connection
     public function __construct($db)
@@ -17,10 +21,13 @@ class User{
     }
 
     // create new user
-    public function create(){
-        $query = "INSERT INTO " . $this->table_name . " (name, email) VALUES (?,?)";
+    public function createUser(){
+        $query = "INSERT INTO " . $this->table_name . " (first_name, last_name, email_address, contact_number, address, password) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ss", $this->name, $this->email);
+
+        $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
+
+        $stmt->bind_param("ssssss", $this->first_name, $this->last_name, $this->email_address, $this->contact_number, $this->address, $hashed_password);
         return $stmt->execute();
     }
 
