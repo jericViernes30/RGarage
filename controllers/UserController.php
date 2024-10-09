@@ -15,12 +15,7 @@ class UserController {
         $this->user = new User($db);
     }
 
-    public function index() {
-        $result = $this->user->read();
-        include_once 'views/user/index.php';
-    }
-
-    public function authLogin(){
+    public function createUser(){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $password = $_POST['password'];
             $repeat_password = $_POST['repeat_password'];
@@ -33,12 +28,9 @@ class UserController {
                 $this->user->address = $_POST['address'];
                 $this->user->password = $_POST['password'];
 
-                // Attempt to create the user
                 if ($this->user->createUser()) {
-                    // Redirect or display success message
                     echo "User registered successfully!";
                 } else {
-                    // Display error message
                     echo "Error: Could not create user.";
                 }
             } else {
@@ -46,17 +38,63 @@ class UserController {
                     alert('Error: Passwords do not match.');
                     window.location.href = '/RGarage/user/signup';
                 </script>";
-                exit(); // Prevent further script execution
+                exit();
             }
 
         }
     }
 
+    public function authLogin() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->user->email_address = $_POST['email'];
+            $this->user->password = $_POST['password'];
+    
+            $authResult = $this->user->authUser();
+    
+            if ($authResult['status']) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['user_id'] = $authResult['user']['id'];
+                $_SESSION['first_name'] = $authResult['user']['first_name'];
+                $_SESSION['last_name'] = $authResult['user']['last_name'];
+                $_SESSION['email_address'] = $authResult['user']['email_address'];
+                $_SESSION['address'] = $authResult['user']['address'];
+                $_SESSION['contact_number'] = $authResult['user']['contact_number'];
+                echo "<script>
+                    alert('Success: You\'re now logged in.');
+                    window.location.href = '/RGarage/user/home'; // Redirect to dashboard or homepage
+                </script>";
+            } else {
+                echo "<script>
+                    alert('Error: " . $authResult['message'] . "');
+                    window.location.href = '/RGarage/user/auth/login'; // Redirect back to login page
+                </script>";
+            }
+        }
+    }
+    
+    public function getDetails(){
+
+    }
+    
     public function login(){
         include 'views/user/login.php';
     }
 
     public function signup(){
         include 'views/user/signup.php';
+    }
+
+    public function home(){
+        include 'views/user/home.php';
+    }
+
+    public function logout(){
+        session_start();
+        session_unset();
+        session_destroy();
+        header("Location: /RGarage/");
+        exit();
     }
 }
