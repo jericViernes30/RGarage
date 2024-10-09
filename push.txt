@@ -1,0 +1,29 @@
+October 6, 2024:
+    * first commit
+    * initial setup
+
+    Includes:
+        Pages:
+            - landing page
+            - login page
+            - signup page
+        Functions: 
+            - user signup : UserController | createUser(), User | createUser()
+
+================================================================================================================
+
+October 9, 2024:
+    * second commit
+    * added routes in index.php
+        - login route
+        - logout route
+        
+    Includes:
+        Pages:
+            - updated landing page
+        Functions:
+            - login : UserController | authLogin(), User | authUser()
+            - logout : UserController | logout()
+
+================================================================================================================
+
