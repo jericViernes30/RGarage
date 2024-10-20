@@ -63,7 +63,7 @@ class UserController {
                 $_SESSION['contact_number'] = $authResult['user']['contact_number'];
                 echo "<script>
                     alert('Success: You\'re now logged in.');
-                    window.location.href = '/RGarage/user/home'; // Redirect to dashboard or homepage
+                    window.location.href = '/RGarage'; // Redirect to dashboard or homepage
                 </script>";
             } else {
                 echo "<script>

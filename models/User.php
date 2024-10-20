@@ -75,7 +75,7 @@ class User{
     //     $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
     //     $stmt = $this->conn->prepare($query);
     //     $stmt->bind_param('i', $id);
-    //     $stmt->execute();
+    //.`     $stmt->execute();
     //     $result = $stmt->get_result();
 
     //     if($result->num_rows == 1){

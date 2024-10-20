@@ -1,6 +1,6 @@
 <?php
 // Start the session to access session data
-session_start();
+// session_start();
 
 // Check if the user is logged in (check if user session exists)
 if (!isset($_SESSION['user_id'])) {

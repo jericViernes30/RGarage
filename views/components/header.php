@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Check if user is logged in
-$isLoggedIn = isset($_SESSION['user']);
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
 <div class="w-full flex items-center px-10 py-4 bg-[#1b1c1e]">
@@ -25,7 +25,7 @@ $isLoggedIn = isset($_SESSION['user']);
             <button id="profileButton" class="flex items-center justify-end gap-3 mr-7">
                 <div class="w-[40px] h-[40px] border-2 bg-white rounded-full">
                 </div>
-                <span class="text-sm text-white"><?php echo $_SESSION['user']['first_name']; ?></span>
+                <span class="text-sm text-white"><?php echo $_SESSION['first_name']; ?></span>
             </button>
         <?php else: ?>
             <a href="/RGarage/user/login" class="text-lg text-white">Login</a>

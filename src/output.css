@@ -1680,6 +1680,10 @@ html {
   left: 0px;
 }
 
+.right-0 {
+  right: 0px;
+}
+
 .right-2 {
   right: 0.5rem;
 }
@@ -1690,14 +1694,6 @@ html {
 
 .top-1\/2 {
   top: 50%;
-}
-
-.right-0 {
-  right: 0px;
-}
-
-.top-10 {
-  top: 2.5rem;
 }
 
 .top-14 {
@@ -1741,24 +1737,16 @@ html {
   margin-bottom: 1.75rem;
 }
 
+.mr-7 {
+  margin-right: 1.75rem;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
 
 .mt-24 {
   margin-top: 6rem;
-}
-
-.mr-4 {
-  margin-right: 1rem;
-}
-
-.mr-6 {
-  margin-right: 1.5rem;
-}
-
-.mr-7 {
-  margin-right: 1.75rem;
 }
 
 .block {
@@ -1781,8 +1769,8 @@ html {
   height: 75%;
 }
 
-.h-\[150px\] {
-  height: 150px;
+.h-\[40px\] {
+  height: 40px;
 }
 
 .h-\[550px\] {
@@ -1800,14 +1788,6 @@ html {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[50px\] {
-  height: 50px;
-}
-
-.h-\[40px\] {
-  height: 40px;
 }
 
 .w-1\/2 {
@@ -1834,24 +1814,16 @@ html {
   width: 20rem;
 }
 
-.w-\[150px\] {
-  width: 150px;
-}
-
 .w-\[18\%\] {
   width: 18%;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.w-\[50px\] {
-  width: 50px;
-}
-
 .w-\[40px\] {
   width: 40px;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .-translate-y-1\/2 {
@@ -1899,16 +1871,16 @@ html {
   gap: 0.5rem;
 }
 
+.gap-3 {
+  gap: 0.75rem;
+}
+
 .gap-4 {
   gap: 1rem;
 }
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.gap-3 {
-  gap: 0.75rem;
 }
 
 .overflow-hidden {
@@ -1935,12 +1907,12 @@ html {
   border-bottom-left-radius: 1rem;
 }
 
-.rounded-br-2xl {
-  border-bottom-right-radius: 1rem;
-}
-
 .rounded-bl-lg {
   border-bottom-left-radius: 0.5rem;
+}
+
+.rounded-br-2xl {
+  border-bottom-right-radius: 1rem;
 }
 
 .rounded-br-lg {
@@ -1992,11 +1964,6 @@ html {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
 .p-4 {
@@ -2124,11 +2091,6 @@ html {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-\[\#1b1c1e\] {
-  --tw-text-opacity: 1;
-  color: rgb(27 28 30 / var(--tw-text-opacity));
 }
 
 .shadow-2xl {
