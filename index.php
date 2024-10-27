@@ -1,7 +1,9 @@
 <?php
 include_once 'controllers/UserController.php';
+include_once 'controllers/AdminController.php';
 
 $controller = new UserController();
+$adminController = new AdminController();
 $action = $_GET['action'] ?? null;
 
 // Start the session if it hasn't been started yet
@@ -36,6 +38,25 @@ switch ($action) {
             exit();
         }
         break;
+
+
+    case 'admin/dashboard':
+        $adminController->dashboard();
+        break;
+
+    case 'admin/units':
+        $adminController->units();
+        break;
+    
+    case 'admin/add-unit':
+        $adminController->addUnit();
+        break;
+
+    case 'admin/delete-unit':
+        $adminController->deleteUnit(); // Call deleteUnit without passing plate number directly
+        break;
+        
+
     default:
         include 'views/landing_page.php';
         break;
