@@ -27,3 +27,21 @@ October 9, 2024:
 
 ================================================================================================================
 
+October 28, 2024:
+    * third commit
+    * new routes
+        - admin/dashboard route
+        - admin/units route
+        - admin/add-unit
+        - admin/delete-unit
+
+    Includes:
+        Pages:
+            - admin dashboard page
+            - admin units page
+        Functions:
+            - display all units : AdminController | displayUnit(), Unit | fetchAllUnits()
+            - add unit : AdminController | addUnit(), Unit | addUnit()
+            - delete unit : AdminController | deleteUnit(), Unit | deleteUnit()
+            - count brands : Unit | countDistinctBrand()
+            - count units : Unit | countTotalUnits()
