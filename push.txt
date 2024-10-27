@@ -34,6 +34,10 @@ October 28, 2024:
         - admin/units route
         - admin/add-unit
         - admin/delete-unit
+    * new Controller Class
+        - AdminController
+    * new Model Class
+        - Unit
 
     Includes:
         Pages:
