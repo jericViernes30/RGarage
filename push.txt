@@ -49,3 +49,13 @@ October 28, 2024:
             - delete unit : AdminController | deleteUnit(), Unit | deleteUnit()
             - count brands : Unit | countDistinctBrand()
             - count units : Unit | countTotalUnits()
+
+    NOTE:
+        - No admin account yet, to go to the admin page, just type localhost/RGarage/admin/dashboard
+
+    NEXT GOAL:
+        - Add more details about the units
+        - Edit unit's detail
+        - Reservation functionality of the customers
+        - Displaying of available units to the public-side
+        * To be submitted on October 31 2024
