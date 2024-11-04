@@ -10,6 +10,8 @@ class Unit {
     public $brand;
     public $model;
     public $price;
+    public $mileage;
+    public $image;
     public $created_at;
 
     // Constructor to initialize database connection
@@ -51,25 +53,62 @@ class Unit {
         }
     }
 
-    public function addUnit() {
-        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, price) 
-                  VALUES (?, ?, ?, ?, ?)";
-
+    public function addUnit($imageFiles) {
+        // Define the upload directory with an absolute path
+        $uploadDir = 'C:/xampp/htdocs/RGarage/public/images/';
+        $imageNames = []; // Array to hold names of uploaded images
+    
+        // Ensure the directory exists
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
+        }
+    
+        // Loop through each uploaded image
+        foreach ($imageFiles['tmp_name'] as $key => $tmpName) {
+            $imageName = basename($imageFiles['name'][$key]); // Get the original image name
+            $targetFilePath = $uploadDir . $imageName; // Target file path
+    
+            // Check if the file is a valid image
+            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+            if (strtolower($fileType) !== 'jpg') {
+                echo "Error: Only JPG files are allowed.";
+                return false;
+            }
+    
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($tmpName, $targetFilePath)) {
+                $imageNames[] = $imageName; // Add the image name to the array
+            } else {
+                echo "Error uploading the image: " . $imageName;
+                return false; // Stop execution on error
+            }
+        }
+    
+        // Join the image names into a comma-separated string
+        $this->image = implode(',', $imageNames);
+    
+        // Define the SQL query
+        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, mileage, image, price) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
         // Prepare the statement
         $stmt = $this->conn->prepare($query);
-
+    
         // Check for preparation error
         if (!$stmt) {
             echo "Preparation Error: " . $this->conn->error;
-            return false; // Indicate failure
+            return false;
         }
-
+    
         // Bind parameters
-        $stmt->bind_param("sssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->price);
-
+        $stmt->bind_param("sssssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->mileage, $this->image, $this->price);
+    
         // Execute the query and return the result
         return $stmt->execute();
     }
+    
+    
+    
 
     public function deleteUnit($plate_number) {
         $query = "DELETE FROM " . $this->table_name . " WHERE plate_number = ?";
