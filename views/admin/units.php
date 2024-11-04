@@ -16,7 +16,7 @@
             <button type="button" id="closeForm" class="text-white">x</button>
         </div>
         <div>
-            <form action="/RGarage/admin/add-unit" method="POST" class="p-6">
+            <form action="/RGarage/admin/add-unit" method="POST" class="p-6 flex flex-col" enctype="multipart/form-data">
                 <div class="w-full flex gap-3 mb-4">
                     <div class="w-1/5 flex flex-col gap-1">
                         <label for="">Year</label>
@@ -32,21 +32,23 @@
                     </div>
                 </div>
                 <hr>
-                <div class="w-full flex gap-3 my-4">
+                <div class="w-full flex gap-3 my-4 mb-4">
                     <div class="w-1/3 flex flex-col gap-1 mb-2">
                         <label for="">Plate Number</label>
                         <input type="text" name="plate_number" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
-                    <!-- <div class="w-1/3 flex flex-col gap-1">
-                        <label for="">Engine Displacement</label>
-                        <input type="text" name="brand" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
-                    </div> -->
+                    <div class="w-1/3 flex flex-col gap-1">
+                        <label for="">Mileage</label>
+                        <input type="text" name="mileage" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
+                    </div>
                     <div class="w-1/3 flex flex-col gap-1">
                         <label for="">Price</label>
                         <input type="text" name="price" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
                 </div>
-                <button type="submit" class="bg-blue-500 px-10 py-2 text-white text-sm rounded-md">Add</button>
+                <input type="file" name="images[]" class="bg-white mb-4" accept=".jpg" multiple required>
+
+                <button type="submit" class="w-1/6 bg-blue-500 px-10 py-2 text-white text-sm rounded-md">Add</button>
             </form>
         </div>
     </div>
