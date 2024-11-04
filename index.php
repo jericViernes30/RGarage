@@ -30,6 +30,15 @@ switch ($action) {
     case 'user/home':
         $controller->home();
         break;
+
+    case 'user/unitsAvailable':
+        $controller->units();
+        break;
+
+    case 'user/unit-detail':
+        $controller->unitDetail();
+        break;
+
     case 'user/logout':
         if ($isLoggedIn) {
             $controller->logout();
