@@ -79,4 +79,4 @@ November 4, 2024:
     NEXT GOAL:
         - Add more details about the units
         - Edit unit's detail
-        - Reservation functionality of the customers
+        - Reservation and inquiry functionality of the customers
