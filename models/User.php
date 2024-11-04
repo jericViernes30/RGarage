@@ -70,34 +70,52 @@ class User{
         }
     }
 
-    // Get all users
-    // public function getDetails($id) {
-    //     $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->bind_param('i', $id);
-    //.`     $stmt->execute();
-    //     $result = $stmt->get_result();
+    public function fetchAllUnits() {
+        $query = "SELECT * FROM units";
 
-    //     if($result->num_rows == 1){
-    //         $row = $result->fetch_assoc();
+        // Prepare the statement
+        if ($stmt = $this->conn->prepare($query)) {
+            // Execute the query
+            if ($stmt->execute()) {
+                // Get the result set
+                $result = $stmt->get_result();
 
-    //         return [
-    //             'status' => true,
-    //             'message' => 'User details found!',
-    //             'user' => [
-    //                 'id' => $row['id'],
-    //                 'first_name' => $row['first_name'],
-    //                 'last_name' => $row['last_name'],
-    //                 'email_address' => $row['email_address'],
-    //                 'contact_number' => $row['contact_number'],
-    //                 'address' => $row['address'],
-    //             ],
-    //         ];
-    //     } else {
-    //         return [
-    //             'status' => false,
-    //             'message' => 'User details not found!',
-    //         ];
-    //     }
-    // }
+                // Initialize an array to store all units
+                $units = [];
+
+                // Check if there are rows returned
+                if ($result->num_rows > 0) {
+                    // Fetch each unit and add it to the array
+                    while ($unit = $result->fetch_assoc()) {
+                        $units[] = $unit; // Add each unit to the array
+                    }
+                }
+                
+                // Free result set
+                $result->free();
+                
+                return $units; // Return the array of units
+            } else {
+                throw new Exception("Execution Error: " . $stmt->error);
+            }
+        } else {
+            throw new Exception("Preparation Error: " . $this->conn->error);
+        }
+    }
+
+    public function unitDetails($unitID){
+        $query = "SELECT * FROM units WHERE id = ?";
+
+        if($stmt = $this->conn->prepare($query)){
+            $stmt->bind_param('s', $unitID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if($result->num_rows == 1){
+                $row = $result->fetch_assoc();
+                return $row;
+            }
+        }
+        return null;
+    }
 }
