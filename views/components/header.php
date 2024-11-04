@@ -4,20 +4,29 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Check if the session contains 'user_id' and other user details
+// if (isset($_SESSION['user'])) {
+//     echo "User ID session is set: " . $_SESSION['user']['user_id'] . "<br>";
+// } else {
+//     echo "User ID session is not set<br>";
+// }
+
 // Check if user is logged in
-$isLoggedIn = isset($_SESSION['user_id']);
+$isLoggedIn = isset($_SESSION['user']);
+// echo "Is Logged In: " . ($isLoggedIn ? "true" : "false") . "<br>";
 ?>
 
-<div class="w-full flex items-center px-10 py-4 bg-[#1b1c1e]">
+
+<div class="w-full flex items-center px-32 py-4 bg-[#1b1c1e]">
     <div class="w-1/4">
-        <button class="text-2xl font-semibold px-10 text-white">
+        <button class="text-2xl font-semibold text-white">
             RGarage.
         </button>
     </div>
     <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
         <a href="">Home</a>
         <a href="">About</a>
-        <a href="">Units</a>
+        <a href="/RGarage/user/unitsAvailable">Units</a>
         <a href="">Contact Us</a>
     </div>
     <div class="w-1/4 flex items-center justify-end gap-5 relative">
@@ -25,7 +34,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <button id="profileButton" class="flex items-center justify-end gap-3 mr-7">
                 <div class="w-[40px] h-[40px] border-2 bg-white rounded-full">
                 </div>
-                <span class="text-sm text-white"><?php echo $_SESSION['first_name']; ?></span>
+                <span class="text-sm text-white"><?php echo $_SESSION['user']['first_name']; ?></span>
             </button>
         <?php else: ?>
             <a href="/RGarage/user/login" class="text-lg text-white">Login</a>
