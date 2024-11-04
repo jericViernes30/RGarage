@@ -51,16 +51,18 @@ class UserController {
     
             $authResult = $this->user->authUser();
     
-            if ($authResult['status']) {
+            if ($authResult['status']) { 
                 if (session_status() == PHP_SESSION_NONE) {
                     session_start();
                 }
-                $_SESSION['user_id'] = $authResult['user']['id'];
-                $_SESSION['first_name'] = $authResult['user']['first_name'];
-                $_SESSION['last_name'] = $authResult['user']['last_name'];
-                $_SESSION['email_address'] = $authResult['user']['email_address'];
-                $_SESSION['address'] = $authResult['user']['address'];
-                $_SESSION['contact_number'] = $authResult['user']['contact_number'];
+                $_SESSION['user'] = [
+                    'user_id' => $authResult['user']['id'],
+                    'first_name' => $authResult['user']['first_name'],
+                    'last_name' => $authResult['user']['last_name'],
+                    'email_address' => $authResult['user']['email_address'],
+                    'address' => $authResult['user']['address'],
+                    'contact_number' => $authResult['user']['contact_number']
+                ];
                 echo "<script>
                     alert('Success: You\'re now logged in.');
                     window.location.href = '/RGarage'; // Redirect to dashboard or homepage
@@ -74,8 +76,18 @@ class UserController {
         }
     }
     
-    public function getDetails(){
+    public function fetchUnits(){
+        try {
+            // Fetch all units using the Unit model
+            $units = $this->user->fetchAllUnits();
 
+            // Pass the fetched units to the view
+            include 'views/user/units.php'; // Include the view with the units data
+        } catch (Exception $e) {
+            // Handle any exceptions that may occur
+            echo "Error fetching units: " . $e->getMessage();
+            // Optionally log the error or redirect to an error page
+        }
     }
     
     public function login(){
@@ -88,6 +100,24 @@ class UserController {
 
     public function home(){
         include 'views/user/home.php';
+    }
+
+    public function units(){
+        $this->fetchUnits();
+    }
+
+    public function unitDetail(){
+        if(isset($_GET['unitID'])){
+            $unitID = $_GET['unitID'];
+            $unitDetails = $this->user->unitDetails($unitID);
+            if($unitDetails){
+                include 'views/user/unit_details.php';
+            } else {
+                echo "No unit found with this ID.";
+            }
+        } else {
+            echo "Unit ID not provided.";
+        }
     }
 
     public function logout(){
