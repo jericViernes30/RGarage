@@ -37,10 +37,11 @@ class AdminController{
             $this->unit->year = htmlspecialchars(strip_tags($_POST['year']));
             $this->unit->brand = htmlspecialchars(strip_tags($_POST['brand']));
             $this->unit->model = htmlspecialchars(strip_tags($_POST['model']));
+            $this->unit->mileage = htmlspecialchars(strip_tags($_POST['mileage']));
             $this->unit->price = htmlspecialchars(strip_tags($_POST['price']));
 
             // Attempt to add the unit
-            if ($this->unit->addUnit()) {
+            if ($this->unit->addUnit($_FILES['images'])) {
                 // Redirect or set a success message
                 header("Location: /RGarage/admin/units"); // Redirect to units page
                 exit(); // Stop further execution
