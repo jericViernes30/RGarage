@@ -92,7 +92,7 @@
       <div class="card bg-base-100 w-80 shadow-xl h-[550px]">
         <figure>
           <img
-            src="public/images/click_1.jpg"
+            src="public/images/click_v2_black.jpg"
             alt="Honda Beat" />
         </figure>
         <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
