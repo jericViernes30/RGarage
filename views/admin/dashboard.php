@@ -13,6 +13,7 @@
         <div class="w-full flex flex-col">
             <a href="#" class="bg-blue-500 py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
         </div>
     </div>
     <div class="w-[84%]">
