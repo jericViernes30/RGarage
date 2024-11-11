@@ -123,13 +123,14 @@ function displayMessages(messages) {
     }
 }
 
+setInterval(fetchMessages, 500);  // 500 milliseconds = 0.5 seconds
+
 function scrollToBottom() {
     // Scroll to the bottom of the contents div after content is updated
     $('#contents').animate({ scrollTop: $('#contents')[0].scrollHeight }, 500); // Smooth scroll to bottom
 }
 
 $(document).ready(function() {
-
     // Handle send message button click
     $('#sendButton').on('click', function() {
         const message = $('#messageInput').val();
