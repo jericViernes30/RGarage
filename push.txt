@@ -80,3 +80,28 @@ November 4, 2024:
         - Add more details about the units
         - Edit unit's detail
         - Reservation and inquiry functionality of the customers
+
+================================================================================================================
+
+November 15, 2024:
+    *sixth commit
+    Functionalities done with:
+        - Number of units in client homepage
+        - Clickable logo
+        - Registration confirmation
+        - Tire thread
+        - Declare issue
+        - Maximize space in units
+        - unit is searchable of modified or stock
+        - declare color
+        - message has now a color
+        - monitoring activity (register/login)
+        - After picking a schedule, that schedule will not be available to others
+
+    Not still included:
+        - Edit unit information
+        - Chatbot (to be discussed)
+        - Admin functionalities
+        - Soldout history (admin)
+        - Database of payments
+        - Email notification (to be discussed)
