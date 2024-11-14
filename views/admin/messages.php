@@ -12,12 +12,12 @@
     <div class="w-[16%] bg-gray-700">
         <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
         <div class="w-full flex flex-col">
-            <a href="#" class=" py-2 px-5 text-white w-full">Dashboard</a>
+            <a href="/RGarage/admin/dashboard" class=" py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
             <a href="/RGarage/admin/messages" class="bg-blue-500 py-2 px-5 text-white w-full">Messages</a>
         </div>
     </div>
-    <div class="w-[84%]">
+    <div class="w-[84%] h-screen">
         <div class="w-full py-3 flex justify-between bg-white shadow-xl mb-10">
             <div class="flex items-center gap-8 pl-8">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="23" height="23" fill="#000"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
@@ -30,58 +30,57 @@
         <div class="px-8 w-full h-4/5 flex">
             <div class="w-1/4 bg-white p-2 h-full overflow-y-scroll rounded-tl-xl rounded-bl-xl border-r-2 border-gray-300">
                 <?php
-if (!empty($allMessages)) {
-    foreach ($allMessages as $messages):
-        $sender = $messages['sender_name'];
-        $createdAt = new DateTime($messages['created_at'], new DateTimeZone('Asia/Manila'));
-        $currentTime = new DateTime('now', new DateTimeZone('Asia/Manila'));
-        $interval = $currentTime->diff($createdAt);
+                    if (!empty($allMessages)) {
+                        foreach ($allMessages as $messages):
+                            $sender = $messages['sender_name'];
+                            $createdAt = new DateTime($messages['created_at'], new DateTimeZone('Asia/Manila'));
+                            $currentTime = new DateTime('now', new DateTimeZone('Asia/Manila'));
+                            $interval = $currentTime->diff($createdAt);
 
-        if ($interval->days == 0 && $interval->h == 0 && $interval->i == 0) {
-            $elapsedTimeText = "Just now";
-        } else {
-            $hours = $interval->h;
-            $minutes = $interval->i;
-            if ($interval->days > 0) {
-                $elapsedTimeText = $interval->days . 'd ' . $hours . 'h';
-            } else {
-                $elapsedTimeText = ($hours > 0 ? "{$hours}h " : "") . "{$minutes}m";
-            }
-        }
-        ?>
-	                    <button type="button" class="senderNameBtn w-full flex flex-col gap-2 p-4 bg-blue-100 rounded-lg mb-1">
-	                        <p class="font-bold"><?php echo htmlspecialchars($messages['sender_name']); ?></p>
-	                        <div class="w-full flex gap-1 items-center">
-	                            <p class="text-sm text-gray-700">
-	                                <?php
-    // Get the content, limit it to 20 characters, and add ellipsis if longer
-        $content = $messages['content'];
-        if (strlen($content) > 20) {
-            $content = substr($content, 0, 20) . '...';
-        }
-        echo htmlspecialchars($content);
-        ?>
-	                            </p>
-	                            <p id="elapsedTime" class="text-gray-400 text-xs">• <?php echo $elapsedTimeText; ?></p>
-	                        </div>
-	                    </button>
+                            if ($interval->days == 0 && $interval->h == 0 && $interval->i == 0) {
+                                $elapsedTimeText = "Just now";
+                            } else {
+                                $hours = $interval->h;
+                                $minutes = $interval->i;
+                                if ($interval->days > 0) {
+                                    $elapsedTimeText = $interval->days . 'd ' . $hours . 'h';
+                                } else {
+                                    $elapsedTimeText = ($hours > 0 ? "{$hours}h " : "") . "{$minutes}m";
+                                }
+                            }
+                ?>
+                        <button type="button" class="senderNameBtn w-full flex flex-col gap-2 p-4 bg-blue-100 rounded-lg mb-1">
+                            <p class="font-bold"><?php echo htmlspecialchars($messages['sender_name']); ?></p>
+                                <div class="w-full flex gap-1 items-center">
+                                <p class="text-sm text-gray-700">
+                        <?php
+                        // Get the content, limit it to 20 characters, and add ellipsis if longer
+                        $content = $messages['content'];
+                            if (strlen($content) > 20) {
+                                $content = substr($content, 0, 20) . '...';
+                            }
+                            echo htmlspecialchars($content);
+                ?>
+                                </p>
+                                <p id="elapsedTime" class="text-gray-400 text-xs">• <?php echo $elapsedTimeText; ?></p>
+                            </div>
+                        </button>
 
 
-	                <?php
+			                <?php
 endforeach;
 } else {
     echo '<p>No messages found.</p>';
 }
 ?>
             </div>
-            <div class="w-3/4 rounded-tr-xl flex flex-col rounded-br-xl bg-white">
+            <div class="w-3/4 h-full rounded-tr-xl flex flex-col rounded-br-xl bg-white">
                 <div class="w-full py-4 bg-blue-400 rounded-tr-xl">
                     <div class="w-11/12 block mx-auto">
                         <p id="senderName" class="font-semibold"></p>
                     </div>
                 </div>
-                <div id="contents" class="flex-1 w-11/12 overflow-y-scroll mx-auto py-4 flex flex-col justify-end">
-
+                <div id="contents" class="w-11/12 overflow-y-scroll h-4/5 mx-auto py-4">
                 </div>
                 <div id="form" class="w-11/12 flex items-center mx-auto gap-4 py-4">
                     <input type="text" id="messageInput" name="message" placeholder="Write your message here" class="px-4 py-3 w-11/12 outline-none bg-blue-100 rounded-xl text-sm">
@@ -163,10 +162,11 @@ $(document).on('click', '.senderNameBtn', function() {
                     // Iterate over the messages and build HTML for each message
                     response.messages.forEach(function(message) {
                         messagesHtml += `
-                            <div class="w-fit px-4 mb-2 py-2 message-item bg-gray-200 rounded-lg
+                            <div class="w-fit px-4 mb-2 py-2 message-item rounded-lg
                                 ${message.sender_name !== 'Admin' ? '' : 'text-right'}
                                 ${message.sender_name !== 'Admin' ? '' : 'justify-end'}
-                                ${message.sender_name !== 'Admin' ? '' : 'ml-auto'}">
+                                ${message.sender_name !== 'Admin' ? '' : 'ml-auto'}
+                                ${message.sender_name !== 'Admin' ? 'bg-gray-200' : 'bg-blue-200'}">
                                 <p>${message.content}</p>
                                 <p class="text-xs text-gray-600">${message.created_at}</p>
                             </div>
