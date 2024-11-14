@@ -16,39 +16,80 @@
             <button type="button" id="closeForm" class="text-white">x</button>
         </div>
         <div>
-            <form action="/RGarage/admin/add-unit" method="POST" class="p-6 flex flex-col" enctype="multipart/form-data">
+            <form action="/RGarage/admin/add-unit" method="POST" class="p-6 flex flex-col bg-white" enctype="multipart/form-data">
                 <div class="w-full flex gap-3 mb-4">
                     <div class="w-1/5 flex flex-col gap-1">
                         <label for="">Year</label>
                         <input type="text" name="year" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
-                    <div class="w-2/5 flex flex-col gap-1">
+                    <div class="w-1/4 flex flex-col gap-1">
                         <label for="">Brand</label>
                         <input type="text" name="brand" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
-                    <div class="w-2/5 flex flex-col gap-1">
+                    <div class="w-1/5 flex flex-col gap-1">
                         <label for="">Model</label>
                         <input type="text" name="model" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
+                    <div class="w-[38%] bg-white flex flex-col gap-1">
+                        <label for="">Type</label>
+                        <select name="type" id="" class="outline-none py-2 px-4 border border-gray-400 rounded-md bg-white">
+                            <option value="scooter">Scooter</option>
+                            <option value="underbone">Underbone</option>
+                            <option value="bigbike">Big bike</option>
+                            <option value="car">Car</option>
+                        </select>
+                    </div>
                 </div>
                 <hr>
-                <div class="w-full flex gap-3 my-4 mb-4">
-                    <div class="w-1/3 flex flex-col gap-1 mb-2">
+                <div class="w-full flex items-center justify-between gap-3 my-4 mb-4">
+                    <div class="w-[23%] flex flex-col gap-1">
                         <label for="">Plate Number</label>
                         <input type="text" name="plate_number" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
-                    <div class="w-1/3 flex flex-col gap-1">
+                    <div class="w-[23%] flex flex-col gap-1">
                         <label for="">Mileage</label>
                         <input type="text" name="mileage" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
-                    <div class="w-1/3 flex flex-col gap-1">
-                        <label for="">Price</label>
-                        <input type="text" name="price" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
+                    <div class="w-[23%] flex flex-col gap-1">
+                        <label for="">Second Hand Price</label>
+                        <input type="text" name="shand_price" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
+                    </div>
+                    <div class="w-[23%] flex flex-col gap-1">
+                        <label for="">Brand New Price</label>
+                        <input type="text" name="bnew_price" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
                     </div>
                 </div>
-                <input type="file" name="images[]" class="bg-white mb-4" accept=".jpg" multiple required>
-
-                <button type="submit" class="w-1/6 bg-blue-500 px-10 py-2 text-white text-sm rounded-md">Add</button>
+                <hr>
+                <div class="w-full my-4">
+                    <div class="w-full mb-4 flex items-center gap-4 justify-between">
+                        <div class="w-1/3 flex items-center gap-10">
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="stock" 
+                                    class="form-radio text-green-500 bg-white checked:bg-green-500 focus:ring-0"/>
+                                <span class="ml-2">Stock</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="status" value="modified" 
+                                    class="form-radio text-green-500 bg-white checked:bg-green-500 focus:ring-0"/>
+                                <span class="ml-2">Modified</span>
+                            </label>
+                        </div>
+                        <div class="w-1/3 flex flex-col">
+                            <label for="">Tire's Thread</label>
+                            <input type="text" name="thread" placeholder="Rate: 1-10" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
+                        </div>
+                        <div class="w-1/3 flex flex-col">
+                            <label for="">Unit's Color</label>
+                            <input type="text" name="color" class="outline-none py-1 px-4 border border-gray-400 rounded-md bg-white">
+                        </div>
+                    </div>
+                    <label for="">Unit's Issue</label>
+                    <textarea name="issue" id="" rows="5" class="w-full bg-white outline-none border border-gray-400 px-4 py-1 rounded-md"></textarea>
+                </div>
+                <div class="w-full flex items-center gap-4">
+                    <button type="submit" class="w-1/6 bg-blue-500 px-10 py-2 text-white text-sm rounded-md ">Add</button>
+                    <input type="file" name="images[]" class="bg-white text-sm" accept=".jpg" multiple required>
+                </div>
             </form>
         </div>
     </div>
@@ -56,7 +97,8 @@
         <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
-            <a href="#" class="bg-blue-500 py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/units" class="bg-blue-500 py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
         </div>
     </div>
     <div class="w-[84%]">
@@ -87,7 +129,7 @@
                             <thead>
                                 <tr class="text-sm border-b-4 text-left">
                                     <th class="w-[5%] border-r border-gray-300 py-3 pl-2">#</th>
-                                    <th class="w-[15%] border-r border-gray-300 pl-2">Date Created</th>
+                                    <th class="w-[15%] border-r border-gray-300 pl-2">Date Listed</th>
                                     <th class="w-[10%] border-r border-gray-300 pl-2">Year</th>
                                     <th class="w-[15%] border-r border-gray-300 pl-2">Brand</th>
                                     <th class="w-[30%] border-r border-gray-300 pl-2">Model</th>
