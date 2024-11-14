@@ -1,10 +1,12 @@
 <?php
 
 include_once 'models/Unit.php';
+include_once 'models/Activity.php';
 include_once 'config/Database.php'; // Include the database connection class
 
 class AdminController{
     private $unit;
+    private $activity;
 
     public function __construct() {
         // Get the database connection
@@ -13,6 +15,7 @@ class AdminController{
 
         // Pass the connection to the User model
         $this->unit = new Unit($db);
+        $this->activity = new Activity($db);
     }
 
     public function displayUnits() {
@@ -38,7 +41,13 @@ class AdminController{
             $this->unit->brand = htmlspecialchars(strip_tags($_POST['brand']));
             $this->unit->model = htmlspecialchars(strip_tags($_POST['model']));
             $this->unit->mileage = htmlspecialchars(strip_tags($_POST['mileage']));
-            $this->unit->price = htmlspecialchars(strip_tags($_POST['price']));
+            $this->unit->bnew_price = htmlspecialchars(strip_tags($_POST['bnew_price']));
+            $this->unit->shand_price = htmlspecialchars(strip_tags($_POST['shand_price']));
+            $this->unit->modified = htmlspecialchars(strip_tags($_POST['status']));
+            $this->unit->thread = htmlspecialchars(strip_tags($_POST['thread']));
+            $this->unit->color = htmlspecialchars(strip_tags($_POST['color']));
+            $this->unit->issue = htmlspecialchars(strip_tags($_POST['issue']));
+            $this->unit->type = htmlspecialchars(strip_tags($_POST['type']));
 
             // Attempt to add the unit
             if ($this->unit->addUnit($_FILES['images'])) {
@@ -79,6 +88,7 @@ class AdminController{
     public function dashboard(){
         $brandCount = $this->unit->countDistinctBrands();
         $totalUnits = $this->unit->countTotalUnits();
+        $activitiesData = $this->activity->activityToday(); // Get activities and count
         include 'views/admin/dashboard.php';
     }
 
