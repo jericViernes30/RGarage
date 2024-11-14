@@ -15,7 +15,7 @@
     }
   </style>
 </head>
-<body class="w-full bg-white overflow-x-hidden">
+<body class="w-full bg-white overflow-x-hidden text-black-v1">
   <div class="sticky top-0 left-0 z-50">
     <?php
     include 'components/header.php';
@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="w-4/5 h-[700px] shadow-2xl block mx-auto mb-10 py-10">
+  <div id="about" class="w-4/5 h-[700px] shadow-2xl block mx-auto mb-10 py-10">
     <p class="text-center text-4xl font-medium text-black-v1 mb-10">About Us</p>
     <div class="">
       <p class="text-md text-center font-medium text-black-v1 px-24 mb-10">Welcome to RGarage, your trusted destination for high-quality second-hand motorcycles and cars. Located in General Mariano Alvarez, Cavite, we pride ourselves on offering a wide selection of pre-owned vehicles that cater to all kinds of riders and drivers. Whether you're looking for a reliable motorcycle or a durable car, our team is dedicated to helping you find the perfect match for your needs and budget.</p>
@@ -42,25 +42,25 @@
       <div class="flex items-center justify-center gap-4">
         <!-- customers -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg">New Customers</p>
+          <p class="font-light text-lg text-white">New Customers</p>
           <p class="text-[3rem] font-bold text-[#4962f1]">12</p>
           <p class="text-sm text-[#9f9f9f]">36 customers in total</p>
         </div>
         <!-- sold units -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg">Units Sold</p>
+          <p class="font-light text-lg text-white">Units Sold</p>
           <p class="text-[3rem] font-bold text-[#f149ee]">36</p>
           <p class="text-sm text-[#9f9f9f]">21% more than last month</p>
         </div>
         <!-- on hand units -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg">Units on Garage</p>
+          <p class="font-light text-lg text-white">Units on Garage</p>
           <p class="text-[3rem] font-bold text-[#76f149]">10</p>
           <p class="text-sm text-[#9f9f9f]">58% more than last month</p>
         </div>
         <!-- rating -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg">Customers Rating</p>
+          <p class="font-light text-lg text-white">Customers Rating</p>
           <div class="w-full flex items-center gap-2">
             <p class="text-[3rem] font-bold text-[#f1dd49]">4.9/5</p>
             <img src="public/icons/star.png" alt="" class="w-[18%]">
@@ -71,25 +71,50 @@
     </div>
   </div>
 
+  <!-- available brands -->
+  <div class="w-full px-24 py-2 mt-24">
+    <p class="text-4xl font-medium text-black-v1 mb-10">Available Brands</p>
+    <div class="carousel carousel-end rounded-box flex gap-16">
+      <button onclick="window.location.href='/RGarage/user/honda'" class="carousel-item w-1/6 h-1/6">
+        <img src="public/logo/honda.png" alt="Drink" />
+      </button>
+      <button onclick="window.location.href='/RGarage/user/yamaha'" class="carousel-item w-[15%] h-[15%]">
+        <img src="public/logo/yamaha.png" alt="Drink" />
+      </button>
+      <button onclick="window.location.href='/RGarage/user/suzuki'" class="carousel-item w-1/6 h-1/6">
+        <img src="public/logo/suzuki.png" alt="Drink" />
+      </button>
+      <button onclick="window.location.href='/RGarage/user/kawasaki'" class="carousel-item w-1/6 h-1/6">
+        <img src="public/logo/kawasaki.png" alt="Drink" />
+      </button>
+      <button class="carousel-item w-1/6 h-1/6">
+        <img src="public/logo/toyota.png" alt="Drink" />
+      </button>
+      <button class="carousel-item w-1/6 h-1/6">
+        <img src="public/logo/mitsubishi.png" alt="Drink" />
+      </button>
+    </div>
+  </div>
+
   <!-- featured units -->
   <div class="w-full px-24 py-24">
     <p class="text-4xl font-medium text-black-v1 mb-10">Featured Units</p>
     <div class="w-full flex items-center justify-evenly gap-4">
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px]">
+      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
         <figure>
           <img
-            src="public/images/beat_1.jpg"
+            src="public/images/beat_2.jpg"
             alt="Honda Beat" />
         </figure>
         <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
           <h2 class="card-title">2022 Honda Beat</h2>
           <p>If a dog chews shoes whose shoes does he choose?</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Reserve Now</button>
+            <button class="btn btn-primary">Inquire Now</button>
           </div>
         </div>
       </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px]">
+      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
         <figure>
           <img
             src="public/images/click_v2_black.jpg"
@@ -99,11 +124,11 @@
           <h2 class="card-title">2022 Honda Click</h2>
           <p>If a dog chews shoes whose shoes does he choose?</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Reserve Now</button>
+            <button class="btn btn-primary">Inquire Now</button>
           </div>
         </div>
       </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px]">
+      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
         <figure>
           <img
             src="public/images/gear_1.jpg"
@@ -113,11 +138,11 @@
           <h2 class="card-title">2022 Yamaha Mio Gear</h2>
           <p>If a dog chews shoes whose shoes does he choose?</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Reserve Now</button>
+            <button class="btn btn-primary">Inquire Now</button>
           </div>
         </div>
       </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px]">
+      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
         <figure>
           <img
             src="public/images/pcx_1.jpg"
@@ -127,7 +152,7 @@
           <h2 class="card-title">2021 Honda PCX</h2>
           <p>If a dog chews shoes whose shoes does he choose?</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Reserve Now</button>
+            <button class="btn btn-primary">Inquire Now</button>
           </div>
         </div>
       </div>
