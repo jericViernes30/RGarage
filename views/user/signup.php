@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5bf9be4e76.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/RGarage/src/output.css" rel="stylesheet">
     <title>RGarage | Signup</title>
 </head>
@@ -20,8 +21,12 @@
         <div class="w-full flex items-center">
             <div class="w-full">
                 <p class="text-2xl font-medium text-white mb-14">RGarage.</p>
+                <div id="response" class="w-1/2 px-6 py-2 rounded-lg bg-green-500 text-white items-center gap-2 justify-center mx-auto hidden mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="#fff"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                    <p>Account created successfully!</p>
+                </div>
                 <p class="mb-3 text-white">Create your Account</p>
-                <form action="/RGarage/user/auth/create" class="mb-10" method="POST">
+                <form id="signupForm" action="/RGarage/user/auth/create" class="mb-10" method="POST">
                     <div class="w-full flex items-center justify-between gap-4 mb-4">
                         <div class="w-1/2 flex flex-col gap-1">
                             <label for="first_name">First Name</label>
@@ -71,5 +76,29 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#signupForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent page reload
+                
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Clear the form fields
+                        $('#signupForm')[0].reset();
+                        
+                        // Show the response message
+                        $('#response').addClass('flex').removeClass('hidden');
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                        // Optional: handle errors here
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
