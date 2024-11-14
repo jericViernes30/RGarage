@@ -9,8 +9,14 @@ class Unit {
     public $year;
     public $brand;
     public $model;
-    public $price;
+    public $bnew_price;
+    public $shand_price;
+    public $modified;
+    public $type;
     public $mileage;
+    public $thread;
+    public $color;
+    public $issue;
     public $image;
     public $created_at;
 
@@ -88,8 +94,8 @@ class Unit {
         $this->image = implode(',', $imageNames);
     
         // Define the SQL query
-        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, mileage, image, price) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, mileage, image, price, shand_price, modified, type, thread, color, issue) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         // Prepare the statement
         $stmt = $this->conn->prepare($query);
@@ -101,7 +107,7 @@ class Unit {
         }
     
         // Bind parameters
-        $stmt->bind_param("sssssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->mileage, $this->image, $this->price);
+        $stmt->bind_param("sssssssssssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->mileage, $this->image, $this->bnew_price, $this->shand_price, $this->modified, $this->type, $this->thread, $this->color, $this->issue,);
     
         // Execute the query and return the result
         return $stmt->execute();
@@ -178,6 +184,466 @@ class Unit {
         
         return (int)$row['total']; // Return the total count as an integer
     }
+
+    public function showAllHonda(){
+        $query = "SELECT * FROM units WHERE brand = 'Honda'";
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo "Preparation Error: " . $this->conn->error;
+            return 0; // Return 0 if there's an error
+        }
+
+        if (!$stmt->execute()) {
+            echo "Execution Error: " . $stmt->error;
+            return 0; // Return 0 if there's an execution error
+        }
+
+        $honda = [];
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+            while($units = $result->fetch_assoc()){
+                $honda[] = $units;
+            }
+        }
+
+        return $honda;
+    }
+
+    public function showAllKawasaki(){
+        $query = "SELECT * FROM units WHERE brand = 'Kawasaki'";
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo "Preparation Error: " . $this->conn->error;
+            return 0; // Return 0 if there's an error
+        }
+
+        if (!$stmt->execute()) {
+            echo "Execution Error: " . $stmt->error;
+            return 0; // Return 0 if there's an execution error
+        }
+
+        $kawasaki = [];
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+            while($unit = $result->fetch_assoc()){
+                $kawasaki[] = $unit;
+            }
+        }
+
+        return $kawasaki;
+    }
+
+    public function showAllYamaha(){
+        $query = "SELECT * FROM units WHERE brand = 'Yamaha'";
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo "Preparation Error: " . $this->conn->error;
+            return 0; // Return 0 if there's an error
+        }
+
+        if (!$stmt->execute()) {
+            echo "Execution Error: " . $stmt->error;
+            return 0; // Return 0 if there's an execution error
+        }
+
+        $yamaha = [];
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+            while($unit = $result->fetch_assoc()){
+                $yamaha[] = $unit;
+            }
+        }
+
+        return $yamaha;
+    }
+
+    public function showAllSuzuki(){
+        $query = "SELECT * FROM units WHERE brand = 'Suzuki'";
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo "Preparation Error: " . $this->conn->error;
+            return 0; // Return 0 if there's an error
+        }
+
+        if (!$stmt->execute()) {
+            echo "Execution Error: " . $stmt->error;
+            return 0; // Return 0 if there's an execution error
+        }
+
+        $suzuki = [];
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+            while($unit = $result->fetch_assoc()){
+                $suzuki[] = $unit;
+            }
+        }
+
+        return $suzuki;
+    }
+
+    public function livesearch($key) {
+        // Sanitize the input key
+        $key = $this->conn->real_escape_string($key);
     
+        // SQL query to search for key in relevant columns
+        $query = "SELECT * FROM " . $this->table_name . " 
+                  WHERE plate_number LIKE ? OR 
+                        brand LIKE ? OR 
+                        model LIKE ?";
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the key with wildcards for a partial match
+        $searchKey = '%' . $key . '%';
+        $stmt->bind_param("sss", $searchKey, $searchKey, $searchKey);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Get the result set
+        $result = $stmt->get_result();
+    
+        // Fetch all matching rows
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    
+        // Close the statement
+        $stmt->close();
+    
+        // Return the result as an array
+        return $data;
+    }
+
+    public function livesearchHonda($key) {
+        // Sanitize the input key
+        $key = $this->conn->real_escape_string($key);
+    
+        // SQL query to search for key in relevant columns
+        $query = "SELECT * FROM " . $this->table_name . " 
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Honda'";
+
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the key with wildcards for a partial match
+        $searchKey = '%' . $key . '%';
+        $stmt->bind_param("ss", $searchKey, $searchKey);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Get the result set
+        $result = $stmt->get_result();
+    
+        // Fetch all matching rows
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    
+        // Close the statement
+        $stmt->close();
+    
+        // Return the result as an array
+        return $data;
+    }
+
+    public function livesearchKawasaki($key) {
+        // Sanitize the input key
+        $key = $this->conn->real_escape_string($key);
+    
+        // SQL query to search for key in relevant columns
+        $query = "SELECT * FROM " . $this->table_name . " 
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Kawasaki'";
+
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the key with wildcards for a partial match
+        $searchKey = '%' . $key . '%';
+        $stmt->bind_param("ss", $searchKey, $searchKey);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Get the result set
+        $result = $stmt->get_result();
+    
+        // Fetch all matching rows
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    
+        // Close the statement
+        $stmt->close();
+    
+        // Return the result as an array
+        return $data;
+    }
+
+    public function livesearchSuzuki($key) {
+        // Sanitize the input key
+        $key = $this->conn->real_escape_string($key);
+    
+        // SQL query to search for key in relevant columns
+        $query = "SELECT * FROM " . $this->table_name . " 
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Suzuki'";
+
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the key with wildcards for a partial match
+        $searchKey = '%' . $key . '%';
+        $stmt->bind_param("ss", $searchKey, $searchKey);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Get the result set
+        $result = $stmt->get_result();
+    
+        // Fetch all matching rows
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    
+        // Close the statement
+        $stmt->close();
+    
+        // Return the result as an array
+        return $data;
+    }
+
+    public function livesearchYamaha($key) {
+        // Sanitize the input key
+        $key = $this->conn->real_escape_string($key);
+    
+        // SQL query to search for key in relevant columns
+        $query = "SELECT * FROM " . $this->table_name . " 
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Yamaha'";
+
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the key with wildcards for a partial match
+        $searchKey = '%' . $key . '%';
+        $stmt->bind_param("ss", $searchKey, $searchKey);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Get the result set
+        $result = $stmt->get_result();
+    
+        // Fetch all matching rows
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    
+        // Close the statement
+        $stmt->close();
+    
+        // Return the result as an array
+        return $data;
+    }
+
+    // Method to filter units based on type and price order (low-high or high-low)
+public function filterUnits($type, $priceOrder) {
+    // Base query to filter by type and sort by price
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? ORDER BY price ";
+
+    // Add sorting direction (ASC for low-high, DESC for high-low)
+    if ($priceOrder === 'asc') {
+        $query .= "ASC"; // Low to high
+    } elseif ($priceOrder === 'desc') {
+        $query .= "DESC"; // High to low
+    }
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the type parameter if it's provided
+    $stmt->bind_param("s", $type); // "s" for string parameter
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Initialize the units array
+    $units = [];
+
+    // Fetch all units and store them in an array
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+
+    // Return the filtered and sorted units
+    return $units;
+}
+
+public function filterHondaUnits($type, $priceOrder) {
+    // Base query to filter by type and sort by price
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Honda' ORDER BY price ";
+
+    // Add sorting direction (ASC for low-high, DESC for high-low)
+    if ($priceOrder === 'asc') {
+        $query .= "ASC"; // Low to high
+    } elseif ($priceOrder === 'desc') {
+        $query .= "DESC"; // High to low
+    }
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the type parameter if it's provided
+    $stmt->bind_param("s", $type); // "s" for string parameter
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Initialize the units array
+    $units = [];
+
+    // Fetch all units and store them in an array
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+
+    // Return the filtered and sorted units
+    return $units;
+}
+
+public function filterKawasakiUnits($type, $priceOrder) {
+    // Base query to filter by type and sort by price
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Kawasaki' ORDER BY price ";
+
+    // Add sorting direction (ASC for low-high, DESC for high-low)
+    if ($priceOrder === 'asc') {
+        $query .= "ASC"; // Low to high
+    } elseif ($priceOrder === 'desc') {
+        $query .= "DESC"; // High to low
+    }
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the type parameter if it's provided
+    $stmt->bind_param("s", $type); // "s" for string parameter
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Initialize the units array
+    $units = [];
+
+    // Fetch all units and store them in an array
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+
+    // Return the filtered and sorted units
+    return $units;
+}
+
+public function filterSuzukiUnits($type, $priceOrder) {
+    // Base query to filter by type and sort by price
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Suzuki' ORDER BY price ";
+
+    // Add sorting direction (ASC for low-high, DESC for high-low)
+    if ($priceOrder === 'asc') {
+        $query .= "ASC"; // Low to high
+    } elseif ($priceOrder === 'desc') {
+        $query .= "DESC"; // High to low
+    }
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the type parameter if it's provided
+    $stmt->bind_param("s", $type); // "s" for string parameter
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Initialize the units array
+    $units = [];
+
+    // Fetch all units and store them in an array
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+
+    // Return the filtered and sorted units
+    return $units;
+}
+
+public function filterYamahaUnits($type, $priceOrder) {
+    // Base query to filter by type and sort by price
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Yamaha' ORDER BY price ";
+
+    // Add sorting direction (ASC for low-high, DESC for high-low)
+    if ($priceOrder === 'asc') {
+        $query .= "ASC"; // Low to high
+    } elseif ($priceOrder === 'desc') {
+        $query .= "DESC"; // High to low
+    }
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the type parameter if it's provided
+    $stmt->bind_param("s", $type); // "s" for string parameter
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+    
+    // Initialize the units array
+    $units = [];
+
+    // Fetch all units and store them in an array
+    while ($row = $result->fetch_assoc()) {
+        $units[] = $row;
+    }
+
+    // Return the filtered and sorted units
+    return $units;
+}
+
 }
 ?>
