@@ -25,7 +25,7 @@ $isLoggedIn = isset($_SESSION['user']);
     </div>
     <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
         <a href="">Home</a>
-        <a href="">About</a>
+        <a href="#about">About</a>
         <a href="/RGarage/user/unitsAvailable">Units</a>
         <?php if ($isLoggedIn): ?>
             <button id="messageButton" class="">
@@ -56,12 +56,12 @@ $isLoggedIn = isset($_SESSION['user']);
                 <p class="text-white font-semibold text-xl">Seller</p>
             </div>
             <hr>
-            <div id="contents" class=" px-6 h-[77%] overflow-y-auto flex flex-col">
+            <div id="contents" class="px-6 h-[70%] overflow-y-auto">
                 <p class="text-white text-center text-xs mt-2">No messages found.</p>
             </div>
             <hr>
-            <div class="w-full h-[15%] flex items-center justify-center gap-4 px-6">
-                <input type="text" id="messageInput" name="message" placeholder="Write your message here" class="px-4 py-[6px] w-full outline-none bg-white rounded-xl text-sm">
+            <div class="w-full h-[22%] flex items-center justify-center gap-4 px-6">
+            <textarea id="messageInput" name="message" placeholder="Write your message here" class="px-4 py-3 w-11/12 outline-none bg-blue-100 rounded-xl text-sm h-fit text-wrap"></textarea>
                 <svg class="hover:cursor-pointer" id="sendButton" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="#fff"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
             </div>
         </div>
@@ -111,11 +111,12 @@ function displayMessages(messages) {
                 <p id="sender" class="text-white text-xs ${message.sender_name !== 'Admin' ? 'text-right' : ''} mb-1">
                     ${message.sender_name === 'Admin' ? 'Admin' : 'You'}
                 </p>
-                <div id="messageContent" class="w-1/2 message bg-white p-2 mb-2 rounded-xl 
+                <div id="messageContent" class="w-1/2 message p-2 mb-2 rounded-xl 
                     ${message.sender_name !== 'Admin' ? 'text-right' : ''} 
                     ${message.sender_name !== 'Admin' ? 'justify-end' : ''} 
+                    ${message.sender_name !== 'Admin' ? 'bg-blue-200' : 'bg-gray-200'} 
                     ${message.sender_name !== 'Admin' ? 'ml-auto' : ''}">
-                    <p class="text-white text-xs text-black">${message.content}</p>
+                    <p class="text-xs text-black">${message.content}</p>
                     <span class="text-gray-400 text-xs">${new Date(message.created_at).toLocaleTimeString()}</span>
                 </div>
             `);
@@ -186,6 +187,15 @@ $(document).ready(function() {
                 pfdropdown.addClass('hidden').removeClass('animate__fadeOut');
             }, 200); // Adjust the duration to match your fade-out animation
         }
+    });
+
+    $('a[href="#about"]').click(function(e) {
+        e.preventDefault(); // Prevent the default anchor behavior
+        
+        // Scroll to the #about div smoothly
+        $('html, body').animate({
+            scrollTop: $('#about').offset().top
+        }, 500); // Adjust the duration as needed (500ms in this case)
     });
 });
 
