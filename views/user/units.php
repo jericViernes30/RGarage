@@ -11,33 +11,61 @@
     <title>Document</title>
 </head>
 <body class="bg-gray-200 min-h-screen overflow-y-auto text-black-v1">
-    <div class="sticky top-0 left-0 z-50 mb-10">
+    <div class="sticky top-0 left-0 z-50">
         <?php
             include($_SERVER['DOCUMENT_ROOT'] . '/RGarage/views/components/header.php');
         ?>
     </div>
+    <div class="w-full relative mb-6">
+        <img src="/RGarage/public/images/bg-motorcycle.jpeg" alt="" class="h-[150px] filter-bluish">
+        <div class="absolute top-10 left-48">
+            <p class="text-white text-3xl font-bold">MOTORCYCLE</p>
+            <a class="text-yellow-500" href="/RGarage/">Home</a> <span class="text-white">>></span> <a class="text-yellow-500" href="/Rgarage/user/unitsAvailable">Motorcycles</a> <span class="text-white">>></span>
+        </div>
+    </div>
+    <div class="w-4/5 block mx-auto px-24 py-2 mb-6">
+        <div class="carousel carousel-end rounded-box flex justify-evenly gap-16">
+            <button onclick="window.location.href='/RGarage/user/honda'" class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/honda.png" alt="Drink" />
+            </button> 
+            <button onclick="window.location.href='/RGarage/user/yamaha'" class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/yamaha.png" alt="Drink" />
+            </button>
+            <button onclick="window.location.href='/RGarage/user/suzuki'" class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/suzuki.png" alt="Drink" />
+            </button>
+            <button onclick="window.location.href='/RGarage/user/kawasaki'" class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/kawasaki.png" alt="Drink" />
+            </button>
+            <button class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/toyota.png" alt="Drink" />
+            </button>
+            <button class="carousel-item w-[10%] h-[10%]">
+                <img src="/RGarage/public/logo/mitsubishi.png" alt="Drink" />
+            </button>
+        </div>
+    </div>
     <div class="w-[80%] bg-white rounded-md p-7 block mx-auto mb-10">
         <p class="text-black-v1 pb-5 border-b border-black mb-4">UNIT SEARCH</p>
-        <form action="" class="w-full mb-8">
+        <div class="w-full mb-8">
             <div class="w-full flex items-center gap-5">
-                <input type="text" name="keyword" class="w-1/4 bg-white outline-none border px-4 py-1 border-gray-400 rounded-sm text-gray-500">
+                <input id="livesearch" type="text" name="keyword" class="w-1/4 bg-white outline-none border px-4 py-1 border-gray-400 rounded-sm text-gray-500">
                 <select name="type" id="type" class="w-1/4 bg-white outline-none border px-4 py-1 border-gray-400 rounded-sm text-gray-700">
-                    <option value="" default>TYPE</option>
-                    <option value="Scooter">Scooter</option>
-                    <option value="Underbone">Underbone</option>
-                    <option value="Bigbike">Big Bike</option>
-                    <option value="Car">Car</option>
+                    <option value="" disabled>TYPE</option>
+                    <option value="scooter" selected>Scooter</option>
+                    <option value="underbone">Underbone</option>
+                    <option value="bigbike">Big Bike</option>
                 </select>
-                <select name="price" id="type" class="w-1/4 bg-white outline-none border px-4 py-1 border-gray-400 rounded-sm text-gray-700">
-                    <option value="" default>PRICE</option>
-                    <option value="asc">Low to High</option>
+                <select name="price" id="price" class="w-1/4 bg-white outline-none border px-4 py-1 border-gray-400 rounded-sm text-gray-700">
+                    <option value="" disabled>PRICE</option>
+                    <option value="asc" selected>Low to High</option>
                     <option value="desc">High to Low</option>
                 </select>
-                <button class="w-1/4 bg-blue-500 outline-none border px-4 py-1 border-gray-400 rounded-sm text-white">SEARCH</button>
+                <button id="search" type="button" class="w-1/4 bg-blue-500 outline-none border px-4 py-1 border-gray-400 rounded-sm text-white">SEARCH</button>
             </div>
-        </form>
+</div>
         <div>
-            <p class="text-sm text-gray-800">Your search returned 
+            <p id="result_count" class="text-sm text-gray-800">Your search returned 
             <?php
                 $count = 0;
                 foreach($units as $unit):
@@ -46,20 +74,19 @@
                 echo $count;
             
             ?> results</p>
-            <!-- <button></button> -->
         </div>
         
     </div>
-    <div class="w-[80%] flex items-center gap-4 flex-wrap overflow-hidden mx-auto">
+    <div id="livesearch-results" class="w-[80%] flex items-center gap-4 flex-wrap overflow-hidden mx-auto">
         <!-- foreach -->
         <?php foreach($units as $unit): 
             $imagesString = htmlspecialchars($unit['image']); // Get the image string safely
             $imageNames = explode(',', $imagesString); // Split the string into an array
             $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : '';
         ?>
-        <div class="w-[24%] h-[20%] bg-white rounded-lg mb-6">
-            <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo htmlspecialchars($unit['id']) ?>'" class="p-2 overflow-hidden">
-                <img src="/RGarage/public/images/<?php echo $firstImage ?>" alt="" class=" rounded-tl-lg rounded-tr-lg hover:scale-125 transition duration-175 ease-in-out">
+        <div id="result" class="w-[24%] h-[20%] bg-white rounded-lg mb-6">
+            <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo htmlspecialchars($unit['id']) ?>'" class="p-2 overflow-hidden h-[250px] w-full">
+                <img src="/RGarage/public/images/<?php echo $firstImage ?>" alt="" class="rounded-tl-lg rounded-tr-lg hover:scale-125 transition duration-175 ease-in-out h-full w-full object-cover">
             </button>
             <div class="">
                 <p class="w-full bg-white pl-6 mb-1 text-xl font-medium"><?php echo htmlspecialchars($unit['brand']).' '. htmlspecialchars($unit['model']) ?></p>
@@ -73,5 +100,125 @@
         <?php endforeach; ?>
         <!-- endforeach -->
     </div>
+    <script>
+        $(document).ready(function() {
+    let searchTimeout;
+
+    $('#livesearch').off('keyup').on('keyup', function() {
+        clearTimeout(searchTimeout); // Clear previous timer
+        var key = $(this).val().trim(); // Trim to avoid empty spaces
+
+        // Set debounce delay
+        searchTimeout = setTimeout(function() {
+            $.ajax({
+                type: 'GET', // Change to GET if it's a read operation
+                url: '/RGarage/user/livesearch',
+                data: { key: key },
+                dataType: 'json',
+                success: function(response) {
+                    $('#livesearch-results').empty(); // Clear previous results
+
+                    // Update result count text
+                    if (response.status === 'success') {
+                        $('#result_count').text('Your search returned ' + response.count + ' results');
+
+                        // Check if data was returned
+                        if (response.data.length > 0) {
+                            // Loop through each unit in the response data
+                            response.data.forEach(function(unit) {
+                                var imageNames = unit.image ? unit.image.split(',') : [];
+                                var firstImage = imageNames.length > 0 ? imageNames[0].trim() : '';
+
+                                var unitHtml = `
+                                    <div id="result" class="w-[24%] h-[20%] bg-white rounded-lg mb-6">
+                                        <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=${unit.id}'" class="p-2 overflow-hidden h-[250px] w-full">
+                                            <img src="/RGarage/public/images/${firstImage}" alt="" class="rounded-tl-lg rounded-tr-lg hover:scale-125 transition duration-175 ease-in-out h-full w-full object-cover">
+                                        </button>
+                                        <div>
+                                            <p class="w-full bg-white pl-6 mb-1 text-xl font-medium">${unit.brand} ${unit.model}</p>
+                                            <button class="w-full text-left py-4 px-6 bg-blue-500 rounded-bl-lg rounded-br-lg hover:text-yellow-500 transition duration-200 ease-in-out">
+                                                <p class="font-bold text-2xl">Price: ₱${unit.price}</p>
+                                                <p class="text-lg">Model: ${unit.year}</p>
+                                                <p>Mileage: ${unit.mileage} km</p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                                $('#livesearch-results').append(unitHtml);
+                            });
+                        } else {
+                            $('#livesearch-results').html('<p>No units found.</p>');
+                        }
+                    } else {
+                        $('#livesearch-results').html('<p>An error occurred while searching. Please try again.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    $('#livesearch-results').html('<p>An error occurred while searching. Please try again.</p>');
+                }
+            });
+        }, 300); // Set debounce delay to 300 ms
+    });
+
+
+    $('#search').on('click', function() {
+    var selectedType = $('#type').val();
+    var selectedPrice = $('#price').val();
+
+    // Validate the inputs (e.g., empty string check)
+    if (!selectedType && !selectedPrice) {
+        alert("Please select a filter option.");
+        return;  // Stop execution if no filter is selected
+    }
+
+    $.ajax({
+        method: 'GET',
+        url: '/RGarage/user/filter', // Update with actual path to controller
+        data: { type: selectedType, price: selectedPrice},
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            $('#livesearch-results').empty(); // Clear previous results
+            $('#result_count').text('Your search returned ' + response.count + ' results');
+            // Check if data was returned
+            if (response.data.length > 0) {
+                // Loop through each unit in the response data
+                response.data.forEach(function(unit) {
+                    var imageNames = unit.image ? unit.image.split(',') : [];
+                    var firstImage = imageNames.length > 0 ? imageNames[0].trim() : '';
+
+                    var unitHtml = `
+                        <div id="result" class="w-[24%] h-[20%] bg-white rounded-lg mb-6">
+                            <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=${unit.id}'" class="p-2 overflow-hidden h-[250px] w-full">
+                                <img src="/RGarage/public/images/${firstImage}" alt="" class="rounded-tl-lg rounded-tr-lg hover:scale-125 transition duration-175 ease-in-out h-full w-full object-cover">
+                            </button>
+                            <div>
+                                <p class="w-full bg-white pl-6 mb-1 text-xl font-medium">${unit.brand} ${unit.model}</p>
+                                <button class="w-full text-left py-4 px-6 bg-blue-500 rounded-bl-lg rounded-br-lg hover:text-yellow-500 transition duration-200 ease-in-out">
+                                    <p class="font-bold text-2xl">Price: ₱${unit.price}</p>
+                                    <p class="text-lg">Model: ${unit.year}</p>
+                                    <p>Mileage: ${unit.mileage} km</p>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    $('#livesearch-results').append(unitHtml);
+                });
+            } else {
+                $('#livesearch-results').html('<p>No units found.</p>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            $('#livesearch-results').html('<p>An error occurred. Please try again.</p>');
+        }
+    });
+});
+
+});
+
+
+    </script>
 </body>
 </html>
