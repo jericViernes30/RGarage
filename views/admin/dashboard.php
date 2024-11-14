@@ -11,7 +11,7 @@
     <div class="w-[16%] bg-gray-700">
         <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
         <div class="w-full flex flex-col">
-            <a href="#" class="bg-blue-500 py-2 px-5 text-white w-full">Dashboard</a>
+            <a href="/RGarage/admin/dashboard" class="bg-blue-500 py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
         </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="flex flex-col justify-between">
                     <p>Total Category</p>
-                    <p class="text-2xl font-semibold">2</p>
+                    <p class="text-2xl font-semibold">3</p>
                 </div>
             </div>
             <div class="w-[24%] bg-white shadow-xl p-2 flex gap-2">
@@ -61,9 +61,35 @@
                 </div>
                 <div class="flex flex-col justify-between">
                     <p>Total Sales</p>
-                    <p class="text-2xl font-semibold">73,780</p>
+                    <p class="text-2xl font-semibold">0</p>
                 </div>
             </div>
+        </div>
+        <div class="w-full mt-10 px-8">
+            <div class="bg-white rounded-sm p-2 w-1/2 relative">
+                <div class="w-full flex items-center justify-center gap-2">
+                <h2 class="font-semibold text-lg text-center">Today's Activity</h2>
+                <p>-</p>
+                <h2 class="text-green-400 font-semibold"><?php echo htmlspecialchars($activitiesData['activity_count']); ?></h2>
+                </div>
+                <?php if ($activitiesData['activity_count'] > 0): ?>
+                    <?php foreach ($activitiesData['activities'] as $activity): ?>
+                        <div class="w-full flex items-center mb-2 py-2">
+                            <p class="w-1/2"><strong>Name:</strong> <?php echo htmlspecialchars($activity['name']); ?></p>
+                            <p class="w-1/2"><strong>Activity:</strong> <?php echo htmlspecialchars($activity['activity']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No activities recorded for today.</p>
+                <?php endif; ?>
+            </div>
+            <!-- Display the activity count -->
+
+            <!-- Display each activity -->
+            
+                <ul class="mt-4">
+                    
+                </ul>
         </div>
     </div>
 </body>
