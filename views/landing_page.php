@@ -100,62 +100,34 @@
   <div class="w-full px-24 py-24">
     <p class="text-4xl font-medium text-black-v1 mb-10">Featured Units</p>
     <div class="w-full flex items-center justify-evenly gap-4">
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
-        <figure>
-          <img
-            src="public/images/beat_2.jpg"
-            alt="Honda Beat" />
-        </figure>
-        <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
-          <h2 class="card-title">2022 Honda Beat</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Inquire Now</button>
+      <?php 
+        $counter = 0; // Initialize the counter
+        foreach ($units as $unit):
+          $imagesString = htmlspecialchars($unit['image']); // Get the image string safely
+          $imageNames = explode(',', $imagesString); // Split the string into an array
+          $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : '';
+      
+          // Stop the loop after 4 iterations
+          if ($counter >= 4) break;
+          $counter++;
+          ?>
+          <div id="card-btn" class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
+              <figure>
+                  <img
+                      src="/RGarage/public/images/<?php echo $firstImage ?>" 
+                      alt="<?php echo $firstImage ?>" />
+              </figure>
+              <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
+                  <h2 class="card-title text-sm"><?php echo $unit['year']. ' ' . $unit['brand'] . ' ' . $unit['model']?></h2>
+                  <p class="text-xs">For only <?php echo $unit['shand_price'] ?>.00 !</p>
+                  <div class="card-actions justify-end">
+                      <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo $unit['id'] ?>'" id="inquire" data-id="<?php echo $unit['id'] ?>" type="button" class="btn btn-primary inquire-btn">Inquire Now</button>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
-        <figure>
-          <img
-            src="public/images/click_v2_black.jpg"
-            alt="Honda Beat" />
-        </figure>
-        <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
-          <h2 class="card-title">2022 Honda Click</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Inquire Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
-        <figure>
-          <img
-            src="public/images/gear_1.jpg"
-            alt="Honda Beat" />
-        </figure>
-        <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
-          <h2 class="card-title">2022 Yamaha Mio Gear</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Inquire Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
-        <figure>
-          <img
-            src="public/images/pcx_1.jpg"
-            alt="Honda Beat" />
-        </figure>
-        <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
-          <h2 class="card-title">2021 Honda PCX</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Inquire Now</button>
-          </div>
-        </div>
-      </div>
+      <?php 
+      endforeach; 
+      ?>
     </div>
   </div>
 </body>
