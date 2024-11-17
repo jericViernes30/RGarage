@@ -3,17 +3,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-// Check if the session contains 'user_id' and other user details
-// if (isset($_SESSION['user'])) {
-//     echo "User ID session is set: " . $_SESSION['user']['user_id'] . "<br>";
-// } else {
-//     echo "User ID session is not set<br>";
-// }
-
-// Check if user is logged in
 $isLoggedIn = isset($_SESSION['user']);
-// echo "Is Logged In: " . ($isLoggedIn ? "true" : "false") . "<br>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,7 +105,18 @@ $isLoggedIn = isset($_SESSION['user']);
                 Reserve this Unit
             </button>
 
-                <button type="button" id="inquire" class="w-full border border-blue-500 rounded-sm py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white transition duration-100 ease-in-out">Inquire about this Unit</button>
+            <button 
+                type="button" 
+                id="inquire" 
+                class="w-full rounded-sm py-2 font-semibold 
+                <?php echo $isLoggedIn 
+                    ? 'border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition duration-100 ease-in-out bg-gray-200' 
+                    : 'bg-gray-400 disabled cursor-not-allowed'; 
+                ?>"
+                <?php echo !$isLoggedIn ? 'disabled' : ''; ?>>
+                <?php echo $isLoggedIn ? 'Inquire about this Unit' : 'Please login first'; ?>
+            </button>
+
         </div>
         <div class="w-1/4 p-6">
             <div class="mb-10">
@@ -174,11 +175,19 @@ $isLoggedIn = isset($_SESSION['user']);
                 $('#image').attr('src', '/RGarage/public/images/' + beatImage);
             });
 
-            $('#inquire').on('click', function(){
-                $('#messageDiv').removeClass('hidden')
-                var unit = $('#unit').text()
-                $('#messageInput').val("I'm inquiring about " + unit)
-            })
+            $('#inquire').on('click', function () {
+                // Check if the button is disabled
+                if ($(this).prop('disabled')) {
+                    alert("Please log in to inquire about this unit."); // Optional: Alert message
+                    return; // Exit the function if the button is disabled
+                }
+
+                // Proceed if the button is not disabled
+                $('#messageDiv').removeClass('hidden');
+                var unit = $('#unit').text();
+                $('#messageInput').val("I'm inquiring about " + unit);
+            });
+
 
             $('#reserve').on('click', function(){
                 // Show the hidden elements
