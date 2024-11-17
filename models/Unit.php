@@ -645,5 +645,31 @@ public function filterYamahaUnits($type, $priceOrder) {
     return $units;
 }
 
+public function update() {
+    // Prepare the SQL query to update the unit details
+    $query = "UPDATE " . $this->table_name . " 
+              SET plate_number = ?, year = ?, brand = ?, model = ?, 
+                  price = ?, shand_price = ?, type = ?, mileage = ?, 
+                  thread = ?, color = ?, issue = ?, modified = ?
+              WHERE id = ?";
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the parameters to the query
+    $stmt->bind_param("sssssssiisssi", 
+        $this->plate_number, $this->year, $this->brand, $this->model, 
+        $this->bnew_price, $this->shand_price, $this->type, $this->mileage, 
+        $this->thread, $this->color, $this->issue, $this->modified, $this->id
+    );
+
+    // Execute the query
+    if ($stmt->execute()) {
+        return true;
+    }
+
+    return false;
+}
+
 }
 ?>
