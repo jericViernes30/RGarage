@@ -80,6 +80,7 @@ class UserController {
                     alert('Success: You\'re now logged in.');
                     window.location.href = '/RGarage'; // Redirect to dashboard or homepage
                 </script>";
+                $units = $this->unit->fetchAllUnits();
             } else {
                 echo "<script>
                     alert('Error: " . $authResult['message'] . "');
@@ -96,6 +97,17 @@ class UserController {
 
             // Pass the fetched units to the view
             include 'views/user/units.php'; // Include the view with the units data
+        } catch (Exception $e) {
+            // Handle any exceptions that may occur
+            echo "Error fetching units: " . $e->getMessage();
+            // Optionally log the error or redirect to an error page
+        }
+    }
+
+    public function fetchUnitsHome(){
+        try {
+            $units = $this->user->fetchAllUnits();
+            include 'views/landing_page.php';
         } catch (Exception $e) {
             // Handle any exceptions that may occur
             echo "Error fetching units: " . $e->getMessage();
@@ -421,7 +433,16 @@ public function filterYamahaUnits() {
     echo json_encode($response);
 }
 
-    
+    public function userReservedUnits(){
+        if(isset($_GET['user_id'])){
+            $id = $_GET['user_id'];
+            $units = $this->res_unit->fetchUserReservedUnits($id);
+            include 'views/user/reserved_units.php';
+        } else {
+            echo "User ID is missing!";
+        }
+    }
+
     
     
 
