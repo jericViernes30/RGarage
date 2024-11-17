@@ -113,6 +113,10 @@ switch ($action) {
         $reserveController->reserveUnit();
         break;
 
+    case 'user/units/reserved':
+        $controller->userReservedUnits();
+        break;
+
 
     case 'admin/dashboard':
         $adminController->dashboard();
@@ -126,8 +130,12 @@ switch ($action) {
         $adminController->addUnit();
         break;
 
+    case 'admin/edit-unit':
+        $adminController->editUnit();
+        break;
+
     case 'admin/delete-unit':
-        $adminController->deleteUnit(); // Call deleteUnit without passing plate number directly
+        $adminController->deleteUnit();
         break;
 
     case 'admin/messages':
@@ -146,9 +154,12 @@ switch ($action) {
         $messageController->getRecentMessages();
         break;
         
+    case 'http://localhost/RGarage/':
+        $controller->fetchUnitsHome();
+        break;
 
     default:
-        include 'views/landing_page.php';
+        $controller->fetchUnitsHome();
         break;
 }
 
