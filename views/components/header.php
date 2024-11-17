@@ -17,52 +17,54 @@ $isLoggedIn = isset($_SESSION['user']);
 ?>
 
 
-<div class="w-full flex items-center px-32 py-4 bg-[#1b1c1e]">
-    <div class="w-1/4">
-        <button class="text-2xl font-semibold text-white">
-            RGarage.
-        </button>
-    </div>
-    <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
-        <a href="">Home</a>
-        <a href="#about">About</a>
-        <a href="/RGarage/user/unitsAvailable">Units</a>
-        <?php if ($isLoggedIn): ?>
-            <button id="messageButton" class="">
-                <span class=" text-white">Message</span>
+<div class="w-full flex items-center py-4 bg-[#1b1c1e]">
+    <div class="w-4/5 flex items-center mx-auto">
+        <div class="w-1/4">
+            <button class="text-2xl font-semibold text-white">
+                RGarage.
             </button>
-        <?php else: ?>
-            <a href="" class=" text-white">Contact Us</a>
-        <?php endif; ?>
-    </div>
-    <div class="w-1/4 flex items-center justify-end gap-5 relative">
-        <?php if ($isLoggedIn): ?>
-            <button id="profileButton" class="flex items-center justify-end gap-3 mr-7">
-                <div class="w-[40px] h-[40px] border-2 bg-white rounded-full">
-                </div>
-                <span class="text-sm text-white"><?php echo $_SESSION['user']['first_name']; ?></span>
-            </button>
-        <?php else: ?>
-            <a href="/RGarage/user/login" class="text-lg text-white">Login</a>
-            <button onclick="window.location.href='/RGarage/user/signup'" class="btn">Signup</button>
-        <?php endif; ?>
-        <div id="profileDropdown" class="hidden w-1/2 absolute right-0 top-14 flex-col gap-2 text-sm rounded-bl-lg rounded-br-lg p-4 text-white bg-[#1b1c1e]">
-            <a href="#">Profile</a>
-            <a href="#">Reserved Units</a>
-            <a href="/RGarage/user/logout">Logout</a>
         </div>
-        <div id="messageDiv" class="hidden w-full h-[400px] rounded-bl-md rounded-br-md absolute right-0 top-14 bg-[#1b1c1e] py-2">
-            <div class="px-6 mb-2 h-[8%]">
-                <p class="text-white font-semibold text-xl">Seller</p>
+        <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
+            <a href="">Home</a>
+            <a href="#about">About</a>
+            <a href="/RGarage/user/unitsAvailable">Units</a>
+            <?php if ($isLoggedIn): ?>
+                <button id="messageButton" class="">
+                    <span class=" text-white">Message</span>
+                </button>
+            <?php else: ?>
+                <a href="" class=" text-white">Contact Us</a>
+            <?php endif; ?>
+        </div>
+        <div class="w-1/4 flex items-center justify-end gap-5 relative">
+            <?php if ($isLoggedIn): ?>
+                <button id="profileButton" class="flex items-center justify-end gap-3 mr-7">
+                    <div class="w-[40px] h-[40px] border-2 bg-white rounded-full">
+                    </div>
+                    <span class="text-sm text-white"><?php echo $_SESSION['user']['first_name']; ?></span>
+                </button>
+            <?php else: ?>
+                <a href="/RGarage/user/login" class="text-lg text-white">Login</a>
+                <button onclick="window.location.href='/RGarage/user/signup'" class="btn">Signup</button>
+            <?php endif; ?>
+            <div id="profileDropdown" class="hidden w-1/2 absolute right-0 top-14 flex-col gap-2 text-sm rounded-bl-lg rounded-br-lg p-4 text-white bg-[#1b1c1e]">
+                <a href="#">Profile</a>
+                <a href="/RGarage/user/units/reserved?user_id=<?php echo $_SESSION['user']['user_id']; ?>">Reserved Units</a>
+                <a href="/RGarage/user/logout">Logout</a>
             </div>
-            <hr>
-            <div id="contents" class="px-6 h-[70%] overflow-y-auto">
-                <p class="text-white text-center text-xs mt-2">No messages found.</p>
-            </div>
-            <hr>
-            <div class="w-full h-[22%] flex items-center justify-center gap-4 px-6">
-            <textarea id="messageInput" name="message" placeholder="Write your message here" class="px-4 py-3 w-11/12 outline-none bg-blue-100 rounded-xl text-sm h-fit text-wrap"></textarea>
-                <svg class="hover:cursor-pointer" id="sendButton" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="#fff"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+            <div id="messageDiv" class="hidden w-full h-[400px] rounded-bl-md rounded-br-md absolute right-0 top-14 bg-[#1b1c1e] py-2">
+                <div class="px-6 mb-2 h-[8%]">
+                    <p class="text-white font-semibold text-xl">Seller</p>
+                </div>
+                <hr>
+                <div id="contents" class="px-6 h-[70%] overflow-y-auto">
+                    <p class="text-white text-center text-xs mt-2">No messages found.</p>
+                </div>
+                <hr>
+                <div class="w-full h-[22%] flex items-center justify-center gap-4 px-6">
+                <textarea id="messageInput" name="message" placeholder="Write your message here" class="px-4 py-3 w-11/12 outline-none bg-blue-100 rounded-xl text-sm h-fit text-wrap"></textarea>
+                    <svg class="hover:cursor-pointer" id="sendButton" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20" height="20" fill="#fff"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+                </div>
             </div>
         </div>
     </div>
