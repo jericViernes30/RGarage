@@ -95,4 +95,33 @@ class AdminController{
     public function units(){
         $this->displayUnits();
     }
+
+    public function editUnit(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Validate and sanitize input
+            $this->unit->id = htmlspecialchars(strip_tags($_POST['id']));
+            $this->unit->year = htmlspecialchars(strip_tags($_POST['year']));
+            $this->unit->plate_number = htmlspecialchars(strip_tags($_POST['plate_number']));
+            $this->unit->year = htmlspecialchars(strip_tags($_POST['year']));
+            $this->unit->brand = htmlspecialchars(strip_tags($_POST['brand']));
+            $this->unit->model = htmlspecialchars(strip_tags($_POST['model']));
+            $this->unit->mileage = htmlspecialchars(strip_tags($_POST['mileage']));
+            $this->unit->bnew_price = htmlspecialchars(strip_tags($_POST['bnew_price']));
+            $this->unit->shand_price = htmlspecialchars(strip_tags($_POST['shand_price']));
+            $this->unit->modified = htmlspecialchars(strip_tags($_POST['status']));
+            $this->unit->thread = htmlspecialchars(strip_tags($_POST['thread']));
+            $this->unit->color = htmlspecialchars(strip_tags($_POST['color']));
+            $this->unit->issue = htmlspecialchars(strip_tags($_POST['issue']));
+            $this->unit->type = htmlspecialchars(strip_tags($_POST['type']));
+
+            // Attempt to add the unit
+            if ($this->unit->update()) {
+                // Redirect or set a success message
+                header("Location: /RGarage/admin/dashboard"); // Redirect to units page
+                exit(); // Stop further execution
+            } else {
+                echo "Error adding unit.";
+            }
+        }
+    }
 }
