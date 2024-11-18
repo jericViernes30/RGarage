@@ -21,12 +21,12 @@
     include 'components/header.php';
     ?>
   </div>
-  <div class="w-full flex items-center">
+  <div class="w-4/5 mx-auto flex items-center">
     <div class="w-1/2 flex px-10 items-center justify-center h-[700px]">
       <p class="text-4xl font-medium text-black-v1 text-center"><span class="font-bold">RGarage:</span> Your Trusted Stop for Quality Pre-Owned Motorcycles & Cars</p>
     </div>
     <div>
-      <img src="public/images/hero.jpg" alt="Hero image!" class="w-4/5 block mx-auto">
+      <img src="public/images/rgarage-hero.jpg" alt="Hero image!" class="w-3/4 block mx-auto">
     </div>
   </div>
 
@@ -119,7 +119,7 @@
               </figure>
               <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
                   <h2 class="card-title text-sm"><?php echo $unit['year']. ' ' . $unit['brand'] . ' ' . $unit['model']?></h2>
-                  <p class="text-xs">For only <?php echo $unit['shand_price'] ?>.00 !</p>
+                  <p class="text-xs">For only <?php echo number_format($unit['shand_price']); ?>.00!</p>
                   <div class="card-actions justify-end">
                       <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo $unit['id'] ?>'" id="inquire" data-id="<?php echo $unit['id'] ?>" type="button" class="btn btn-primary inquire-btn">Inquire Now</button>
                   </div>

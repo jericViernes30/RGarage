@@ -19,9 +19,9 @@ $isLoggedIn = isset($_SESSION['user']);
 
 <div class="w-full flex items-center py-4 bg-[#1b1c1e]">
     <div class="w-4/5 flex items-center mx-auto">
-        <div class="w-1/4">
-            <button class="text-2xl font-semibold text-white">
-                RGarage.
+        <div class="w-1/4 relative">
+            <button onclick="window.location.href='/RGarage/'" class="text-2xl font-semibold text-white absolute -top-11">
+                <img src="/RGarage/public/logo/rgarage.png" alt="" class="filter grayscale brightness-[1000%] w-[60%]">
             </button>
         </div>
         <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
