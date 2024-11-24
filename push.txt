@@ -105,3 +105,21 @@ November 15, 2024:
         - Soldout history (admin)
         - Database of payments
         - Email notification (to be discussed)
+
+
+================================================================================================================
+
+November 25, 2024:
+    - Admin can process sales after reserving an unit and also sales for walk in clients
+    - Total sales can be viewed by the admin in dashboard
+
+    Next plans: (To be finished this week, daily updates every 6am)
+        - Email notification (to be discussed)
+        - Chatbot (to be discussed)
+        - Reports (forecasting)
+
+        Minor fix:
+            - Remove reservation if client didn't appear
+            - Admin login
+            - Customer image in signup
+            - table ascending and descending queries
