@@ -153,6 +153,18 @@ switch ($action) {
     case 'admin/get-recent-messages':
         $messageController->getRecentMessages();
         break;
+
+    case 'admin/reserved-units':
+        $adminController->reservedUnits();
+        break;
+
+    case 'admin/sold': 
+        $adminController->addToSales();
+        break;
+
+    case 'admin/walk-in-sold': 
+        $adminController->walkInSales();
+        break;
         
     case 'http://localhost/RGarage/':
         $controller->fetchUnitsHome();
