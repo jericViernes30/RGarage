@@ -13,6 +13,7 @@
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="bg-blue-500 py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/reserved-units" class="py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
         </div>
     </div>
@@ -61,7 +62,7 @@
                 </div>
                 <div class="flex flex-col justify-between">
                     <p>Total Sales</p>
-                    <p class="text-2xl font-semibold">0</p>
+                    <p class="text-2xl font-semibold"><?php echo htmlspecialchars(number_format($totalSales, 2)); ?></p>
                 </div>
             </div>
         </div>
