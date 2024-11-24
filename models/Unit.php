@@ -671,5 +671,17 @@ public function update() {
     return false;
 }
 
+public function deleteUnit2(){
+    $query = "DELETE FROM units WHERE plate_number = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('s', $this->plate_number);
+
+    return $stmt->execute();
+    if (!$stmt->execute()) {
+        die("Error executing query: " . $stmt->error);
+    }
+    return $result;
+}
+
 }
 ?>
