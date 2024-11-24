@@ -77,7 +77,79 @@ class ReservedUnit {
     
         return $unit_details;
     }
+
+    public function getAllReservedUnits() {
+        try {
+            // Step 1: Get all rows from the reserved table
+            $reservedResult = $this->conn->query("SELECT * FROM reserved");
+            if (!$reservedResult) {
+                throw new Exception("Error fetching reserved rows: " . $this->conn->error);
+            }
+            $reservedRows = $reservedResult->fetch_all(MYSQLI_ASSOC);
+        
+            // Step 2: Extract unique user_ids and units_ids from the reserved rows
+            $userIds = array_unique(array_column($reservedRows, 'user_id'));
+            $unitIds = array_unique(array_column($reservedRows, 'unit_id'));
+        
+            // Step 3: Query users table for user data (first_name, last_name)
+            if (!empty($userIds)) {
+                // Prepare SQL to select users based on the user_ids
+                $userIdsPlaceholder = implode(',', array_fill(0, count($userIds), '?'));
+                $userStmt = $this->conn->prepare("SELECT * FROM users WHERE id IN ($userIdsPlaceholder)");
+                $userStmt->bind_param(str_repeat('i', count($userIds)), ...$userIds);
+                $userStmt->execute();
+                $userResult = $userStmt->get_result();
+                $users = $userResult->fetch_all(MYSQLI_ASSOC);
+        
+                // Map users by their IDs for easy lookup
+                $userMap = [];
+                foreach ($users as $user) {
+                    $userMap[$user['id']] = $user;
+                }
+            }
+        
+            // Step 4: Query units table for all unit data
+            if (!empty($unitIds)) {
+                // Prepare SQL to select units based on the units_ids
+                $unitIdsPlaceholder = implode(',', array_fill(0, count($unitIds), '?'));
+                $unitStmt = $this->conn->prepare("SELECT * FROM units WHERE id IN ($unitIdsPlaceholder)");
+                $unitStmt->bind_param(str_repeat('i', count($unitIds)), ...$unitIds);
+                $unitStmt->execute();
+                $unitResult = $unitStmt->get_result();
+                $units = $unitResult->fetch_all(MYSQLI_ASSOC);
+        
+                // Map units by their IDs for easy lookup
+                $unitMap = [];
+                foreach ($units as $unit) {
+                    $unitMap[$unit['id']] = $unit;
+                }
+            }
+        
+            // Step 5: Map reserved rows with user and unit data
+            $result = [];
+            foreach ($reservedRows as $row) {
+                $result[] = [
+                    'reserved_id' => $row['id'],
+                    'reserved_date' => $row['reserved_date'],
+                    'user' => $userMap[$row['user_id']] ?? null,
+                    'unit' => $unitMap[$row['unit_id']] ?? null,
+                ];
+            }
+        
+            // Output the final mapped data (e.g., as JSON)
+            return $result;
+        
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
     
+    public function deleteRow(){
+        $query = "DELETE FROM reserved WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $this->id);
+        return $stmt->execute();
+    }
     
     
 }
