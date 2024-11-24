@@ -10,6 +10,81 @@
 </head>
 <body class="w-full flex h-screen bg-gray-200 text-black-v1 relative">
     <div id="overlay" class="hidden w-full h-screen absolute top-0 bg-black opacity-80"></div>
+    <div id="sales" class="hidden w-1/2 h-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div class="py-2 px-6 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+            <p class="text-white">Unit Sales</p>
+            <button type="button" id="closeForm" class="text-white">x</button>
+        </div>
+        <div class="w-full h-fit p-6 bg-white relative">
+            <div id="or_form" class="hidden w-1/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <div class="py-2 px-4 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+                    <p class="text-white">Official Receipt</p>
+                    <button type="button" id="closeForm" class="text-white">x</button>
+                </div>
+                <div class="w-full h-fit p-4 bg-white rounded-br-lg rounded-bl-lg">
+                    <form action="/RGarage/admin/walk-in-sold" method="POST">
+                        <p class="text-xs mb-1">OR Number</p>
+                        <input id="input_customer" type="hidden" name="customer" class="bg-white">
+                        <input id="input_pay" type="hidden" name="pay" class="bg-white">
+                        <input id="input_contact_number" type="hidden" name="contact_number" class="bg-white">
+                        <input id="input_email_address" type="hidden" name="email_address" class="bg-white">
+                        <input id="input_unit" type="hidden" name="unit">
+                        <input id="input_plateNumber" type="text" name="plateNumber" class="bg-white">
+                        <input type="text" name="or_number" class="w-full px-3 py-2 rounded-md outline-none border border-gray-600 bg-white mb-4">
+                        <button class="bg-blue-500 w-full py-2 rounded-md text-white font-bold text-sm">SOLD</button>
+                    </form>
+                </div>
+            </div>
+            <div id="order_details" class="w-full flex gap-2 z-0">
+                <div class="w-2/5 border border-gray-400 rounded-lg px-4">
+                    <p class="text-center font-medium mb-3 text-lg mt-2">Billing Details</p>
+                    <div class="w-[120px] h-[120px] rounded-sm block mx-auto border-2 mb-6">
+                        <img src="/RGarage/public/images/beat_2.jpg" alt="" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-xs mb-1">Billed To</p>
+                        <input type="text" name="billed_to" id="billed_to" class="w-full text-xl font-bold bg-white outline-none rounded-md px-4 py-1 border border-gray-600">
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-xs mb-1">Amount To Pay</p>
+                        <p id="to_pay" class="text-xl font-bold"></p>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-xs mb-1">Contact Number</p>
+                        <input type="text" name="contact" id="contact" class="w-full text-xl font-bold bg-white outline-none rounded-md px-4 py-1 border border-gray-600">
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-xs mb-1">Email Address</p>
+                        <input type="text" name="email" id="email" class="w-full text-xl font-bold bg-white outline-none rounded-md px-4 py-1 border border-gray-600">
+                    </div>
+                </div>
+                <div class="w-3/5 border border-gray-400 rounded-lg px-4">
+                    <p class="text-center font-medium mb-3 text-lg mt-2">Selected Unit</p>
+                    <div class="w-[220px] h-[220px] rounded-sm block mx-auto border-2 mb-6">
+                        <img id="unit_image" src="/RGarage/public/images/beat_2.jpg" alt="" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <div class="w-3/4 justify-between flex mx-auto mb-10">
+                        <div class="text-center">
+                            <p class="font-semibold">YEAR</p>
+                            <p id="bill_year" class="font-light text-sm text-[#333]">2000</p>
+                        </div>
+                        <div class=" text-center">
+                            <p class="font-semibold">BRAND</p>
+                            <p id="bill_brand" class="font-light text-sm text-[#333]">Honda</p>
+                        </div>
+                        <div class=" text-center">
+                            <p class="font-semibold">MODEL</p>
+                            <p id="bill_model" class="font-light text-sm text-[#333]">Beat</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" id="confirm" class="w-full bg-blue-500 text-white rounded-lg py-2 mb-3">Confirm Purchase</button>
+                        <button class="text-red-500 py-2 text-center px-6 block mx-auto">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="edit_form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
         <div class="py-2 px-6 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Edit Unit Details</p>
@@ -181,6 +256,7 @@
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="bg-blue-500 py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/reserved-units" class="py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
         </div>
     </div>
@@ -222,35 +298,50 @@
                             </thead>
                             <tbody>
                                 <?php if (isset($units) && !empty($units)): ?>
-                                    <?php foreach ($units as $index => $unit): ?>
+                                    <?php foreach ($units as $index => $unit): 
+                                        $imagesString = htmlspecialchars($unit['image']); // Get the image string safely
+                                        $imageNames = explode(',', $imagesString); // Split the string into an array
+                                        $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : '';
+                                        ?>
                                         <tr>
                                             <td class="py-3 border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($index + 1); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['plate_number']); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['year']); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['brand']); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['model']); ?></td>
-                                            <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['price']); ?></td>
+                                            <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars(number_format($unit['shand_price'], 2)); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2">
-                                            <button 
-                                                data-id="<?php echo $unit['id']; ?>"
-                                                data-year="<?php echo $unit['year']; ?>"
-                                                data-brand="<?php echo $unit['brand']; ?>"
-                                                data-model="<?php echo $unit['model']; ?>"
-                                                data-type="<?php echo $unit['type']; ?>"
-                                                data-plate_number="<?php echo $unit['plate_number']; ?>"
-                                                data-mileage="<?php echo $unit['mileage']; ?>"
-                                                data-shand_price="<?php echo $unit['shand_price']; ?>"
-                                                data-bnew_price="<?php echo $unit['price']; ?>"
-                                                data-thread="<?php echo $unit['thread']; ?>"
-                                                data-color="<?php echo $unit['color']; ?>"
-                                                data-issue="<?php echo $unit['issue']; ?>"
-                                                data-status="<?php echo $unit['modified']; ?>"
-                                                id="" 
-                                                class="text-blue-500 edit_unit">
-                                                Edit
-                                            </button>
+                                                <select name="action" id="action_select" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
+                                                    <option value="" disabled selected>Options</option>
+                                                    <option value="sale"
+                                                        data-year="<?php echo $unit['year']; ?>"
+                                                        data-brand="<?php echo $unit['brand']; ?>"
+                                                        data-model="<?php echo $unit['model']; ?>"
+                                                        data-image=<?php echo $firstImage; ?>
+                                                        data-price="<?php echo $unit['shand_price']; ?>"
+                                                        data-plate_number="<?php echo $unit['plate_number']; ?>"
+                                                    >Sale</option>
+                                                    <option value="edit" data-id="<?php echo $unit['id']; ?>" 
+                                                        data-year="<?php echo $unit['year']; ?>"
+                                                        data-brand="<?php echo $unit['brand']; ?>"
+                                                        data-model="<?php echo $unit['model']; ?>"
+                                                        data-type="<?php echo $unit['type']; ?>"
+                                                        data-plate_number="<?php echo $unit['plate_number']; ?>"
+                                                        data-mileage="<?php echo $unit['mileage']; ?>"
+                                                        data-shand_price="<?php echo $unit['shand_price']; ?>"
+                                                        data-bnew_price="<?php echo $unit['price']; ?>"
+                                                        data-thread="<?php echo $unit['thread']; ?>"
+                                                        data-color="<?php echo $unit['color']; ?>"
+                                                        data-issue="<?php echo $unit['issue']; ?>"
+                                                        data-status="<?php echo $unit['modified']; ?>">
+                                                        Edit
+                                                    </option>
+                                                    <option value="delete" data-plate_number="<?php echo $unit['plate_number']; ?>">Delete</option>
+                                                </select>
 
-                                                <a href="/RGarage/admin/delete-unit?plate_number=<?php echo $unit['plate_number']; ?>" onclick="return confirm('Are you sure you want to delete this unit?');" class="text-red-500">Delete</a>
+                                            
+
+                                                
 
                                             </td>
                                         </tr>
@@ -281,43 +372,94 @@
                 $('#form').removeClass('hidden')
             })
 
-            $(document).on('click', '.edit_unit', function() {
-                // Show the overlay and edit form
-                $('#overlay').removeClass('hidden');
-                $('#edit_form').removeClass('hidden');
+            $(document).on('change', '#action_select', function() {
+                var selectedOption = $(this).find(':selected').val();
 
-                // Get the data attributes from the button
-                var id = $(this).data('id');
-                var year = $(this).data('year');
-                var brand = $(this).data('brand');
-                var model = $(this).data('model');
-                var type = $(this).data('type');
-                var plateNumber = $(this).data('plate_number');
-                var mileage = $(this).data('mileage');
-                var shandPrice = $(this).data('shand_price');
-                var bnewPrice = $(this).data('bnew_price');
-                var thread = $(this).data('thread');
-                var color = $(this).data('color');
-                var issue = $(this).data('issue');
-                var status = $(this).data('status');
+                if (selectedOption === 'edit') {
+                    // Get data attributes from the selected option
+                    var id = $(this).find(':selected').data('id');
+                    var year = $(this).find(':selected').data('year');
+                    var brand = $(this).find(':selected').data('brand');
+                    var model = $(this).find(':selected').data('model');
+                    var type = $(this).find(':selected').data('type');
+                    var plateNumber = $(this).find(':selected').data('plate_number');
+                    var mileage = $(this).find(':selected').data('mileage');
+                    var shandPrice = $(this).find(':selected').data('shand_price');
+                    var bnewPrice = $(this).find(':selected').data('bnew_price');
+                    var thread = $(this).find(':selected').data('thread');
+                    var color = $(this).find(':selected').data('color');
+                    var issue = $(this).find(':selected').data('issue');
+                    var status = $(this).find(':selected').data('status');
 
-                // Populate the form with the data
-                $('[name="year"]').val(year);
-                $('[name="id"]').val(id);
-                $('[name="brand"]').val(brand);
-                $('[name="model"]').val(model);
-                $('[name="type"]').val(type);
-                $('[name="plate_number"]').val(plateNumber);
-                $('[name="mileage"]').val(mileage);
-                $('[name="shand_price"]').val(shandPrice);
-                $('[name="bnew_price"]').val(bnewPrice);
-                $('[name="thread"]').val(thread);
-                $('[name="color"]').val(color);
-                $('[name="issue"]').val(issue);
+                    // Show the overlay and edit form
+                    $('#overlay').removeClass('hidden');
+                    $('#edit_form').removeClass('hidden');
 
-                // Set the status radio button
-                $('input[name="status"][value="' + status + '"]').prop('checked', true);
+                    // Populate the form with the data
+                    $('[name="year"]').val(year);
+                    $('[name="id"]').val(id);
+                    $('[name="brand"]').val(brand);
+                    $('[name="model"]').val(model);
+                    $('[name="type"]').val(type);
+                    $('[name="plate_number"]').val(plateNumber);
+                    $('[name="mileage"]').val(mileage);
+                    $('[name="shand_price"]').val(shandPrice);
+                    $('[name="bnew_price"]').val(bnewPrice);
+                    $('[name="thread"]').val(thread);
+                    $('[name="color"]').val(color);
+                    $('[name="issue"]').val(issue);
+
+                    // Set the status radio button
+                    $('input[name="status"][value="' + status + '"]').prop('checked', true);
+                } else if (selectedOption === 'delete') {
+                    var plateNumber = $(this).find(':selected').data('plate_number');
+                    if (confirm('Are you sure you want to delete this unit?')) {
+                        window.location.href = '/RGarage/admin/delete-unit?plate_number=' + plateNumber;
+                    }
+                } else if (selectedOption === "sale") {
+                    var image = $(this).find(':selected').data('image');
+                    var price = $(this).find(':selected').data('price');
+                    var year = $(this).find(':selected').data('year');
+                    var brand = $(this).find(':selected').data('brand');
+                    var model = $(this).find(':selected').data('model');
+                    var plateNumber = $(this).find(':selected').data('plate_number');
+
+                    // Update the #sales div with row data
+                    $('#to_pay').text(price);
+                    $('#bill_year').text(year);
+                    $('#bill_brand').text(brand);
+                    $('#bill_model').text(model);
+                    $('#unit_image').attr('src', `/RGarage/public/images/${image}`);
+                    
+                    $('#input_pay').val(price)
+                    $('#input_plateNumber').val(plateNumber)
+                    $('#input_unit').val(year + ' ' + brand + ' ' + model)
+
+                    // Open the #sales div
+                    $('#sales').removeClass('hidden');
+                    $('#overlay').removeClass('hidden');
+
+                    $('#confirm').on('click', function(){
+                        $('#or_form').removeClass('hidden')
+                        // Get the values from the input fields
+                        const customer = $('#billed_to').val();
+                        const contactNumber = $('#contact').val();
+                        const emailAddress = $('#email').val();
+
+                        // Update the hidden input fields
+                        $('#input_customer').val(customer);
+                        $('#input_contact_number').val(contactNumber);
+                        $('#input_email_address').val(emailAddress);
+
+                        // Optionally, show a message or perform additional actions
+                        console.log('Customer, contact number, and email address updated.');
+                    })
+
+                    // Reset the dropdown back to the default option
+                    $(this).val('');
+                }
             });
+
 
 
             $('#closeForm').on('click', function(){
