@@ -38,8 +38,9 @@
             <div id="order_details" class="w-full flex gap-2 z-0">
                 <div class="w-2/5 border border-gray-400 rounded-lg px-4">
                     <p class="text-center font-medium mb-3 text-lg mt-2">Billing Details</p>
-                    <div class="w-[120px] h-[120px] rounded-sm block mx-auto border-2 mb-6">
-                        <img src="/RGarage/public/images/beat_2.jpg" alt="" class="w-full h-full object-cover rounded-lg">
+                    <div class="w-[120px] h-[120px] rounded-full flex justify-center items-center mx-auto border-2 mb-6 ">
+                        <!-- <img src="/RGarage/public/images/beat_2.jpg" alt="" class="w-full h-full object-cover rounded-lg"> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="75" height="75"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
                     </div>
                     <div class="mb-4">
                         <p class="text-xs mb-1">Billed To</p>
@@ -47,15 +48,15 @@
                     </div>
                     <div class="mb-4">
                         <p class="text-xs mb-1">Amount To Pay</p>
-                        <p id="to_pay" class="text-xl font-bold">46,000</p>
+                        <p id="to_pay" class="text-xl font-bold"></p>
                     </div>
                     <div class="mb-4">
                         <p class="text-xs mb-1">Contact Number</p>
-                        <p id="contact" class="text-xl font-bold">09976589181</p>
+                        <p id="contact" class="text-xl font-bold"></p>
                     </div>
                     <div class="mb-4">
                         <p class="text-xs mb-1">Email Address</p>
-                        <p id="email" class="text-xl font-bold">jericviernes06@gmail.com</p>
+                        <p id="email" class="text-xl font-bold"></p>
                     </div>
                 </div>
                 <div class="w-3/5 border border-gray-400 rounded-lg px-4">
@@ -66,15 +67,15 @@
                     <div class="w-3/4 justify-between flex mx-auto mb-10">
                         <div class="text-center">
                             <p class="font-semibold">YEAR</p>
-                            <p id="bill_year" class="font-light text-sm text-[#333]">2000</p>
+                            <p id="bill_year" class="font-light text-sm text-[#333]"></p>
                         </div>
                         <div class=" text-center">
                             <p class="font-semibold">BRAND</p>
-                            <p id="bill_brand" class="font-light text-sm text-[#333]">Honda</p>
+                            <p id="bill_brand" class="font-light text-sm text-[#333]"></p>
                         </div>
                         <div class=" text-center">
                             <p class="font-semibold">MODEL</p>
-                            <p id="bill_model" class="font-light text-sm text-[#333]">Beat</p>
+                            <p id="bill_model" class="font-light text-sm text-[#333]"></p>
                         </div>
                     </div>
                     <div>
@@ -334,6 +335,7 @@
                 $('#bill_brand').text(brand);
                 $('#bill_model').text(model);
                 $('#contact').text(contact);
+                $('#to_pay').text(price.toLocaleString());
                 $('#email').text(email);
                 $('#unit_image').attr('src', `/RGarage/public/images/${image}`);
 
