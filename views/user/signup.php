@@ -26,7 +26,7 @@
                     <p>Account created successfully!</p>
                 </div>
                 <p class="mb-3 text-white">Create your Account</p>
-                <form id="signupForm" action="/RGarage/user/auth/create" class="mb-10" method="POST">
+                <form id="signupForm" action="/RGarage/user/auth/create" class="mb-10" method="POST" enctype="multipart/form-data">
                     <div class="w-full flex items-center justify-between gap-4 mb-4">
                         <div class="w-1/2 flex flex-col gap-1">
                             <label for="first_name">First Name</label>
@@ -70,6 +70,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <input type="file" name="profile_picture" id="" class="mb-2">
+                    </div>
                     <button class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Signup</button>
                 </form>
                 <p class="text-center">Already have an account? <a href="/RGarage/user/login" class="text-white">Sign In</a></p>
@@ -78,27 +81,36 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('#signupForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent page reload
+    $('#signupForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent page reload
+
+        let formData = new FormData(this); // Use FormData to include file data
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false, // Required for FormData
+            contentType: false, // Required for FormData
+            success: function(response) {
+                console.log(response);
+
+
+                // Clear the form fields
+                $('#signupForm')[0].reset();
+
                 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        // Clear the form fields
-                        $('#signupForm')[0].reset();
-                        
-                        // Show the response message
-                        $('#response').addClass('flex').removeClass('hidden');
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error:', error);
-                        // Optional: handle errors here
-                    }
-                });
-            });
+                $('#response').addClass('flex').removeClass('hidden');
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', xhr.responseText || error);
+                // Display the exact issue to the user
+                alert(`Error: ${xhr.responseText || error}`);
+            }
         });
+    });
+});
+
     </script>
 </body>
 </html>
