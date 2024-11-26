@@ -9,9 +9,10 @@ class User{
     public $id;
     public $first_name;
     public $last_name;
+    public $email_address;
     public $contact_number;
     public $address;
-    public $email_address;
+    public $profile_picture;
     public $password;
 
     // database connection
@@ -20,23 +21,64 @@ class User{
         $this->conn = $db;
     }
 
-    // create new user
-    public function createUser(){
-        $query = "INSERT INTO " . $this->table_name . " (first_name, last_name, email_address, contact_number, address, password) VALUES (?, ?, ?, ?, ?, ?)";
+    public function createUser($file){
+        // Define the upload directory
+        $upload_dir = 'C:/xampp/htdocs/RGarage/public/images/profile_pictures/';
+        $profile_picture_name = '';
+    
+        // Ensure the directory exists
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true); // Create the directory if it doesn't exist
+        }
+    
+        // Check if the file is uploaded
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            // Extract file information
+            $file_tmp_name = $file['tmp_name'];
+            $file_name = basename($file['name']);
+            $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+    
+            // Validate file type (optional, but recommended)
+            $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+            if (!in_array(strtolower($file_extension), $allowed_extensions)) {
+                throw new Exception("Invalid file type. Allowed types are: " . implode(', ', $allowed_extensions));
+            }
+    
+            // Generate a file name based on lastname_firstname.file_extension
+            $sanitized_last_name = preg_replace('/[^a-zA-Z0-9_]/', '', strtolower($this->last_name)); // Sanitize last name
+            $sanitized_first_name = preg_replace('/[^a-zA-Z0-9_]/', '', strtolower($this->first_name)); // Sanitize first name
+            $profile_picture_name = $sanitized_last_name . '_' . $sanitized_first_name . '.' . $file_extension;
+    
+            // Move the uploaded file to the target directory
+            if (!move_uploaded_file($file_tmp_name, $upload_dir . $profile_picture_name)) {
+                throw new Exception("Failed to upload profile picture.");
+            }
+        } else {
+            throw new Exception("Error uploading file: " . $file['error']);
+        }
+    
+        // Prepare the SQL query
+        $query = "INSERT INTO " . $this->table_name . " (first_name, last_name, email_address, contact_number, address, profile_picture, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-
+    
+        // Hash the password
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
-
-        $stmt->bind_param("ssssss", $this->first_name, $this->last_name, $this->email_address, $this->contact_number, $this->address, $hashed_password);
+    
+        // Bind parameters including the profile picture
+        $stmt->bind_param("sssssss", $this->first_name, $this->last_name, $this->email_address, $this->contact_number, $this->address, $profile_picture_name, $hashed_password);
+    
+        // Execute and return the result
         return $stmt->execute();
     }
+    
+    
 
     // authenticate user if present in database
     public function authUser() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        $query = "SELECT id, first_name, last_name, email_address, address, contact_number, password FROM " . $this->table_name . " WHERE email_address = ? LIMIT 1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email_address = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $this->email_address);
         $stmt->execute();
@@ -49,6 +91,7 @@ class User{
                     'status' => true,
                     'user' => [
                         'id' => $row['id'],
+                        'profile' => $row['profile_picture'],
                         'first_name' => $row['first_name'],
                         'last_name' => $row['last_name'],
                         'email_address' => $row['email_address'],
