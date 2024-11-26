@@ -177,4 +177,9 @@ class AdminController{
             
         }
     }
+
+    public function history(){
+        $sales = $this->sale->fetchAllSales();
+        include 'views/admin/history.php';
+    }
 }

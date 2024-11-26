@@ -25,36 +25,61 @@ class UserController {
         $this->activity = new Activity($db);
     }
 
-    public function createUser(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $password = $_POST['password'];
-            $repeat_password = $_POST['repeat_password'];
+    public function createUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $password = $_POST['password'] ?? '';
+            $repeat_password = $_POST['repeat_password'] ?? '';
             $activity = 'Register';
-
-            if($password == $repeat_password){
-                $this->user->first_name = $_POST['first_name'];
-                $this->user->last_name = $_POST['last_name'];
-                $this->user->email_address = $_POST['email_address'];
-                $this->user->contact_number = $_POST['contact_number'];
-                $this->user->address = $_POST['address'];
-                $this->user->password = $_POST['password'];
-
-                if ($this->user->createUser()) {
-                    echo "User registered successfully!";
-                    $this->activity->addActivity($_POST['first_name'] . ' ' . $_POST['last_name'], $activity);
+    
+            // Log uploaded file information
+            var_dump($_FILES);
+    
+            if ($password === $repeat_password) {
+                $this->user->first_name = $_POST['first_name'] ?? '';
+                $this->user->last_name = $_POST['last_name'] ?? '';
+                $this->user->email_address = $_POST['email_address'] ?? '';
+                $this->user->contact_number = $_POST['contact_number'] ?? '';
+                $this->user->address = $_POST['address'] ?? '';
+                $this->user->password = $password;
+    
+                if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                    $profilePicture = $_FILES['profile_picture'];
+    
+                    if ($this->user->createUser($profilePicture)) {
+                        echo json_encode([
+                            "status" => "success",
+                            "message" => "User registered successfully!"
+                        ]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode([
+                            "status" => "error",
+                            "message" => "Could not create user. Please try again."
+                        ]);
+                    }
                 } else {
-                    echo "Error: Could not create user.";
+                    http_response_code(400);
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => "Error uploading profile picture. Ensure the file is valid."
+                    ]);
                 }
             } else {
-                echo "<script>
-                    alert('Error: Passwords do not match.');
-                    window.location.href = '/RGarage/user/signup';
-                </script>";
-                exit();
+                http_response_code(400);
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Passwords do not match."
+                ]);
             }
-
+        } else {
+            http_response_code(405); // Method Not Allowed
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid request method."
+            ]);
         }
     }
+    
 
     public function authLogin() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -69,6 +94,7 @@ class UserController {
                 }
                 $_SESSION['user'] = [
                     'user_id' => $authResult['user']['id'],
+                    'profile' => $authResult['user']['profile'],
                     'first_name' => $authResult['user']['first_name'],
                     'last_name' => $authResult['user']['last_name'],
                     'email_address' => $authResult['user']['email_address'],
