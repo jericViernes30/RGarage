@@ -165,6 +165,10 @@ switch ($action) {
     case 'admin/walk-in-sold': 
         $adminController->walkInSales();
         break;
+
+    case 'admin/history':
+        $adminController->history();
+        break;
         
     case 'http://localhost/RGarage/':
         $controller->fetchUnitsHome();
