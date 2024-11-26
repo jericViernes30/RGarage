@@ -37,4 +37,24 @@ class Sale{
     }
 }
 
+    public function fetchAllSales(){
+        $query = "SELECT * FROM sales";
+        $stmt = $this->conn->prepare($query);
+        if($stmt){
+            if($stmt->execute()){
+                $result = $stmt->get_result();
+                $sales = [];
+
+                if($result->num_rows > 0){
+                    while($row = $result-> fetch_assoc()){
+                        $sales[] = $row;
+                    }
+                }
+
+                $result->free();
+                return $sales;
+            }
+        }
+    }
+
 }
