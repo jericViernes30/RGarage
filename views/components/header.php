@@ -40,6 +40,7 @@ $isLoggedIn = isset($_SESSION['user']);
             <?php if ($isLoggedIn): ?>
                 <button id="profileButton" class="flex items-center justify-end gap-3 mr-7">
                     <div class="w-[40px] h-[40px] border-2 bg-white rounded-full">
+                        <img src="/RGarage/public/images/profile_pictures/<?php echo $_SESSION['user']['profile']?>" alt="" class="rounded-full w-full h-full object-cover">
                     </div>
                     <span class="text-sm text-white"><?php echo $_SESSION['user']['first_name']; ?></span>
                 </button>
