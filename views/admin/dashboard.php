@@ -66,8 +66,8 @@
                 </div>
             </div>
         </div>
-        <div class="w-full mt-10 px-8">
-            <div class="bg-white rounded-sm p-2 w-1/2 relative">
+        <div class="w-full h-[400px] mt-10 px-8">
+            <div class="bg-white rounded-sm h-full overflow-auto p-2 w-1/2 relative">
                 <div class="w-full flex items-center justify-center gap-2">
                 <h2 class="font-semibold text-lg text-center">Today's Activity</h2>
                 <p>-</p>
@@ -84,13 +84,6 @@
                     <p>No activities recorded for today.</p>
                 <?php endif; ?>
             </div>
-            <!-- Display the activity count -->
-
-            <!-- Display each activity -->
-            
-                <ul class="mt-4">
-                    
-                </ul>
         </div>
     </div>
 </body>
