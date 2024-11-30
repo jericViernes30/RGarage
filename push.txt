@@ -123,3 +123,11 @@ November 25, 2024:
             - Admin login
             - Customer image in signup
             - table ascending and descending queries
+
+
+
+- mini map /
+- oras sa reserve /
+- note that first come first serve /
+- remove car brands /
+- randomize featured /
