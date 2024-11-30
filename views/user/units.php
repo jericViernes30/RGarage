@@ -37,12 +37,6 @@
             <button onclick="window.location.href='/RGarage/user/kawasaki'" class="carousel-item w-[10%] h-[10%]">
                 <img src="/RGarage/public/logo/kawasaki.png" alt="Drink" />
             </button>
-            <button class="carousel-item w-[10%] h-[10%]">
-                <img src="/RGarage/public/logo/toyota.png" alt="Drink" />
-            </button>
-            <button class="carousel-item w-[10%] h-[10%]">
-                <img src="/RGarage/public/logo/mitsubishi.png" alt="Drink" />
-            </button>
         </div>
     </div>
     <div class="w-[80%] bg-white rounded-md p-7 block mx-auto mb-10">
@@ -61,7 +55,7 @@
                     <option value="asc" selected>Low to High</option>
                     <option value="desc">High to Low</option>
                 </select>
-                <button id="search" type="button" class="w-1/4 bg-blue-500 outline-none border px-4 py-1 border-gray-400 rounded-sm text-white">SEARCH</button>
+                <button id="search" type="button" class="w-1/4 bg-black-v1 outline-none border px-4 py-1 border-gray-400 rounded-sm text-white">SEARCH</button>
             </div>
 </div>
         <div>
@@ -90,7 +84,7 @@
             </button>
             <div class="">
                 <p class="w-full bg-white pl-6 mb-1 text-xl font-medium"><?php echo htmlspecialchars($unit['brand']).' '. htmlspecialchars($unit['model']) ?></p>
-                <button class="w-full text-left py-4 px-6 bg-blue-500 rounded-bl-lg rounded-br-lg hover:text-yellow-500 transition duration-200 ease-in-out">
+                <button class="w-full text-left py-4 px-6 bg-black-v1 rounded-bl-lg rounded-br-lg hover:text-yellow-500 transition duration-200 ease-in-out text-white">
                     <p class="font-bold text-2xl">Price: ₱<?php echo htmlspecialchars($unit['price']) ?></p>
                     <p class="text-lg">Model: <?php echo htmlspecialchars($unit['year']) ?></p>
                     <p>Mileage: <?php echo htmlspecialchars($unit['mileage']) ?> km</p>
