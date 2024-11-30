@@ -252,7 +252,9 @@
         </div>
     </div>
     <div class="w-[16%] bg-gray-700">
-        <p class="text-white px-5 py-3 mb-6 bg-[#1b1c1e]">RGarage.</p>
+    <div class="w-full bg-[#1b1c1e]">
+            <img src="/RGarage/public/logo/rgarage.png" alt="" class="px-5 mb-3 filter grayscale brightness-[1000%] w-[60%]">
+        </div>
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="bg-[#1b1c1e] py-2 px-5 text-white w-full">Unit's List</a>
