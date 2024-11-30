@@ -139,7 +139,7 @@ public function sendAdminMessage() {
 
 public function getRecentMessages() {
     // Fetch messages for the most recent sender
-    $messages = $this->msg->getMessagesFromDistinctSenders();  // This would return the most recent messages
+    $messages = $this->msg->getMessagesFromLatestSenderAndAdmin();  // This would return the most recent messages
 
     if (!empty($messages)) {
         echo json_encode([
