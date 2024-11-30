@@ -683,5 +683,88 @@ public function deleteUnit2(){
     return $result;
 }
 
+public function sortByPrice($order) {
+    // Ensure the order is either 'ASC' or 'DESC', default to 'ASC'
+    $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
+
+    // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
+    $query = "SELECT * FROM units ORDER BY CAST(REPLACE(shand_price, ',', '') AS DECIMAL) $order";
+
+    // Prepare the SQL statement
+    $stmt = $this->conn->prepare($query);
+
+    if ($stmt) {
+        $stmt->execute(); // Execute the query
+        $result = $stmt->get_result(); // Get the result set
+
+        $units = [];
+        while ($row = $result->fetch_assoc()) { // Fetch rows as an associative array
+            // Remove commas from the price for consistency
+            $row['price'] = str_replace(',', '', $row['price']);
+            $units[] = $row;
+        }
+
+        $stmt->close(); // Close the statement
+        return $units; // Return the sorted units
+    } else {
+        return false;
+    }
+}
+
+public function sortByYear($order) {
+    // Ensure the order is either 'ASC' or 'DESC', default to 'ASC'
+    $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
+
+    // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
+    $query = "SELECT * FROM units ORDER BY year $order";
+
+    // Prepare the SQL statement
+    $stmt = $this->conn->prepare($query);
+
+    if ($stmt) {
+        $stmt->execute(); // Execute the query
+        $result = $stmt->get_result(); // Get the result set
+
+        $units = [];
+        while ($row = $result->fetch_assoc()) { // Fetch rows as an associative array
+            // Remove commas from the price for consistency
+            $units[] = $row;
+        }
+
+        $stmt->close(); // Close the statement
+        return $units; // Return the sorted units
+    } else {
+        return false;
+    }
+}
+
+public function sortByBrand($order) {
+    // Ensure the order is either 'ASC' or 'DESC', default to 'ASC'
+    $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
+
+    // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
+    $query = "SELECT * FROM units ORDER BY brand $order";
+
+    // Prepare the SQL statement
+    $stmt = $this->conn->prepare($query);
+
+    if ($stmt) {
+        $stmt->execute(); // Execute the query
+        $result = $stmt->get_result(); // Get the result set
+
+        $units = [];
+        while ($row = $result->fetch_assoc()) { // Fetch rows as an associative array
+            // Remove commas from the price for consistency
+            $units[] = $row;
+        }
+
+        $stmt->close(); // Close the statement
+        return $units; // Return the sorted units
+    } else {
+        return false;
+    }
+}
+
+
 }
 ?>
