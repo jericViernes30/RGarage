@@ -182,4 +182,50 @@ class AdminController{
         $sales = $this->sale->fetchAllSales();
         include 'views/admin/history.php';
     }
+
+    public function sortByPrice() {
+        // Get the 'order' parameter from the URL query (default to 'asc' if not provided or invalid)
+        $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ? $_GET['order'] : 'asc';
+    
+        // Pass the order value to the model's sorting function
+        $priceSorted = $this->unit->sortByPrice($order);
+    
+        // Check if sorting was successful and return the result
+        if ($priceSorted) {
+            echo json_encode(['status' => 'success', 'data' => $priceSorted]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No units found.']);
+        }
+    }
+
+    public function sortByYear() {
+        // Get the 'order' parameter from the URL query (default to 'asc' if not provided or invalid)
+        $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ? $_GET['order'] : 'asc';
+    
+        // Pass the order value to the model's sorting function
+        $yearSorted = $this->unit->sortByYear($order);
+    
+        // Check if sorting was successful and return the result
+        if ($yearSorted) {
+            echo json_encode(['status' => 'success', 'data' => $yearSorted]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No units found.']);
+        }
+    }
+
+    public function sortByBrand() {
+        // Get the 'order' parameter from the URL query (default to 'asc' if not provided or invalid)
+        $order = isset($_GET['order']) && in_array($_GET['order'], ['asc', 'desc']) ? $_GET['order'] : 'asc';
+    
+        // Pass the order value to the model's sorting function
+        $brandSorted = $this->unit->sortByBrand($order);
+    
+        // Check if sorting was successful and return the result
+        if ($brandSorted) {
+            echo json_encode(['status' => 'success', 'data' => $brandSorted]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No units found.']);
+        }
+    }
+    
 }
