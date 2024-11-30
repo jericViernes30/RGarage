@@ -10,8 +10,45 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/RGarage/src/output.css" rel="stylesheet">
     <title>RGarage | Signup</title>
+    <style>
+        .loader {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        position: absolute;
+        animation: rotate 1s linear infinite
+      }
+      .loader::before , .loader::after {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        inset: 0px;
+        border-radius: 50%;
+        border: 5px solid #FFF;
+        animation: prixClipFix 2s linear infinite ;
+      }
+      .loader::after{
+        border-color: #FF3D00;
+        animation: prixClipFix 2s linear infinite , rotate 0.5s linear infinite reverse;
+        inset: 6px;
+      }
+
+      @keyframes rotate {
+        0%   {transform: rotate(0deg)}
+        100%   {transform: rotate(360deg)}
+      }
+
+      @keyframes prixClipFix {
+          0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+          25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+          50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+          75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+          100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+      }
+    </style>
 </head>
 <body class="w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-[#f3f3f3]">
+<span class="loader hidden"></span>
     <div class="w-1/2 flex items-center gap-2 mb-2">
         <a href="/RGarage/" class="hover:text-black-v1 duration-75 ease-out">Home</a>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" width="15" height="15" fill="#a8a8a8"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>
@@ -26,7 +63,7 @@
                     <p>Account created successfully!</p>
                 </div>
                 <p class="mb-3 text-white">Create your Account</p>
-                <form id="signupForm" action="/RGarage/user/auth/create" class="mb-10" method="POST" enctype="multipart/form-data">
+                <form id="signupForm" class="mb-10" method="POST" enctype="multipart/form-data">
                     <div class="w-full flex items-center justify-between gap-4 mb-4">
                         <div class="w-1/2 flex flex-col gap-1">
                             <label for="first_name">First Name</label>
@@ -73,7 +110,7 @@
                     <div>
                         <input type="file" name="profile_picture" id="" class="mb-2">
                     </div>
-                    <button class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Signup</button>
+                    <button type="submit" class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Signup</button>
                 </form>
                 <p class="text-center">Already have an account? <a href="/RGarage/user/login" class="text-white">Sign In</a></p>
             </div>
@@ -82,34 +119,36 @@
     <script>
         $(document).ready(function() {
     $('#signupForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent page reload
+        event.preventDefault(); // Prevent page reload on form submission
 
-        let formData = new FormData(this); // Use FormData to include file data
+        // Ensure the form is being submitted correctly
+        let formData = new FormData(this); // Use FormData to handle file data
 
         $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: formData,
-            processData: false, // Required for FormData
-            contentType: false, // Required for FormData
+            url: '/RGarage/user/auth/create', // You can hard-code the URL if you prefer
+            type: 'POST', // Use POST method
+            data: formData, // Send form data including files
+            processData: false, // Don't process the data as a query string
+            contentType: false, // Don't set content type for multipart form data
             success: function(response) {
+                window.location.href = '/RGarage/user/verification'; // Redirect to 
                 console.log(response);
 
-
-                // Clear the form fields
+                // Clear the form fields after successful submission
                 $('#signupForm')[0].reset();
 
-                
-                $('#response').addClass('flex').removeClass('hidden');
+                // Display success message and redirect after 2 seconds
+                // $('#response').addClass('flex').removeClass('hidden');
             },
             error: function(xhr, status, error) {
                 console.log('Error:', xhr.responseText || error);
-                // Display the exact issue to the user
+                // Display the exact error to the user
                 alert(`Error: ${xhr.responseText || error}`);
             }
         });
     });
 });
+
 
     </script>
 </body>

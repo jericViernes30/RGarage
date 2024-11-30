@@ -35,7 +35,8 @@
                     </div>
                     <button class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Login</button>
                 </form>
-                <p class="text-center">Don't have an account? <a href="#" class="text-white">Sign Up</a></p>
+                <p class="text-center text-sm">Don't have an account? <a href="/RGarage/user/signup" class="text-white">Sign Up</a></p>
+                <p class="text-center text-sm">Not verified email? <a href="/RGarage/user/verification" class="text-white">Verify Now!</a></p>
             </div>
         </div>
     </div>

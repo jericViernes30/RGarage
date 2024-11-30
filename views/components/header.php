@@ -25,7 +25,7 @@ $isLoggedIn = isset($_SESSION['user']);
             </button>
         </div>
         <div class="w-1/2 flex items-center justify-end gap-10 text-md text-white">
-            <a href="">Home</a>
+            <a href="/RGarage/">Home</a>
             <a href="#about">About</a>
             <a href="/RGarage/user/unitsAvailable">Units</a>
             <?php if ($isLoggedIn): ?>

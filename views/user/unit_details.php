@@ -25,7 +25,7 @@ $isLoggedIn = isset($_SESSION['user']);
 <body id="body" class="bg-gray-200 min-h-screen overflow-y-auto text-black-v1 pb-20">
     <div id="coverup" class="hidden bg-[#22222273] absolute top-0 w-full z-10 inset-0"></div>
     <div id="date_div" class="hidden w-1/4 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/4 rounded-xl z-20">
-        <div class="w-full flex items-center justify-between px-6 py-2 rounded-tr-xl rounded-tl-xl bg-blue-500 text-white">
+        <div class="w-full flex items-center justify-between px-6 py-2 rounded-tr-xl rounded-tl-xl bg-black-v1 text-white">
             <p>Select Date</p>
             <button type="button" id="closeDiv">
                 x
@@ -33,11 +33,32 @@ $isLoggedIn = isset($_SESSION['user']);
         </div>
         <div class="w-full px-6 py-4 rounded-br-xl rounded-bl-xl bg-white">
             <form action="/RGarage/user/reserve-unit" method="POST">
-                <input type="date" name="reserved_date" class="bg-white p-2 outline-none border border-gray-400 block mx-auto">
+                <input type="date" name="reserved_date" class="bg-white p-2 outline-none border border-gray-400 block mx-auto rounded-md">
                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id']; ?>">
                 <input type="hidden" name="unit_id" value="<?php echo $unitDetails['id'] ?>" class="bg-white">
-                <p id="availability-text" class="text-xs text-green-500 text-center mb-5">Date available!</p>
-                <button type="submit" id="reserve-btn" class="w-full py-2 bg-white border-2 border-blue-500 rounded-lg text-blue-500 hover:bg-blue-500 hover:text-white">Reserve</button>
+                <p id="availability-text" class="text-xs text-red-500 text-center mb-5">Please select a valid date!</p>
+                <div class="w-full mb-5">
+                    <p class="text-sm text-center">Estimated time of visit</p>
+                    <div class="w-full flex gap-2 items-center justify-center">
+                    <select name="hour" id="hour" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
+                        <?php 
+                            for ($i = 1; $i <= 12; $i++) {
+                                echo "<option value=\"$i\">$i</option>";
+                            }
+                        ?>
+                    </select>
+                        <p class="text-lg font-semibold">:</p>
+                        <select name="minutes" id="minutes" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
+                            <?php 
+                                for ($i = 0; $i < 60; $i++) {
+                                    $formattedMinute = str_pad($i, 2, "0", STR_PAD_LEFT); // Formats the number to 2 digits
+                                    echo "<option value=\"$formattedMinute\">$formattedMinute</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" id="reserve-btn" class="w-full py-2 bg-white border-2 border-black-v1 rounded-lg text-black-v1 hover:bg-black-v1 hover:text-white">Reserve</button>
             </form>
         </div>
     </div>
@@ -67,14 +88,20 @@ $isLoggedIn = isset($_SESSION['user']);
                 <?php if (!empty($reservedDetails)) : ?>
                     <?php foreach ($reservedDetails as $date) : ?>
                         <?php
-                        // Create a DateTime object and format it as "Month Day, Year"
-                        $formattedDate = date("F j, Y", strtotime($date));
+                        // Format the reserved_date
+                        $formattedDate = date("F j, Y", strtotime($date['reserved_date']));
+
+                        // Format the time in 12-hour format with AM/PM
+                        $formattedTime = date("g:i A", strtotime($date['time']));
                         ?>
-                        <p class="text-gray-700 mb-1"><?php echo htmlspecialchars($formattedDate); ?></p>
+                        <p class="text-gray-700 mb-1">
+                            <?php echo htmlspecialchars($formattedDate) . ' at ' . htmlspecialchars($formattedTime); ?>
+                        </p>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <p class="text-gray-500">No reservations for this unit.</p>
                 <?php endif; ?>
+
             </div>
         </div>
         <div class="w-1/2">
@@ -85,7 +112,8 @@ $isLoggedIn = isset($_SESSION['user']);
                     $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : '';
                 ?>
                 <p id="unit" class="text-2xl font-semibold mb-10"><?php echo htmlspecialchars($unitDetails['brand']) . ' ' .htmlspecialchars($unitDetails['model']) ?></p>
-                <img id="image" src="/RGarage/public/images/<?php echo $firstImage; ?>" alt="" class="w-[80%] mb-10 block mx-auto">
+                <img id="image" src="/RGarage/public/images/<?php echo $firstImage; ?>" alt="" class="w-[80%] block mx-auto">
+                <div class="text-sm mb-10 w-full text-center text-gray-400"><i><b>Note: </b>First reserve, first priority.</i></div>
                 <p>Snapshots:</p>
                 <div class="snapshots flex items-center gap-4 mb-10">
                     <?php foreach ($imageNames as $imageName): ?>
@@ -100,7 +128,7 @@ $isLoggedIn = isset($_SESSION['user']);
             
             <button type="button" 
                     id="reserve" 
-                    class="w-full <?php echo $isLoggedIn ? 'bg-blue-500 hover:bg-blue-500' : 'bg-gray-400'; ?> mb-2 text-white rounded-sm py-2 font-semibold transition duration-100 ease-in-out" 
+                    class="w-full <?php echo $isLoggedIn ? 'bg-black-v1 hover:bg-gray-800' : 'bg-gray-400'; ?> mb-2 text-white rounded-sm py-2 font-semibold transition duration-100 ease-in-out" 
                     <?php echo $isLoggedIn ? '' : 'disabled'; ?>>
                 Reserve this Unit
             </button>
@@ -110,7 +138,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 id="inquire" 
                 class="w-full rounded-sm py-2 font-semibold 
                 <?php echo $isLoggedIn 
-                    ? 'border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition duration-100 ease-in-out bg-gray-200' 
+                    ? 'border border-black-v1 text-black-v1 hover:bg-black-v1 hover:text-white transition duration-100 ease-in-out bg-gray-200' 
                     : 'bg-gray-400 disabled cursor-not-allowed'; 
                 ?>"
                 <?php echo !$isLoggedIn ? 'disabled' : ''; ?>>

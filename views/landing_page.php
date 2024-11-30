@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div id="about" class="w-4/5 h-[700px] shadow-2xl block mx-auto mb-10 py-10">
+  <div id="about" class="w-4/5 h-fit shadow-2xl block mx-auto mb-10 py-10">
     <p class="text-center text-4xl font-medium text-black-v1 mb-10">About Us</p>
     <div class="">
       <p class="text-md text-center font-medium text-black-v1 px-24 mb-10">Welcome to RGarage, your trusted destination for high-quality second-hand motorcycles and cars. Located in General Mariano Alvarez, Cavite, we pride ourselves on offering a wide selection of pre-owned vehicles that cater to all kinds of riders and drivers. Whether you're looking for a reliable motorcycle or a durable car, our team is dedicated to helping you find the perfect match for your needs and budget.</p>
@@ -38,43 +38,44 @@
       <p class="text-md text-center font-medium text-black-v1 px-24">At RGarage, we believe in transparency and customer satisfaction. Every unit in our inventory undergoes thorough inspections to ensure it meets our high standards for performance and safety. Visit us today and discover how we can help you drive away with confidence.</p>
     </div>
 
-    <div class="w-4/5 block mx-auto mt-24">
+    <div class="w-4/5 block mx-auto mt-24 mb-24">
       <div class="flex items-center justify-center gap-4">
         <!-- customers -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg text-white">New Customers</p>
-          <p class="text-[3rem] font-bold text-[#4962f1]">12</p>
-          <p class="text-sm text-[#9f9f9f]">36 customers in total</p>
+          <p class="font-light text-md text-white">Total Customers</p>
+          <p class="text-[2rem] font-bold text-[#4962f1]">12</p>
         </div>
         <!-- sold units -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg text-white">Units Sold</p>
-          <p class="text-[3rem] font-bold text-[#f149ee]">36</p>
-          <p class="text-sm text-[#9f9f9f]">21% more than last month</p>
+          <p class="font-light text-md text-white">Total Units Sold</p>
+          <p class="text-[2rem] font-bold text-[#f149ee]">36</p>
         </div>
         <!-- on hand units -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg text-white">Units on Garage</p>
-          <p class="text-[3rem] font-bold text-[#76f149]">10</p>
-          <p class="text-sm text-[#9f9f9f]">58% more than last month</p>
+          <p class="font-light text-md text-white">Units on Garage</p>
+          <p class="text-[2rem] font-bold text-[#76f149]">10</p>
         </div>
         <!-- rating -->
         <div class="w-1/4 p-4 rounded-lg bg-black-v1">
-          <p class="font-light text-lg text-white">Customers Rating</p>
+          <p class="font-light text-md text-white">Customers Rating</p>
           <div class="w-full flex items-center gap-2">
-            <p class="text-[3rem] font-bold text-[#f1dd49]">4.9/5</p>
+            <p class="text-[2rem] font-bold text-[#f1dd49]"><?php echo htmlspecialchars($average); ?>/5</p>
             <img src="public/icons/star.png" alt="" class="w-[18%]">
           </div>
-          <p class="text-sm text-[#9f9f9f]">72% of the customers</p>
         </div>
       </div>
     </div>
+    <div class="w-4/5 block mx-auto">
+      <p class="text-2xl font-medium">Location:</p>
+      <iframe class="w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1366.9598262852405!2d121.00099705365666!3d14.291303563108773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d7a81aceec13%3A0x50d035113d12e3b9!2sR%20GARAGE!5e0!3m2!1sen!2sph!4v1732892522304!5m2!1sen!2sph" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    
   </div>
 
   <!-- available brands -->
-  <div class="w-full px-24 py-2 mt-24">
+  <div class="w-4/5 block mx-auto py-2 mt-24">
     <p class="text-4xl font-medium text-black-v1 mb-10">Available Brands</p>
-    <div class="carousel carousel-end rounded-box flex gap-16">
+    <div class="carousel carousel-end rounded-box flex justify-evenly gap-16">
       <button onclick="window.location.href='/RGarage/user/honda'" class="carousel-item w-1/6 h-1/6">
         <img src="public/logo/honda.png" alt="Drink" />
       </button>
@@ -87,19 +88,13 @@
       <button onclick="window.location.href='/RGarage/user/kawasaki'" class="carousel-item w-1/6 h-1/6">
         <img src="public/logo/kawasaki.png" alt="Drink" />
       </button>
-      <button class="carousel-item w-1/6 h-1/6">
-        <img src="public/logo/toyota.png" alt="Drink" />
-      </button>
-      <button class="carousel-item w-1/6 h-1/6">
-        <img src="public/logo/mitsubishi.png" alt="Drink" />
-      </button>
     </div>
   </div>
 
   <!-- featured units -->
-  <div class="w-full px-24 py-24">
+  <div class="w-4/5 block mx-auto py-24">
     <p class="text-4xl font-medium text-black-v1 mb-10">Featured Units</p>
-    <div class="w-full flex items-center justify-evenly gap-4">
+    <div id="unit-cards-container" class="w-full flex items-center justify-evenly gap-4">
       <?php 
         $counter = 0; // Initialize the counter
         foreach ($units as $unit):
@@ -111,7 +106,7 @@
           if ($counter >= 4) break;
           $counter++;
           ?>
-          <div id="card-btn" class="card bg-base-100 w-80 shadow-xl h-[550px] text-white">
+          <div id="card-btn" class="card bg-base-100 w-80 shadow-xl h-[550px] text-white unit-card">
               <figure>
                   <img
                       src="/RGarage/public/images/<?php echo $firstImage ?>" 
@@ -125,10 +120,11 @@
                   </div>
               </div>
           </div>
-      <?php 
-      endforeach; 
-      ?>
+      <?php endforeach; ?>
     </div>
   </div>
+  <script>
+
+  </script>
 </body>
 </html>

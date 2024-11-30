@@ -9,13 +9,13 @@
 </head>
 <body class="w-full flex h-screen text-black-v1 bg-gray-200">
     <div class="w-[16%] bg-gray-700">
-        <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
+        <p class="text-white px-5 py-3 mb-6 bg-[#1b1c1e]">RGarage.</p>
         <div class="w-full flex flex-col">
-        <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
+            <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
             <a href="/RGarage/admin/reserved-units" class="py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
-            <a href="/RGarage/admin/history" class="bg-blue-500 py-2 px-5 text-white w-full">History</a>
+            <a href="/RGarage/admin/history" class="bg-[#1b1c1e] py-2 px-5 text-white w-full">History</a>
         </div>
     </div>
     <div class="w-[84%]">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="p-8 w-full">
-        <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-blue-500">
+        <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-[#1b1c1e]">
                 <div class="w-full flex justify-between border-b border-gray-300 mb-4 pb-3">
                     <p class="text-lg text-black-v1">List of Sold Units</p>
                 </div>

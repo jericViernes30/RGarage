@@ -87,13 +87,13 @@
         </div>
     </div>
     <div class="w-[16%] bg-gray-700">
-        <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
+        <p class="text-white px-5 py-3 mb-6 bg-[#1b1c1e]">RGarage.</p>
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
             <a href="/RGarage/admin/units" class="py-2 px-5 text-white w-full">Unit's List</a>
-            <a href="/RGarage/admin/reserved-units" class="bg-blue-500 py-2 px-5 text-white w-full">Reserved Units</a>
+            <a href="/RGarage/admin/reserved-units" class="bg-[#1b1c1e] py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
-            <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">History</a>
+            <a href="/RGarage/admin/history" class="py-2 px-5 text-white w-full">History</a>
         </div>
     </div>
     <div class="w-[84%]">
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="p-8 w-full">
-            <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-blue-500">
+            <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-[#1b1c1e]">
                 <div class="w-full flex justify-between border-b border-gray-300 mb-4 pb-3">
                     <p class="text-lg text-black-v1">List of Reserved Units</p>
                 </div>
@@ -126,8 +126,9 @@
                                     <th class="w-[15%] border-r border-gray-300 pl-2">Customer Name</th>
                                     <th class="w-[10%] border-r border-gray-300 pl-2">Year</th>
                                     <th class="w-[15%] border-r border-gray-300 pl-2">Brand</th>
-                                    <th class="w-[30%] border-r border-gray-300 pl-2">Model</th>
+                                    <th class="w-[20%] border-r border-gray-300 pl-2">Model</th>
                                     <th class="w-[15%] border-r border-gray-300 pl-2">Reservation Date</th>
+                                    <th class="w-[10%] border-r border-gray-300 pl-2">Status</th>
                                     <th class="w-[10%] border-r border-gray-300 pl-2">Action</th>
                                 </tr>
                             </thead>
@@ -162,10 +163,26 @@
                                         <td class="border-r border-b border-gray-300 pl-2">
                                             <?php echo htmlspecialchars(date('F j, Y', strtotime($reserved['reserved_date']))); ?>
                                         </td>
+                                        <td class="border-r border-b border-gray-300">
+                                            <?php
+                                            if ($reserved['status'] === 'Completed') {
+                                                $statusText = 'Completed';
+                                                $statusClass = 'bg-green-500 text-white';
+                                            } else {
+                                                $statusText = 'Pending';
+                                                $statusClass = 'bg-red-500 text-white';
+                                            }
+                                            ?>
+                                            <p class="w-4/5 block mx-auto py-1 rounded-full text-xs text-center <?php echo $statusClass; ?>">
+                                                <?php echo htmlspecialchars($statusText); ?>
+                                            </p>
+                                        </td>
+
                                         <td class="border-r border-b border-gray-300 px-2">
                                             <select name="action" id="" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
                                                 <option value="" disabled selected>Options</option>
                                                 <option value="sale">Sale</option>
+                                                <option value="done">Done</option>
                                                 <option value="delete">Delete</option>
                                             </select>
                                         </td>
@@ -356,6 +373,23 @@
 
                 // Reset the dropdown back to the default option
                 $(this).val('');
+            } else if(selectedOption === 'done'){
+                const row = $(this).closest('tr');
+                const reservedID = row.data('reserved_id')
+                alert(reservedID);
+                $.ajax({
+                    url: '/RGarage/admin/done-reservation',
+                    method: 'POST',
+                    data: {id: reservedID},
+                    success: function(response){
+                        alert('Unit testing and demo done!')
+                        window.location.href = '/RGarage/admin/reserved-units';
+                    },
+                    error: function(xhr, status, error){
+                        alert(error)
+                        console.error(error)
+                    }
+                })
             }
         });
 

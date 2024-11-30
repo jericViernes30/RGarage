@@ -11,13 +11,13 @@
 <body class="w-full flex h-screen bg-gray-200 text-black-v1 relative">
     <div id="overlay" class="hidden w-full h-screen absolute top-0 bg-black opacity-80"></div>
     <div id="sales" class="hidden w-1/2 h-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div class="py-2 px-6 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+        <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Unit Sales</p>
             <button type="button" id="closeForm" class="text-white">x</button>
         </div>
         <div class="w-full h-fit p-6 bg-white relative">
             <div id="or_form" class="hidden w-1/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                <div class="py-2 px-4 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+                <div class="py-2 px-4 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
                     <p class="text-white">Official Receipt</p>
                     <button type="button" id="closeForm" class="text-white">x</button>
                 </div>
@@ -169,7 +169,7 @@
         </div>
     </div>
     <div id="form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
-        <div class="py-2 px-6 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+        <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Add Unit Form</p>
             <button type="button" id="closeForm" class="text-white">x</button>
         </div>
@@ -245,19 +245,20 @@
                     <textarea name="issue" id="" rows="5" class="w-full bg-white outline-none border border-gray-400 px-4 py-1 rounded-md"></textarea>
                 </div>
                 <div class="w-full flex items-center gap-4">
-                    <button type="submit" class="w-1/6 bg-blue-500 px-10 py-2 text-white text-sm rounded-md ">Add</button>
+                    <button type="submit" class="w-1/6 bg-[#1b1c1e] px-10 py-2 text-white text-sm rounded-md ">Add</button>
                     <input type="file" name="images[]" class="bg-white text-sm" accept=".jpg" multiple required>
                 </div>
             </form>
         </div>
     </div>
     <div class="w-[16%] bg-gray-700">
-        <p class="text-white px-5 py-3 mb-6 bg-blue-500">RGarage.</p>
+        <p class="text-white px-5 py-3 mb-6 bg-[#1b1c1e]">RGarage.</p>
         <div class="w-full flex flex-col">
             <a href="/RGarage/admin/dashboard" class="py-2 px-5 text-white w-full">Dashboard</a>
-            <a href="/RGarage/admin/units" class="bg-blue-500 py-2 px-5 text-white w-full">Unit's List</a>
+            <a href="/RGarage/admin/units" class="bg-[#1b1c1e] py-2 px-5 text-white w-full">Unit's List</a>
             <a href="/RGarage/admin/reserved-units" class="py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
+            <a href="/RGarage/admin/history" class="py-2 px-5 text-white w-full">History</a>
         </div>
     </div>
     <div class="w-[84%]">
@@ -273,10 +274,10 @@
             </div>
         </div>
         <div class="p-8 w-full">
-            <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-blue-500">
+            <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-[#1b1c1e]">
                 <div class="w-full flex justify-between border-b border-gray-300 mb-4 pb-3">
                     <p class="text-lg text-black-v1">List of Units</p>
-                    <button id="add_unit" type="button" class="bg-blue-500 py-2 px-6 text-white text-sm rounded-md">Add Unit</button>
+                    <button id="add_unit" type="button" class="bg-[#1b1c1e] py-2 px-6 text-white text-sm rounded-md">Add Unit</button>
                 </div>
                 <div>
                     <div class="flex items-center gap-2 mb-3">
@@ -289,19 +290,46 @@
                                 <tr class="text-sm border-b-4 text-left">
                                     <th class="w-[5%] border-r border-gray-300 py-3 pl-2">#</th>
                                     <th class="w-[15%] border-r border-gray-300 pl-2">Plate Number</th>
-                                    <th class="w-[10%] border-r border-gray-300 pl-2">Year</th>
-                                    <th class="w-[15%] border-r border-gray-300 pl-2">Brand</th>
+                                    <th class="w-[10%] border-r border-gray-300 px-2 hover:bg-gray-300">
+                                        <button id="year" class="w-full flex items-center justify-between">
+                                            <p>Year</p>
+                                            <div class="w-fit relative h-full">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute -top-3 right-0 "><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l256 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute right-0 -top-1"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+                                            </div>
+                                            
+                                        </button>
+                                    </th>
+                                    <th class="w-[15%] border-r border-gray-300 px-2 hover:bg-gray-300">
+                                        <button id="brand" class="w-full flex items-center justify-between">
+                                            <p>Brand</p>
+                                            <div class="w-fit relative h-full">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute -top-3 right-0 "><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l256 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute right-0 -top-1"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+                                            </div>
+                                            
+                                        </button>
+                                    </th>
                                     <th class="w-[30%] border-r border-gray-300 pl-2">Model</th>
-                                    <th class="w-[15%] border-r border-gray-300 pl-2">Price</th>
+                                    <th class="w-[15%] border-r border-gray-300 px-2 hover:bg-gray-300">
+                                        <button id="price" class="w-full flex items-center justify-between">
+                                            <p>Price</p>
+                                            <div class="w-fit relative h-full">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute -top-3 right-0 "><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8l256 0c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="15" height="15" class="absolute right-0 -top-1"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+                                            </div>
+                                            
+                                        </button>
+                                    </th>
                                     <th class="w-[10%] border-r border-gray-300 pl-2">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="units-table-body">
                                 <?php if (isset($units) && !empty($units)): ?>
                                     <?php foreach ($units as $index => $unit): 
                                         $imagesString = htmlspecialchars($unit['image']); // Get the image string safely
                                         $imageNames = explode(',', $imagesString); // Split the string into an array
-                                        $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : '';
+                                        $firstImage = isset($imageNames[0]) ? trim($imageNames[0]) : ''; // First image or empty string
                                         ?>
                                         <tr>
                                             <td class="py-3 border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($index + 1); ?></td>
@@ -309,43 +337,39 @@
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['year']); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['brand']); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars($unit['model']); ?></td>
-                                            <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars(number_format($unit['shand_price'], 2)); ?></td>
+                                            <td class="border-r border-b border-gray-300 pl-2"><?php echo htmlspecialchars(number_format(str_replace(',', '', $unit['shand_price']), 2)); ?></td>
                                             <td class="border-r border-b border-gray-300 pl-2">
                                                 <select name="action" id="action_select" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
                                                     <option value="" disabled selected>Options</option>
                                                     <option value="sale"
-                                                        data-year="<?php echo $unit['year']; ?>"
-                                                        data-brand="<?php echo $unit['brand']; ?>"
-                                                        data-model="<?php echo $unit['model']; ?>"
-                                                        data-image=<?php echo $firstImage; ?>
-                                                        data-price="<?php echo $unit['shand_price']; ?>"
-                                                        data-plate_number="<?php echo $unit['plate_number']; ?>"
+                                                        data-year="<?php echo htmlspecialchars($unit['year']); ?>"
+                                                        data-brand="<?php echo htmlspecialchars($unit['brand']); ?>"
+                                                        data-model="<?php echo htmlspecialchars($unit['model']); ?>"
+                                                        data-image="<?php echo htmlspecialchars($firstImage); ?>"
+                                                        data-price="<?php echo htmlspecialchars($unit['shand_price']); ?>"
+                                                        data-plate_number="<?php echo htmlspecialchars($unit['plate_number']); ?>"
                                                     >Sale</option>
-                                                    <option value="edit" data-id="<?php echo $unit['id']; ?>" 
-                                                        data-year="<?php echo $unit['year']; ?>"
-                                                        data-brand="<?php echo $unit['brand']; ?>"
-                                                        data-model="<?php echo $unit['model']; ?>"
-                                                        data-type="<?php echo $unit['type']; ?>"
-                                                        data-plate_number="<?php echo $unit['plate_number']; ?>"
-                                                        data-mileage="<?php echo $unit['mileage']; ?>"
-                                                        data-shand_price="<?php echo $unit['shand_price']; ?>"
-                                                        data-bnew_price="<?php echo $unit['price']; ?>"
-                                                        data-thread="<?php echo $unit['thread']; ?>"
-                                                        data-color="<?php echo $unit['color']; ?>"
-                                                        data-issue="<?php echo $unit['issue']; ?>"
-                                                        data-status="<?php echo $unit['modified']; ?>">
+                                                    <option value="edit" data-id="<?php echo htmlspecialchars($unit['id']); ?>" 
+                                                        data-year="<?php echo htmlspecialchars($unit['year']); ?>"
+                                                        data-brand="<?php echo htmlspecialchars($unit['brand']); ?>"
+                                                        data-model="<?php echo htmlspecialchars($unit['model']); ?>"
+                                                        data-type="<?php echo htmlspecialchars($unit['type']); ?>"
+                                                        data-plate_number="<?php echo htmlspecialchars($unit['plate_number']); ?>"
+                                                        data-mileage="<?php echo htmlspecialchars($unit['mileage']); ?>"
+                                                        data-shand_price="<?php echo htmlspecialchars($unit['shand_price']); ?>"
+                                                        data-bnew_price="<?php echo htmlspecialchars($unit['price']); ?>"
+                                                        data-thread="<?php echo htmlspecialchars($unit['thread']); ?>"
+                                                        data-color="<?php echo htmlspecialchars($unit['color']); ?>"
+                                                        data-issue="<?php echo htmlspecialchars($unit['issue']); ?>"
+                                                        data-status="<?php echo htmlspecialchars($unit['modified']); ?>">
                                                         Edit
                                                     </option>
-                                                    <option value="delete" data-plate_number="<?php echo $unit['plate_number']; ?>">Delete</option>
+                                                    <option value="delete" data-plate_number="<?php echo htmlspecialchars($unit['plate_number']); ?>">Delete</option>
                                                 </select>
-
-                                            
-
-                                                
-
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
+
                                 <?php else: ?>
                                     <tr>
                                         <td colspan="7" class="text-center py-3">No units available</td>
@@ -533,6 +557,230 @@
                 });
             });
 
+            let sortOrder = 'asc'; // Initialize with ascending order
+
+            $('#price').on('click', function() {
+                // Toggle the sort order
+                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                // alert(sortOrder)
+                // Make AJAX request to fetch sorted data
+                $.ajax({
+                    type: 'GET', // Use GET for retrieving sorted data
+                    url: `/RGarage/admin/units/sort/price?order=${sortOrder}`, // Pass the sort order as a query parameter
+                    dataType: 'json',
+                    success: function(response) {
+                        // Check if response is valid and contains data
+                        if (response && response.status === 'success' && Array.isArray(response.data)) {
+                            console.log(response);
+                            // Clear the table body
+                            let tableBody = $('#units-table-body'); // Update with your table body ID
+                            tableBody.empty();
+
+                            // Populate table with sorted units
+                            response.data.forEach((unit, index) => {
+                                const imagesString = unit.image || '';
+                                const imageNames = imagesString.split(',');
+                                const firstImage = imageNames.length > 0 ? imageNames[0].trim() : '';
+
+                                tableBody.append(`
+                                    <tr>
+                                        <td class="py-3 border-r border-b border-gray-300 pl-2">${index + 1}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.plate_number}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.year}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.brand}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.model}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${parseFloat(unit.shand_price.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">
+                                            <select name="action" id="action_select" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
+                                                <option value="" disabled selected>Options</option>
+                                                <option value="sale"
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-image="${firstImage}"
+                                                    data-price="${unit.shand_price}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                >Sale</option>
+                                                <option value="edit" data-id="${unit.id}" 
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-type="${unit.type}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                    data-mileage="${unit.mileage}"
+                                                    data-shand_price="${unit.shand_price}"
+                                                    data-bnew_price="${unit.price}"
+                                                    data-thread="${unit.thread}"
+                                                    data-color="${unit.color}"
+                                                    data-issue="${unit.issue}"
+                                                    data-status="${unit.modified}">
+                                                    Edit
+                                                </option>
+                                                <option value="delete" data-plate_number="${unit.plate_number}">Delete</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            console.error('Invalid response format:', response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#livesearch-results').html('<p>An error occurred while fetching sorted data. Please try again.</p>');
+                    }
+                });
+            });
+
+            $('#year').on('click', function() {
+                // Toggle the sort order
+                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                // alert(sortOrder)
+                // Make AJAX request to fetch sorted data
+                $.ajax({
+                    type: 'GET', // Use GET for retrieving sorted data
+                    url: `/RGarage/admin/units/sort/year?order=${sortOrder}`, // Pass the sort order as a query parameter
+                    dataType: 'json',
+                    success: function(response) {
+                        // Check if response is valid and contains data
+                        if (response && response.status === 'success' && Array.isArray(response.data)) {
+                            console.log(response);
+                            // Clear the table body
+                            let tableBody = $('#units-table-body'); // Update with your table body ID
+                            tableBody.empty();
+
+                            // Populate table with sorted units
+                            response.data.forEach((unit, index) => {
+                                const imagesString = unit.image || '';
+                                const imageNames = imagesString.split(',');
+                                const firstImage = imageNames.length > 0 ? imageNames[0].trim() : '';
+
+                                tableBody.append(`
+                                    <tr>
+                                        <td class="py-3 border-r border-b border-gray-300 pl-2">${index + 1}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.plate_number}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.year}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.brand}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.model}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${parseFloat(unit.shand_price.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">
+                                            <select name="action" id="action_select" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
+                                                <option value="" disabled selected>Options</option>
+                                                <option value="sale"
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-image="${firstImage}"
+                                                    data-price="${unit.shand_price}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                >Sale</option>
+                                                <option value="edit" data-id="${unit.id}" 
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-type="${unit.type}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                    data-mileage="${unit.mileage}"
+                                                    data-shand_price="${unit.shand_price}"
+                                                    data-bnew_price="${unit.price}"
+                                                    data-thread="${unit.thread}"
+                                                    data-color="${unit.color}"
+                                                    data-issue="${unit.issue}"
+                                                    data-status="${unit.modified}">
+                                                    Edit
+                                                </option>
+                                                <option value="delete" data-plate_number="${unit.plate_number}">Delete</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            console.error('Invalid response format:', response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#livesearch-results').html('<p>An error occurred while fetching sorted data. Please try again.</p>');
+                    }
+                });
+            });
+
+
+            $('#brand').on('click', function() {
+                // Toggle the sort order
+                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                // alert(sortOrder)
+                // Make AJAX request to fetch sorted data
+                $.ajax({
+                    type: 'GET', // Use GET for retrieving sorted data
+                    url: `/RGarage/admin/units/sort/brand?order=${sortOrder}`, // Pass the sort order as a query parameter
+                    dataType: 'json',
+                    success: function(response) {
+                        // Check if response is valid and contains data
+                        if (response && response.status === 'success' && Array.isArray(response.data)) {
+                            console.log(response);
+                            // Clear the table body
+                            let tableBody = $('#units-table-body'); // Update with your table body ID
+                            tableBody.empty();
+
+                            // Populate table with sorted units
+                            response.data.forEach((unit, index) => {
+                                const imagesString = unit.image || '';
+                                const imageNames = imagesString.split(',');
+                                const firstImage = imageNames.length > 0 ? imageNames[0].trim() : '';
+
+                                tableBody.append(`
+                                    <tr>
+                                        <td class="py-3 border-r border-b border-gray-300 pl-2">${index + 1}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.plate_number}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.year}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.brand}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${unit.model}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">${parseFloat(unit.shand_price.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                        <td class="border-r border-b border-gray-300 pl-2">
+                                            <select name="action" id="action_select" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
+                                                <option value="" disabled selected>Options</option>
+                                                <option value="sale"
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-image="${firstImage}"
+                                                    data-price="${unit.shand_price}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                >Sale</option>
+                                                <option value="edit" data-id="${unit.id}" 
+                                                    data-year="${unit.year}"
+                                                    data-brand="${unit.brand}"
+                                                    data-model="${unit.model}"
+                                                    data-type="${unit.type}"
+                                                    data-plate_number="${unit.plate_number}"
+                                                    data-mileage="${unit.mileage}"
+                                                    data-shand_price="${unit.shand_price}"
+                                                    data-bnew_price="${unit.price}"
+                                                    data-thread="${unit.thread}"
+                                                    data-color="${unit.color}"
+                                                    data-issue="${unit.issue}"
+                                                    data-status="${unit.modified}">
+                                                    Edit
+                                                </option>
+                                                <option value="delete" data-plate_number="${unit.plate_number}">Delete</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            console.error('Invalid response format:', response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#livesearch-results').html('<p>An error occurred while fetching sorted data. Please try again.</p>');
+                    }
+                });
+            });
         })
     </script>
 </body>
