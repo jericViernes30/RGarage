@@ -20,11 +20,24 @@ $isLoggedIn = isset($_SESSION['user']);
 
 switch ($action) {
     case 'user/auth/create':
-        $controller->createUser();
+        $controller->registerUser();
         break;
     case 'user/login':
         $controller->login();
         break;
+
+    case 'user/verification':
+        $controller->verificationView();
+        break;
+
+    case 'user/verify-email':
+        $controller->verifyEmail();
+        break;
+
+    case 'user/match-codes':
+        $controller->matchCodes();
+        break;
+
     case 'user/signup':
         $controller->signup();
         break;
@@ -117,6 +130,10 @@ switch ($action) {
         $controller->userReservedUnits();
         break;
 
+    case 'user/rate':
+        $reserveController->rate();
+        break;
+
 
     case 'admin/dashboard':
         $adminController->dashboard();
@@ -158,6 +175,10 @@ switch ($action) {
         $adminController->reservedUnits();
         break;
 
+    case 'admin/done-reservation':
+        $reserveController->doneVisiting();
+        break;
+
     case 'admin/sold': 
         $adminController->addToSales();
         break;
@@ -169,6 +190,19 @@ switch ($action) {
     case 'admin/history':
         $adminController->history();
         break;
+
+    case 'admin/units/sort/price':
+        $adminController->sortByPrice();
+        break;
+
+    case 'admin/units/sort/year':
+        $adminController->sortByYear();
+        break;
+
+    case 'admin/units/sort/brand':
+        $adminController->sortByBrand();
+        break;
+        
         
     case 'http://localhost/RGarage/':
         $controller->fetchUnitsHome();
