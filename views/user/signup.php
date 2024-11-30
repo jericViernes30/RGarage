@@ -63,7 +63,7 @@
                     <p>Account created successfully!</p>
                 </div>
                 <p class="mb-3 text-white">Create your Account</p>
-                <form id="signupForm" class="mb-10" method="POST" enctype="multipart/form-data">
+                <form id="signupForm" class="mb-10 text-white" method="POST" enctype="multipart/form-data">
                     <div class="w-full flex items-center justify-between gap-4 mb-4">
                         <div class="w-1/2 flex flex-col gap-1">
                             <label for="first_name">First Name</label>
