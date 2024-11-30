@@ -267,7 +267,7 @@ class User{
 
     public function checkEmailExistence($email) {
         // Prepare the SQL query
-        $query = "SELECT * FROM users WHERE email_address = ? AND status != Verified";
+        $query = "SELECT * FROM users WHERE email_address = ? AND status != 'Verified'";
         $stmt = $this->conn->prepare($query);
     
         if ($stmt) {
@@ -332,5 +332,9 @@ class User{
         }
     }
     
+    public function countUsers(){
+        $query = "SELECT COUNT(*) FROM users";
+        $stmt = $this->conn->prepare($query);
+    }
     
 }
