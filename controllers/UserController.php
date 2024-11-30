@@ -1,5 +1,7 @@
 <?php
 
+
+require 'vendor/autoload.php';
 include_once 'models/User.php';
 include_once 'models/Activity.php';
 include_once 'models/Unit.php';
@@ -25,32 +27,41 @@ class UserController {
         $this->activity = new Activity($db);
     }
 
-    public function createUser() {
+    public function registerUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password = $_POST['password'] ?? '';
             $repeat_password = $_POST['repeat_password'] ?? '';
             $activity = 'Register';
     
-            // Log uploaded file information
-            var_dump($_FILES);
-    
+            // Check if passwords match
             if ($password === $repeat_password) {
-                $this->user->first_name = $_POST['first_name'] ?? '';
-                $this->user->last_name = $_POST['last_name'] ?? '';
-                $this->user->email_address = $_POST['email_address'] ?? '';
-                $this->user->contact_number = $_POST['contact_number'] ?? '';
-                $this->user->address = $_POST['address'] ?? '';
+                $first_name = $_POST['first_name'] ?? '';
+                $last_name = $_POST['last_name'] ?? '';
+                $email_address = $_POST['email_address'] ?? '';
+                $contact_number = $_POST['contact_number'] ?? '';
+                $address = $_POST['address'] ?? '';
+    
+                // Create the user instance and set its properties
+                $this->user->first_name = $first_name;
+                $this->user->last_name = $last_name;
+                $this->user->email_address = $email_address;
+                $this->user->contact_number = $contact_number;
+                $this->user->address = $address;
                 $this->user->password = $password;
     
+                // Handle profile picture upload if exists
                 if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
                     $profilePicture = $_FILES['profile_picture'];
     
+                    // Create user and send email verification (Handled by User model)
                     if ($this->user->createUser($profilePicture)) {
+                        // Respond with success message
                         echo json_encode([
                             "status" => "success",
-                            "message" => "User registered successfully!"
+                            "message" => "User registered successfully! Please check your email for the verification code."
                         ]);
                     } else {
+                        // Handle error in user creation
                         http_response_code(500);
                         echo json_encode([
                             "status" => "error",
@@ -58,6 +69,7 @@ class UserController {
                         ]);
                     }
                 } else {
+                    // Handle file upload error
                     http_response_code(400);
                     echo json_encode([
                         "status" => "error",
@@ -65,6 +77,7 @@ class UserController {
                     ]);
                 }
             } else {
+                // Handle password mismatch error
                 http_response_code(400);
                 echo json_encode([
                     "status" => "error",
@@ -72,13 +85,77 @@ class UserController {
                 ]);
             }
         } else {
-            http_response_code(405); // Method Not Allowed
+            // Handle invalid request method
+            http_response_code(405);
             echo json_encode([
                 "status" => "error",
                 "message" => "Invalid request method."
             ]);
         }
     }
+    
+    
+
+    public function verificationView(){
+        include 'views/user/verification.php';
+    }
+    
+    public function verifyEmail() {
+        try {
+            // Get email from POST data
+            $email = $_POST['email'] ?? null;
+    
+            if (!$email) {
+                // Return a response if email is not provided
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Email is required.'
+                ]);
+                return;
+            }
+    
+            // Check if the email exists in the database
+            $exists = $this->user->checkEmailExistence($email);
+    
+            if ($exists) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Email exists in the database.'
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Email does not exist.'
+                ]);
+            }
+        } catch (Exception $e) {
+            // Handle unexpected exceptions
+            echo json_encode([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function matchCodes(){
+        $email = $_POST['email'];
+        $verification_code = $_POST['code'];
+
+        $matched = $this->user->matchCodes($email, $verification_code);
+
+        if ($matched) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Account successfully verified!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Account verification failed.'
+            ]);
+        }
+    }
+    
     
 
     public function authLogin() {
@@ -110,7 +187,7 @@ class UserController {
             } else {
                 echo "<script>
                     alert('Error: " . $authResult['message'] . "');
-                    window.location.href = '/RGarage/user/auth/login'; // Redirect back to login page
+                    window.location.href = '/RGarage/user/login'; // Redirect back to login page
                 </script>";
             }
         }
@@ -118,26 +195,20 @@ class UserController {
     
     public function fetchUnits(){
         try {
-            // Fetch all units using the Unit model
             $units = $this->user->fetchAllUnits();
-
-            // Pass the fetched units to the view
-            include 'views/user/units.php'; // Include the view with the units data
+            include 'views/user/units.php';
         } catch (Exception $e) {
-            // Handle any exceptions that may occur
             echo "Error fetching units: " . $e->getMessage();
-            // Optionally log the error or redirect to an error page
         }
     }
 
     public function fetchUnitsHome(){
         try {
-            $units = $this->user->fetchAllUnits();
+            $average = $this->res_unit->averageRating() ?: 0;
+            $units = $this->user->fetchAllUnitsRandom();
             include 'views/landing_page.php';
         } catch (Exception $e) {
-            // Handle any exceptions that may occur
             echo "Error fetching units: " . $e->getMessage();
-            // Optionally log the error or redirect to an error page
         }
     }
     
@@ -209,19 +280,13 @@ class UserController {
     }
 
     public function displaySearch(){
-        // Check if a search key is provided
         if(isset($_GET['key']) && !empty($_GET['key'])){
             $key = $_GET['key'];
             $units = $this->unit->livesearch($key);
         } else {
-            // Fetch all units if the search key is empty
             $units = $this->unit->fetchAllUnits();
         }
-    
-        // Get the count of results
         $unitCount = count($units);
-    
-        // Return response with both units and count
         if($units){
             echo json_encode(['status' => 'success', 'data' => $units, 'count' => $unitCount]);
         } else {
@@ -230,19 +295,14 @@ class UserController {
     }
 
     public function displaySearchHonda(){
-        // Check if a search key is provided
         if(isset($_GET['key']) && !empty($_GET['key'])){
             $key = $_GET['key'];
             $units = $this->unit->livesearchHonda($key);
         } else {
-            // Fetch all units if the search key is empty
             $units = $this->unit->showAllHonda();
         }
     
-        // Get the count of results
         $unitCount = count($units);
-    
-        // Return response with both units and count
         if($units){
             echo json_encode(['status' => 'success', 'data' => $units, 'count' => $unitCount]);
         } else {
@@ -251,19 +311,14 @@ class UserController {
     }
 
     public function displaySearchKawasaki(){
-        // Check if a search key is provided
         if(isset($_GET['key']) && !empty($_GET['key'])){
             $key = $_GET['key'];
             $units = $this->unit->livesearchKawasaki($key);
         } else {
-            // Fetch all units if the search key is empty
             $units = $this->unit->showAllKawasaki();
         }
-    
-        // Get the count of results
         $unitCount = count($units);
     
-        // Return response with both units and count
         if($units){
             echo json_encode(['status' => 'success', 'data' => $units, 'count' => $unitCount]);
         } else {
@@ -272,19 +327,14 @@ class UserController {
     }
 
     public function displaySearchSuzuki(){
-        // Check if a search key is provided
         if(isset($_GET['key']) && !empty($_GET['key'])){
             $key = $_GET['key'];
             $units = $this->unit->livesearchSuzuki($key);
         } else {
-            // Fetch all units if the search key is empty
             $units = $this->unit->showAllSuzuki();
         }
     
-        // Get the count of results
         $unitCount = count($units);
-    
-        // Return response with both units and count
         if($units){
             echo json_encode(['status' => 'success', 'data' => $units, 'count' => $unitCount]);
         } else {
@@ -293,19 +343,13 @@ class UserController {
     }
 
     public function displaySearchYamaha(){
-        // Check if a search key is provided
         if(isset($_GET['key']) && !empty($_GET['key'])){
             $key = $_GET['key'];
             $units = $this->unit->livesearchYamaha($key);
         } else {
-            // Fetch all units if the search key is empty
             $units = $this->unit->showAllYamaha();
         }
-    
-        // Get the count of results
         $unitCount = count($units);
-    
-        // Return response with both units and count
         if($units){
             echo json_encode(['status' => 'success', 'data' => $units, 'count' => $unitCount]);
         } else {
@@ -313,25 +357,17 @@ class UserController {
         }
     }
 
-    // Method to filter units based on type and price order (low-high or high-low)
 public function filterUnits() {
-    // Get filter parameters from GET request and sanitize
     $type = isset($_GET['type']) ? $_GET['type'] : '';
     $price = isset($_GET['price']) ? $_GET['price'] : '';
 
-    // Call the model's filterUnits method to get filtered data
     $units = $this->unit->filterUnits($type, $price);
-    // Get the count of results
     $unitCount = count($units);
-    
-    // Prepare the response
     $response = [
         'status' => 'success',
-        'data' => $units,  // Ensure 'data' is always an array
+        'data' => $units,
         'count' => $unitCount
     ];
-
-    // If no units found, return an error message
     if (empty($units)) {
         $response = [
             'status' => 'error',
@@ -468,9 +504,4 @@ public function filterYamahaUnits() {
             echo "User ID is missing!";
         }
     }
-
-    
-    
-
-
 }
