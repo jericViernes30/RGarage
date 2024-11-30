@@ -7,6 +7,8 @@ class ReservedUnit {
     public $user_id;
     public $unit_id;
     public $date_reserved;
+    public $estimated_time;
+    public $rating;
     public $created_at;
 
     // Constructor to initialize database connection
@@ -14,29 +16,29 @@ class ReservedUnit {
         $this->conn = $db;
     }
 
-    public function reserveUnit($user_id, $unit_id, $date_reserved){
-        $query = "INSERT INTO reserved (user_id, unit_id, reserved_date) VALUES (?, ?, ?)";
+    public function reserveUnit($user_id, $unit_id, $date_reserved, $estimated_time){
+        $query = "INSERT INTO reserved (user_id, unit_id, reserved_date, time) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('sss', $user_id, $unit_id, $date_reserved);
+        $stmt->bind_param('ssss', $user_id, $unit_id, $date_reserved, $estimated_time);
         return $stmt->execute();
     }
     
     public function getReservedDates($unit_id) {
-        $query = "SELECT reserved_date FROM reserved WHERE unit_id = ?";
+        $query = "SELECT * FROM reserved WHERE unit_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $unit_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $reserved_dates = [];
         while ($row = $result->fetch_assoc()) {
-            $reserved_dates[] = $row['reserved_date'];
+            $reserved_dates[] = $row;
         }
 
         return $reserved_dates;
     }
 
     public function fetchUserReservedUnits($id){
-        $query = "SELECT reserved_date, id AS reserved_id, unit_id FROM reserved WHERE user_id = ?";
+        $query = "SELECT reserved_date, id AS reserved_id, unit_id, rating, status FROM reserved WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $id);
         $stmt->execute();
@@ -46,7 +48,9 @@ class ReservedUnit {
         while($row = $result->fetch_assoc()){
             $unit_map[$row['unit_id']] = [
                 'reserved_id' => $row['reserved_id'],
-                'reserved_date' => $row['reserved_date']
+                'reserved_date' => $row['reserved_date'],
+                'reserved_status' => $row['status'],
+                'ratingVal' => $row['rating']
             ];
         }
     
@@ -71,6 +75,8 @@ class ReservedUnit {
             $unit_details[] = [
                 'reserved_id' => $reserved_info['reserved_id'],
                 'reserved_date' => $formatted_date,
+                'reserve_status' => $reserved_info['reserved_status'],
+                'rating' => $reserved_info['ratingVal'],
                 'unit_details' => $row
             ];
         }
@@ -131,6 +137,7 @@ class ReservedUnit {
                 $result[] = [
                     'reserved_id' => $row['id'],
                     'reserved_date' => $row['reserved_date'],
+                    'status' => $row['status'],
                     'user' => $userMap[$row['user_id']] ?? null,
                     'unit' => $unitMap[$row['unit_id']] ?? null,
                 ];
@@ -149,6 +156,66 @@ class ReservedUnit {
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $this->id);
         return $stmt->execute();
+    }
+
+    public function doneVisiting() {
+        $query = "UPDATE reserved SET status = 'Completed' WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $this->id);
+        return $stmt->execute();
+    }
+
+    public function rate() {
+        // SQL query to update the rating in the 'reserved' table
+        $query = "UPDATE reserved SET rating = ? WHERE id = ?";
+        
+        // Prepare the SQL statement
+        $stmt = $this->conn->prepare($query);
+        
+        // Bind parameters (rating as integer and id as integer)
+        $stmt->bind_param('ii', $this->rating, $this->id);
+        
+        // Execute the statement and check if it was successful
+        if ($stmt->execute()) {
+            // Success, return true or a success message
+            return true;
+        } else {
+            // Failure, return false or an error message
+            return false;
+        }
+    }
+    
+    
+    public function averageRating() {
+        // Initialize variables
+        $totalRating = 0;
+        $rowCount = 0;
+    
+        // Prepare SQL query
+        $sql = "SELECT rating FROM reserved WHERE status = 'Completed'";
+    
+        // Execute the query
+        if ($result = $this->conn->query($sql)) {
+            // Loop through the result set
+            while ($row = $result->fetch_assoc()) {
+                $totalRating += $row['rating']; // Add up the ratings
+                $rowCount++; // Count the rows
+            }
+    
+            // Free the result set
+            $result->free();
+        } else {
+            // Handle query error
+            return "Error: " . $this->conn->error;
+        }
+    
+        // Calculate average rating
+        if ($rowCount > 0) {
+            $average = $totalRating / $rowCount;
+            return $average; // Return the calculated average
+        } else {
+            return "No completed reservations found."; // Handle case where no rows match
+        }
     }
     
     
