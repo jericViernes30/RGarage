@@ -118,6 +118,50 @@ public function getMessagesFromDistinctSenders()
 }
 
 
+public function getMessagesFromLatestSenderAndAdmin()
+{
+    // SQL query to get all conversations from the latest sender and Admin
+    $query = "
+        SELECT sender_name, content, created_at
+        FROM " . $this->table_name . "
+        WHERE sender_name IN (
+            'Admin', 
+            (SELECT sender_name 
+             FROM " . $this->table_name . "
+             WHERE sender_name != 'Admin'
+             ORDER BY created_at DESC
+             LIMIT 1)
+        )
+        ORDER BY created_at ASC
+    ";
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    // Create an array to hold the messages
+    $messages = [];
+
+    // Fetch the messages
+    while ($row = $result->fetch_assoc()) {
+        // Add the message data to the array
+        $messages[] = [
+            'sender_name' => $row['sender_name'],
+            'content' => $row['content'],
+            'created_at' => $row['created_at']
+        ];
+    }
+
+    // Return the messages
+    return $messages;
+}
+
+
 
     public function getMessageBySenderName($senderName) {
         // SQL query to fetch messages for the specified sender or where sender is Admin and receiver is the senderName
