@@ -23,20 +23,20 @@
                 <p class="mb-3 text-white">Login your Account</p>
                 <form action="/RGarage/user/auth/login" class="mb-10" method="POST">
                     <div class="mb-7">
-                        <label for="email">Email</label>
+                        <label for="email" class="text-gray-400">Email</label>
                         <input type="email" name="email" id="email" class="w-full mt-1 text-white px-5 py-2 border-b-2 border-white bg-[#35363a] outline-none">
                     </div>
                     <div class="mb-7">
                         <div class="w-full flex items-center justify-between">
-                            <label for="password">Password</label>
+                            <label for="password" class="text-gray-400">Password</label>
                             <a href="" class="text-red-500">Forgot password?</a>
                         </div>
                         <input type="password" name="password" id="password" class="w-full mt-1 text-white px-5 py-2 border-b-2 border-white bg-[#35363a] outline-none">
                     </div>
                     <button class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Login</button>
                 </form>
-                <p class="text-center text-sm">Don't have an account? <a href="/RGarage/user/signup" class="text-white">Sign Up</a></p>
-                <p class="text-center text-sm">Not verified email? <a href="/RGarage/user/verification" class="text-white">Verify Now!</a></p>
+                <p class="text-center text-sm text-gray-400">Don't have an account? <a href="/RGarage/user/signup" class="text-white">Sign Up</a></p>
+                <p class="text-center text-sm text-gray-400">Not verified email? <a href="/RGarage/user/verification" class="text-white">Verify Now!</a></p>
             </div>
         </div>
     </div>
