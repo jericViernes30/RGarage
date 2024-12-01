@@ -131,8 +131,9 @@
             processData: false, // Don't process the data as a query string
             contentType: false, // Don't set content type for multipart form data
             success: function(response) {
-                window.location.href = '/RGarage/user/verification'; // Redirect to 
                 console.log(response);
+                window.location.href = '/RGarage/user/verification'; // Redirect to 
+                
 
                 // Clear the form fields after successful submission
                 $('#signupForm')[0].reset();
