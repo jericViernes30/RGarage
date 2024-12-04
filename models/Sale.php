@@ -121,17 +121,18 @@ class Sale{
     while ($row = $emailResult->fetch_assoc()) {
         $emails[] = $row['email_address'];
     }
-
+    $update = "UPDATE units SET status = 'Sold' WHERE id = ?";
+    $updateStmt = $this->conn->prepare($update);
+    $updateStmt->bind_param('i', $unit_id);
+    if ($updateStmt->execute()) {
+        echo "Unit deleted successfully.";
+    } else {
+        echo "Failed to delete unit: " . $updateStmt->error;
+    }
     $emailStmt->close();
 
     // Send the emails
-    if($this->sendEmails($emails)){
-        $delete = "DELETE FROM units WHERE id = ?";
-        $deleteStmt = $this->conn->prepare($delete);
-        $deleteStmt->bind_param('i', $this->id);
-        return $deleteStmt->execute();
-    }
-
+    $this->sendEmails($emails);
     return true;
 }
 
