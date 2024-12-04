@@ -240,7 +240,7 @@ class User{
     
 
     public function fetchAllUnits() {
-        $query = "SELECT * FROM units";
+        $query = "SELECT * FROM units WHERE status = 'On Garage'";
 
         // Prepare the statement
         if ($stmt = $this->conn->prepare($query)) {
@@ -274,7 +274,7 @@ class User{
 
     public function fetchAllUnitsRandom() {
         // Query to select 4 random units
-        $query = "SELECT * FROM units ORDER BY RAND() LIMIT 4";
+        $query = "SELECT * FROM units WHERE status = 'On Garage' ORDER BY RAND() LIMIT 4";
     
         // Prepare the statement
         if ($stmt = $this->conn->prepare($query)) {
@@ -393,6 +393,47 @@ class User{
     public function countUsers(){
         $query = "SELECT COUNT(*) FROM users";
         $stmt = $this->conn->prepare($query);
+    }
+
+    public function emailRGarage($name, $number, $email, $message){
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'jericviernes06@gmail.com';
+            $mail->Password = 'ikul ouhs jrhz ffic';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            $mail->setFrom('jericviernes06@gmail.com', 'Mailer');
+            $mail->addAddress($email, 'Admin');
+            $mail->isHTML(true);
+            $mail->Subject = 'Customer Email';
+            $mail->Body = "
+                <html>
+                <head>
+                <title>Customer Email</title>
+                </head>
+                <body>
+                    <div style='width: 400px; padding: 10px;'>
+                        <div style='width: 100%; padding-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 1.25rem; margin-bottom: 2.5rem;'>
+                            <p style='font-size: 1.125rem;'>RGarage.</p>
+                        </div>
+                        <h1 style='color: #333333;'>Customer Email</h1>
+                        <p style='font-size: 1rem'>Hi, my name is $name. You can contact me on $number</p>
+                        <p>$message</p>
+                    </div>
+                </body>
+                </html>
+            ";
+            $mail->SMTPDebug = 0;  // Disable debug output
+            $mail->send();
+            header('Location: /RGarage/');
+        } catch (Exception $e) {
+            echo 'Message not sent. Mailer Error: {$mail->ErrorInfo}';
+        }
     }
     
 }
