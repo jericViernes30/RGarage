@@ -263,5 +263,16 @@ class AdminController{
             echo json_encode(['status' => 'error', 'message' => 'No units found.']);
         }
     }
+
+    public function historyLivesearch(){
+        $key = $_GET['key'];
+        $search = $this->sale->historyLivesearch($key);
+
+        if($search){
+            echo json_encode(['status' => 'success', 'data' => $search]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No units found.']);
+        }
+    }
     
 }
