@@ -19,6 +19,7 @@ class Unit {
     public $issue;
     public $image;
     public $created_at;
+    public $status;
 
     // Constructor to initialize database connection
     public function __construct($db) {
@@ -27,7 +28,7 @@ class Unit {
 
     // Fetch all units from the database
     public function fetchAllUnits() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM units WHERE status = 'On Garage'";
 
         // Prepare the statement
         if ($stmt = $this->conn->prepare($query)) {
@@ -63,6 +64,7 @@ class Unit {
         // Define the upload directory with an absolute path
         $uploadDir = 'C:/xampp/htdocs/RGarage/public/images/';
         $imageNames = []; // Array to hold names of uploaded images
+        $status = 'On Garage';
     
         // Ensure the directory exists
         if (!file_exists($uploadDir)) {
@@ -94,8 +96,8 @@ class Unit {
         $this->image = implode(',', $imageNames);
     
         // Define the SQL query
-        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, mileage, image, price, shand_price, modified, type, thread, color, issue) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (plate_number, year, brand, model, mileage, image, price, shand_price, modified, type, thread, color, issue, status) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         // Prepare the statement
         $stmt = $this->conn->prepare($query);
@@ -107,7 +109,7 @@ class Unit {
         }
     
         // Bind parameters
-        $stmt->bind_param("sssssssssssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->mileage, $this->image, $this->bnew_price, $this->shand_price, $this->modified, $this->type, $this->thread, $this->color, $this->issue,);
+        $stmt->bind_param("ssssssssssssss", $this->plate_number, $this->year, $this->brand, $this->model, $this->mileage, $this->image, $this->bnew_price, $this->shand_price, $this->modified, $this->type, $this->thread, $this->color, $this->issue, $status);
     
         // Execute the query and return the result
         return $stmt->execute();
@@ -186,7 +188,7 @@ class Unit {
     }
 
     public function showAllHonda(){
-        $query = "SELECT * FROM units WHERE brand = 'Honda'";
+        $query = "SELECT * FROM units WHERE brand = 'Honda' AND status = 'On Garage'";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -213,7 +215,7 @@ class Unit {
     }
 
     public function showAllKawasaki(){
-        $query = "SELECT * FROM units WHERE brand = 'Kawasaki'";
+        $query = "SELECT * FROM units WHERE brand = 'Kawasaki' AND status = 'On Garage'";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -240,7 +242,7 @@ class Unit {
     }
 
     public function showAllYamaha(){
-        $query = "SELECT * FROM units WHERE brand = 'Yamaha'";
+        $query = "SELECT * FROM units WHERE brand = 'Yamaha' AND status = 'On Garage'";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -267,7 +269,7 @@ class Unit {
     }
 
     public function showAllSuzuki(){
-        $query = "SELECT * FROM units WHERE brand = 'Suzuki'";
+        $query = "SELECT * FROM units WHERE brand = 'Suzuki' AND status = 'On Garage'";
 
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
@@ -299,9 +301,11 @@ class Unit {
     
         // SQL query to search for key in relevant columns
         $query = "SELECT * FROM " . $this->table_name . " 
-                  WHERE plate_number LIKE ? OR 
-                        brand LIKE ? OR 
-                        model LIKE ?";
+          WHERE (plate_number LIKE ? OR 
+                 brand LIKE ? OR 
+                 model LIKE ?) 
+          AND status = 'On Garage'";
+
     
         // Prepare the statement
         $stmt = $this->conn->prepare($query);
@@ -335,7 +339,7 @@ class Unit {
     
         // SQL query to search for key in relevant columns
         $query = "SELECT * FROM " . $this->table_name . " 
-          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Honda'";
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Honda' AND status = 'On Garage'";
 
     
         // Prepare the statement
@@ -370,7 +374,7 @@ class Unit {
     
         // SQL query to search for key in relevant columns
         $query = "SELECT * FROM " . $this->table_name . " 
-          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Kawasaki'";
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Kawasaki' AND status = 'On Garage'";
 
     
         // Prepare the statement
@@ -405,7 +409,7 @@ class Unit {
     
         // SQL query to search for key in relevant columns
         $query = "SELECT * FROM " . $this->table_name . " 
-          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Suzuki'";
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Suzuki' AND status = 'On Garage'";
 
     
         // Prepare the statement
@@ -440,7 +444,7 @@ class Unit {
     
         // SQL query to search for key in relevant columns
         $query = "SELECT * FROM " . $this->table_name . " 
-          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Yamaha'";
+          WHERE (plate_number LIKE ? OR model LIKE ?) AND brand = 'Yamaha' AND status = 'On Garage'";
 
     
         // Prepare the statement
@@ -472,7 +476,7 @@ class Unit {
     // Method to filter units based on type and price order (low-high or high-low)
 public function filterUnits($type, $priceOrder) {
     // Base query to filter by type and sort by price
-    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? ORDER BY price ";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND status = 'On Garage' ORDER BY price ";
 
     // Add sorting direction (ASC for low-high, DESC for high-low)
     if ($priceOrder === 'asc') {
@@ -507,7 +511,7 @@ public function filterUnits($type, $priceOrder) {
 
 public function filterHondaUnits($type, $priceOrder) {
     // Base query to filter by type and sort by price
-    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Honda' ORDER BY price ";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Honda' AND status = 'On Garage' ORDER BY price ";
 
     // Add sorting direction (ASC for low-high, DESC for high-low)
     if ($priceOrder === 'asc') {
@@ -542,7 +546,7 @@ public function filterHondaUnits($type, $priceOrder) {
 
 public function filterKawasakiUnits($type, $priceOrder) {
     // Base query to filter by type and sort by price
-    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Kawasaki' ORDER BY price ";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Kawasaki' AND status = 'On Garage' ORDER BY price ";
 
     // Add sorting direction (ASC for low-high, DESC for high-low)
     if ($priceOrder === 'asc') {
@@ -577,7 +581,7 @@ public function filterKawasakiUnits($type, $priceOrder) {
 
 public function filterSuzukiUnits($type, $priceOrder) {
     // Base query to filter by type and sort by price
-    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Suzuki' ORDER BY price ";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Suzuki' AND status = 'On Garage' ORDER BY price ";
 
     // Add sorting direction (ASC for low-high, DESC for high-low)
     if ($priceOrder === 'asc') {
@@ -612,7 +616,7 @@ public function filterSuzukiUnits($type, $priceOrder) {
 
 public function filterYamahaUnits($type, $priceOrder) {
     // Base query to filter by type and sort by price
-    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Yamaha' ORDER BY price ";
+    $query = "SELECT * FROM " . $this->table_name . " WHERE type = ? AND brand = 'Yamaha' AND status = 'On Garage' ORDER BY price ";
 
     // Add sorting direction (ASC for low-high, DESC for high-low)
     if ($priceOrder === 'asc') {
@@ -688,7 +692,7 @@ public function sortByPrice($order) {
     $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
 
     // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
-    $query = "SELECT * FROM units ORDER BY CAST(REPLACE(shand_price, ',', '') AS DECIMAL) $order";
+    $query = "SELECT * FROM units WHERE status = 'On Garage' ORDER BY CAST(REPLACE(shand_price, ',', '') AS DECIMAL) $order";
 
     // Prepare the SQL statement
     $stmt = $this->conn->prepare($query);
@@ -716,7 +720,7 @@ public function sortByYear($order) {
     $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
 
     // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
-    $query = "SELECT * FROM units ORDER BY year $order";
+    $query = "SELECT * FROM units WHERE status = 'On Garage' ORDER BY year $order";
 
     // Prepare the SQL statement
     $stmt = $this->conn->prepare($query);
@@ -743,7 +747,7 @@ public function sortByBrand($order) {
     $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
 
     // Use REPLACE to remove commas from the price column and cast it as DECIMAL for sorting
-    $query = "SELECT * FROM units ORDER BY brand $order";
+    $query = "SELECT * FROM units WHERE status = 'On Garage' ORDER BY brand $order";
 
     // Prepare the SQL statement
     $stmt = $this->conn->prepare($query);
@@ -764,6 +768,31 @@ public function sortByBrand($order) {
         return false;
     }
 }
+
+public function totalUnits() {
+    $query = "SELECT COUNT(*) AS total FROM units WHERE status = 'On Garage'";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    return $result['total'] ?? 0; // Return 0 if no result
+}
+
+public function totalUnitsSold() {
+    $query = "SELECT COUNT(*) AS total FROM sales";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    return $result['total'] ?? 0; // Return 0 if no result
+}
+
+public function totalCustomers() {
+    $query = "SELECT COUNT(*) AS total FROM users";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    return $result['total'] ?? 0; // Return 0 if no result
+}
+
 
 
 }
