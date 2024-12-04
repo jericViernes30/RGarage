@@ -40,13 +40,13 @@ $isLoggedIn = isset($_SESSION['user']);
                 <div class="w-full mb-5">
                     <p class="text-sm text-center">Estimated time of visit</p>
                     <div class="w-full flex gap-2 items-center justify-center">
-                    <select name="hour" id="hour" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
-                        <?php 
-                            for ($i = 1; $i <= 12; $i++) {
-                                echo "<option value=\"$i\">$i</option>";
-                            }
-                        ?>
-                    </select>
+                        <select name="hour" id="hour" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
+                            <?php 
+                                for ($i = 1; $i <= 12; $i++) {
+                                    echo "<option value=\"$i\">$i</option>";
+                                }
+                            ?>
+                        </select>
                         <p class="text-lg font-semibold">:</p>
                         <select name="minutes" id="minutes" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
                             <?php 
@@ -55,6 +55,10 @@ $isLoggedIn = isset($_SESSION['user']);
                                     echo "<option value=\"$formattedMinute\">$formattedMinute</option>";
                                 }
                             ?>
+                        </select>
+                        <select name="mode" id="mode" class="w-1/6 py-3 rounded-md text-center bg-white border border-gray-400 text-black-v1">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
                         </select>
                     </div>
                 </div>
@@ -149,14 +153,15 @@ $isLoggedIn = isset($_SESSION['user']);
         <div class="w-1/4 p-6">
             <div class="mb-10">
                 <p class="font-bold text-lg mb-1">Brand New Price: <?php echo htmlspecialchars($unitDetails['price']) ?></p>
-                <p class="font-semibold">Second Hand Price: ₱<?php echo htmlspecialchars($unitDetails['shand_price']) ?></p>
+                <p class="font-semibold">Second Hand Price: ₱<?php echo htmlspecialchars(number_format($unitDetails['shand_price'])) ?></p>
             </div>
 
             <p class="font-medium mb-2">SPECIFICATIONS:</p>
             <div class="w-full">
                 <div class="w-full flex items-center text-sm mb-1">
                     <p class="w-1/2 text-blue-800 font-semibold">Type</p>
-                    <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['id']) ?></p>
+                    <p class="w-1/2"><?php echo htmlspecialchars(ucwords($unitDetails['type'])); ?>
+                    </p>
                 </div>
                 <div class="w-full flex items-center text-sm mb-1">
                     <p class="w-1/2 text-blue-800 font-semibold">Brand</p>
@@ -175,20 +180,28 @@ $isLoggedIn = isset($_SESSION['user']);
                     <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['mileage']) ?> km</p>
                 </div>
                 <div class="w-full flex items-center text-sm mb-1">
-                    <p class="w-1/2 text-blue-800 font-semibold">Plate Number</p>
-                    <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['plate_number']) ?></p>
-                </div>
-                <div class="w-full flex items-center text-sm mb-1">
                     <p class="w-1/2 text-blue-800 font-semibold">Tire Thread</p>
                     <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['thread']) ?> / 10</p>
                 </div>
                 <div class="w-full flex items-center text-sm mb-1">
                     <p class="w-1/2 text-blue-800 font-semibold">Status</p>
-                    <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['modified']) ?></p>
+                    <p class="w-1/2">
+    <?php echo ($unitDetails['modified'] === 'true') ? 'Modified' : 'Stock'; ?>
+</p>
+
                 </div>
                 <div class="w-full flex items-center text-sm mb-1">
                     <p class="w-1/2 text-blue-800 font-semibold">Issue</p>
-                    <p class="w-1/2"><?php echo htmlspecialchars($unitDetails['issue']) ?></p>
+                    <p class="w-1/2">
+    <?php
+    if (empty($unitDetails['issue'])) {
+        echo 'None';
+    } else {
+        echo htmlspecialchars($unitDetails['issue']);
+    }
+    ?>
+</p>
+
                 </div>
             </div>
         </div>
