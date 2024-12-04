@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/RGarage/src/output.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5bf9be4e76.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Document</title>
 </head>
 <body class="w-full flex h-screen text-black-v1 bg-gray-200">
@@ -51,7 +52,7 @@
                                     <th class="w-[10%] border-r border-gray-300 pl-2">Price</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="livesearch-results">
                                 <?php if (isset($sales) && !empty($sales)): ?>
                                     <?php foreach ($sales as $index => $sale):
                                         ?>
@@ -76,7 +77,47 @@
         </div>
     </div>
     <script>
+        $(document).ready(function(){
+            $('#livesearch').on('keyup', function(){
+    var key = $(this).val();
+    $.ajax({
+        type: 'GET',
+        url: '/RGarage/admin/history/livesearch',
+        data: { key: key },
+        dataType: 'json',
+        success: function(response) {
+            console.log(response)
+            // Clear previous search results
+            $('#livesearch-results').html('');
 
+            // Check if the search was successful
+            if(response.status === 'success' && response.data.length > 0){
+                var html = '';
+                // Loop through each sale and build the table rows
+                $.each(response.data, function(index, sale) {
+                    html += '<tr>';
+                    html += '<td class="py-3 border-r border-b border-gray-300 pl-2">' + sale.or_number + '</td>';
+                    html += '<td class="border-r border-b border-gray-300 pl-2">' + sale.name + '</td>';
+                    html += '<td class="border-r border-b border-gray-300 pl-2">' + sale.created_at + '</td>';
+                    html += '<td class="border-r border-b border-gray-300 pl-2">' + sale.unit + '</td>';
+                    html += '<td class="border-r border-b border-gray-300 pl-2">' + parseFloat(sale.price).toFixed(2) + '</td>';
+                    html += '</tr>';
+                });
+                // Append the new rows to the table body
+                $('#livesearch-results').html(html);
+            } else {
+                // If no results found
+                $('#livesearch-results').html('<tr><td colspan="5" class="text-center py-3">No units found.</td></tr>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            $('#livesearch-results').html('<tr><td colspan="5" class="text-center py-3">An error occurred while searching. Please try again.</td></tr>');
+        }
+    });
+});
+
+        })
     </script>
 </body>
 </html>
