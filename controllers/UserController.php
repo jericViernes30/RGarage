@@ -204,6 +204,9 @@ class UserController {
 
     public function fetchUnitsHome(){
         try {
+            $totalUnits = $this->unit->totalUnits();
+            $totalUnitsSold = $this->unit->totalUnitsSold();
+            $totalCustomers = $this->unit->totalCustomers();
             $average = $this->res_unit->averageRating() ?: 0;
             $units = $this->user->fetchAllUnitsRandom();
             include 'views/landing_page.php';
@@ -504,4 +507,21 @@ public function filterYamahaUnits() {
             echo "User ID is missing!";
         }
     }
+
+    public function emailRGarage(){
+        // Check if form data exists before proceeding
+        if (isset($_POST['name'], $_POST['contact_number'], $_POST['email_address'], $_POST['message'])) {
+            $name = $_POST['name'];
+            $contact_number = $_POST['contact_number'];
+            $email_address = $_POST['email_address'];
+            $message = $_POST['message'];
+    
+            // Call the function to send the email
+            $email = $this->user->emailRGarage($name, $contact_number, $email_address, $message);
+        } else {
+            // Handle the case where required form fields are missing
+            echo 'Error: Missing form fields';
+        }
+    }
+    
 }
