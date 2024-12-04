@@ -13,13 +13,13 @@
     <div id="sales" class="hidden w-1/2 h-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Unit Sales</p>
-            <button type="button" id="closeForm" class="text-white">x</button>
+            <button type="button" id="closeFormSales" class="text-white">x</button>
         </div>
         <div class="w-full h-fit p-6 bg-white relative">
             <div id="or_form" class="hidden w-1/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 <div class="py-2 px-4 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
                     <p class="text-white">Official Receipt</p>
-                    <button type="button" id="closeForm" class="text-white">x</button>
+                    <button type="button" id="closeFormReceipt" class="text-white">x</button>
                 </div>
                 <div class="w-full h-fit p-4 bg-white rounded-br-lg rounded-bl-lg">
                     <form action="/RGarage/admin/walk-in-sold" method="POST">
@@ -29,9 +29,9 @@
                         <input id="input_contact_number" type="hidden" name="contact_number" class="bg-white">
                         <input id="input_email_address" type="hidden" name="email_address" class="bg-white">
                         <input id="input_unit" type="hidden" name="unit">
-                        <input id="input_plateNumber" type="text" name="plateNumber" class="bg-white">
+                        <input id="input_plateNumber" type="hidden" name="plateNumber" class="bg-white">
                         <input type="text" name="or_number" class="w-full px-3 py-2 rounded-md outline-none border border-gray-600 bg-white mb-4">
-                        <button class="bg-blue-500 w-full py-2 rounded-md text-white font-bold text-sm">SOLD</button>
+                        <button class="bg-[#1b1c1e] w-full py-2 rounded-md text-white font-bold text-sm">SOLD</button>
                     </form>
                 </div>
             </div>
@@ -78,15 +78,15 @@
                         </div>
                     </div>
                     <div>
-                        <button type="button" id="confirm" class="w-full bg-blue-500 text-white rounded-lg py-2 mb-3">Confirm Purchase</button>
+                        <button type="button" id="confirm" class="w-full bg-[#1b1c1e] text-white rounded-lg py-2 mb-3">Confirm Purchase</button>
                         <button class="text-red-500 py-2 text-center px-6 block mx-auto">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="edit_form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
-        <div class="py-2 px-6 flex items-center justify-between bg-blue-500 rounded-tr-lg rounded-tl-lg">
+    <div id="edit_form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white z-20">
+        <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Edit Unit Details</p>
             <button type="button" id="closeEditForm" class="text-white">x</button>
         </div>
@@ -163,12 +163,12 @@
                 </div>
                 <div class="w-full flex items-center gap-4">
                     <input type="hidden" name="id">
-                    <button type="submit" class="w-1/6 bg-blue-500 px-10 py-2 text-white text-sm rounded-md ">Save</button>
+                    <button type="submit" class="w-1/6 bg-[#1b1c1e] px-10 py-2 text-white text-sm rounded-md ">Save</button>
                 </div>
             </form>
         </div>
     </div>
-    <div id="form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white">
+    <div id="form" class="hidden w-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white z-20">
         <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Add Unit Form</p>
             <button type="button" id="closeForm" class="text-white">x</button>
@@ -266,16 +266,14 @@
     <div class="w-[84%]">
         <div class="w-full py-3 flex justify-between bg-white shadow-xl">
             <div class="flex items-center gap-8 pl-8">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="23" height="23" fill="#000">
-                    <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
-                </svg>
+                
                 <p class="pt-[2px] text-gray-400 text-sm">RGarage: Pre-owned Motorcycles Dealership System - Admin</p>
             </div>
             <div class="px-16 flex items-center">
                 <p class="text-black-v1">Administrator Admin</p>
             </div>
         </div>
-        <div class="p-8 w-full">
+        <div class="p-8 w-full z-0">
             <div class="bg-white w-full p-5 rounded-lg border-2 border-gray-300 border-t-4 border-t-[#1b1c1e]">
                 <div class="w-full flex justify-between border-b border-gray-300 mb-4 pb-3">
                     <p class="text-lg text-black-v1">List of Units</p>
@@ -496,6 +494,11 @@
             $('#closeEditForm').on('click', function(){
                 $('#overlay').addClass('hidden')
                 $('#edit_form').addClass('hidden')
+            })
+
+            $('#closeFormSales').on('click', function(){
+                $('#overlay').addClass('hidden')
+                $('#sales').addClass('hidden')
             })
 
             $('#livesearch').on('keyup', function(){
