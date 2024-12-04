@@ -143,6 +143,10 @@ switch ($action) {
         $adminController->dashboard();
         break;
 
+    case 'admin/history/livesearch':
+        $adminController->historyLivesearch();
+        break;
+
     case 'admin/login':
         $adminController->login();
         break;
