@@ -101,9 +101,7 @@
     <div class="w-[84%]">
         <div class="w-full py-3 flex justify-between bg-white shadow-xl">
             <div class="flex items-center gap-8 pl-8">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="23" height="23" fill="#000">
-                    <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
-                </svg>
+                
                 <p class="pt-[2px] text-gray-400 text-sm">RGarage: Pre-owned Motorcycles Dealership System - Admin</p>
             </div>
             <div class="px-16 flex items-center">
@@ -169,6 +167,9 @@
                                             <?php
                                             if ($reserved['status'] === 'Completed') {
                                                 $statusText = 'Completed';
+                                                $statusClass = 'bg-blue-500 text-white';
+                                            } elseif($reserved['status'] === 'Sold') {
+                                                $statusText = 'Sold';
                                                 $statusClass = 'bg-green-500 text-white';
                                             } else {
                                                 $statusText = 'Pending';
