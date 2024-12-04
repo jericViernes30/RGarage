@@ -208,7 +208,7 @@ class ReservedUnit {
         $rowCount = 0;
     
         // Prepare SQL query
-        $sql = "SELECT rating FROM reserved WHERE status = 'Completed'";
+        $sql = "SELECT rating FROM reserved WHERE status = 'Completed' OR status = 'Sold'";
     
         // Execute the query
         if ($result = $this->conn->query($sql)) {
