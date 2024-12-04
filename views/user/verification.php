@@ -31,12 +31,12 @@
                     </div>
                     <div id="verification" class="mb-10 hidden">
                         <div class="w-full flex items-center gap-2">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
-                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
+                            <input autocomplete="off" class="w-1/6 h-14 rounded-md outline-none border border-gray-400 text-center text-3xl text-black-v1" type="text" name="code">
                         </div>
                     </div>
                     <button class="w-full bg-black-v1 text-white border-2 border-white py-2 rounded-lg  hover:border-black-v1 hover:bg-white hover:text-black-v1 duration-75 ease-in">Continue</button>
