@@ -20,7 +20,8 @@ class ReserveController{
         $reserved_date = $_POST['reserved_date'];
         $hour = $_POST['hour'];
         $minute = $_POST['minutes'];
-        $time = $hour . ':' . $minute;
+        $mode = $_POST['mode'];
+        $time = $hour . ':' . $minute . ' ' . $mode;
 
         $save = $this->reserve->reserveUnit($user_id, $unit_id, $reserved_date, $time);
 
