@@ -134,9 +134,21 @@ switch ($action) {
         $reserveController->rate();
         break;
 
+    case 'user/send-email':
+        $controller->emailRGarage();
+        break;
+
 
     case 'admin/dashboard':
         $adminController->dashboard();
+        break;
+
+    case 'admin/login':
+        $adminController->login();
+        break;
+
+    case 'admin/auth-admin':
+        $adminController->authAdmin();
         break;
 
     case 'admin/units':
