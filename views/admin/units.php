@@ -10,7 +10,7 @@
 </head>
 <body class="w-full flex h-screen bg-gray-200 text-black-v1 relative">
     <div id="overlay" class="hidden w-full h-screen absolute top-0 bg-black opacity-80"></div>
-    <div id="sales" class="hidden w-1/2 h-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div id="sales" class="hidden w-1/2 h-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
         <div class="py-2 px-6 flex items-center justify-between bg-[#1b1c1e] rounded-tr-lg rounded-tl-lg">
             <p class="text-white">Unit Sales</p>
             <button type="button" id="closeFormSales" class="text-white">x</button>
@@ -38,8 +38,8 @@
             <div id="order_details" class="w-full flex gap-2 z-0">
                 <div class="w-2/5 border border-gray-400 rounded-lg px-4">
                     <p class="text-center font-medium mb-3 text-lg mt-2">Billing Details</p>
-                    <div class="w-[120px] h-[120px] rounded-sm block mx-auto border-2 mb-6">
-                        <img src="/RGarage/public/images/beat_2.jpg" alt="" class="w-full h-full object-cover rounded-lg">
+                    <div class="w-[120px] h-[120px] rounded-full flex justify-center items-center mx-auto border-2 mb-6 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="75" height="75"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
                     </div>
                     <div class="mb-4">
                         <p class="text-xs mb-1">Billed To</p>
@@ -454,8 +454,12 @@
                     $('#bill_brand').text(brand);
                     $('#bill_model').text(model);
                     $('#unit_image').attr('src', `/RGarage/public/images/${image}`);
+                    function formatNumber(number) {
+                        return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    }
                     
-                    $('#input_pay').val(price)
+                    $('#input_pay').val(formatNumber(price));
+
                     $('#input_plateNumber').val(plateNumber)
                     $('#input_unit').val(year + ' ' + brand + ' ' + model)
 

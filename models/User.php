@@ -407,8 +407,8 @@ class User{
             $mail->Password = 'ikul ouhs jrhz ffic';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
-            $mail->setFrom('jericviernes06@gmail.com', 'Mailer');
-            $mail->addAddress($email, 'Admin');
+            $mail->setFrom($email, 'Customer');
+            $mail->addAddress('galindo.marklim.eccbscs@gmail.com', 'Admin');
             $mail->isHTML(true);
             $mail->Subject = 'Customer Email';
             $mail->Body = "
@@ -423,7 +423,8 @@ class User{
                         </div>
                         <h1 style='color: #333333;'>Customer Email</h1>
                         <p style='font-size: 1rem'>Hi, my name is $name. You can contact me on $number</p>
-                        <p>$message</p>
+                        <p style='margin-bottom: 10px;'>$message</p>
+                        <p>Email me here: $email</p>
                     </div>
                 </body>
                 </html>
