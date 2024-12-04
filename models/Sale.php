@@ -207,11 +207,36 @@ public function sendEmails($emails)
     }
 }
 
+public function historyLivesearch($key) {
+    // Escape the search keyword to prevent SQL injection
+    $key = '%' . $key . '%';
 
+    // SQL query to search in or_number, name, and unit columns
+    $sql = "SELECT * FROM sales WHERE or_number LIKE ? OR name LIKE ? OR unit LIKE ?";
 
+    // Prepare the SQL statement
+    if ($stmt = $this->conn->prepare($sql)) {
+        // Bind the parameter to the prepared statement
+        $stmt->bind_param("sss", $key, $key, $key);
 
+        // Execute the query
+        $stmt->execute();
 
+        // Get the result of the query
+        $result = $stmt->get_result();
 
+        // Fetch all rows from the result
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
 
+        // Close the statement
+        $stmt->close();
+
+        // Return the result rows
+        return $rows;
+    } else {
+        // Return an error if the statement couldn't be prepared
+        return "Error preparing the query.";
+    }
+}
 
 }
