@@ -82,16 +82,7 @@ $isLoggedIn = isset($_SESSION['user']);
         <div class="w-full flex gap-6">
             <div class="w-1/4">
                 <div class="w-full py-5">
-                    <p class="uppercase text-lg font-semibold">SEARCH OPTIONS</p>
-                    <p class="uppercase font-light">Find your motorcycle</p>
-                </div>
-                <div>
-                    <select name="brand" id="" class="outline-none bg-gray-200 w-full py-2 px-6 rounded-sm border border-[#c4c4c4]">
-                        <option disabled selected value="" class="w-full py-4 bg-gray-200">BRAND</option>
-                        <option value="">HONDA</option>
-                        <option value="">YAMAHA</option>
-                        <option value="">KAWASAKI</option>
-                    </select>
+                    <p class="uppercase text-lg font-semibold">Your reserved units</p>
                 </div>
             </div>
             <div class="w-3/4">
@@ -106,11 +97,11 @@ $isLoggedIn = isset($_SESSION['user']);
                                 <div class="w-full flex items-center justify-between">
                                     <p class="w-1/2 text-left text-lg font-semibold uppercase"><?php echo $unitDetails['brand']; ?> <?php echo $unitDetails['model']; ?></p>
                                     <div class="w-1/2 flex flex-col items-end justify-end">
-                                        <?php if ($unit['reserve_status'] === 'Completed' && $unit['rating'] != 0) : ?>
-                                            <p class="w-1/2 px-4 py-1 rounded-full bg-yellow-300 text-black-v1 text-md font-semibold uppercase text-center">
+                                        <?php if ($unit['reserve_status'] === 'Completed' || $unit['reserve_status'] === 'Sold' && $unit['rating'] != 0) : ?>
+                                            <p class="w-1/2 px-4 py-1 rounded-full bg-green-300 text-black-v1 text-md font-semibold uppercase text-center">
                                                 Rate: <?php echo htmlspecialchars($unit['rating']); ?> stars
                                             </p>
-                                        <?php elseif ($unit['reserve_status'] === 'Completed' && $unit['rating'] == 0) : ?>
+                                        <?php elseif ($unit['reserve_status'] === 'Completed' || $unit['reserve_status'] === 'Sold' && $unit['rating'] == 0) : ?>
                                             <button type="button" id="rateBtn" data-val="<?php echo $unit['reserved_id']; ?>" class="w-1/2 px-6 py-1 rounded-full text-md bg-yellow-300 font-semibold uppercase">Rate</button>
                                         <?php else : ?>
                                             <p class="w-1/2 px-4 py-1 rounded-full bg-[#1b1c1e] text-white text-md font-semibold uppercase text-center">
@@ -185,9 +176,7 @@ $isLoggedIn = isset($_SESSION['user']);
         $("[id^='star']").click(function() { // Select elements with IDs starting with 'star'
             selectedRating = $(this).index(); // 1-based index (index starts from 0)
             const id = $('#id_rate').val()
-            alert(id)
             updateStars(selectedRating); // Update the stars' colors
-            alert(`Rating selected: ${selectedRating}`); // Show rating for debugging
 
             $.ajax({
                 url: '/RGarage/user/rate',
