@@ -131,6 +131,7 @@
             processData: false, // Don't process the data as a query string
             contentType: false, // Don't set content type for multipart form data
             success: function(response) {
+                alert('Success: Account created successfully!')
                 console.log(response);
                 window.location.href = '/RGarage/user/verification'; // Redirect to 
                 
