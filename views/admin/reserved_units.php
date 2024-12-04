@@ -184,8 +184,9 @@
                                         <td class="border-r border-b border-gray-300 px-2">
                                             <select name="action" id="" class="block py-1 bg-white border rounded-sm outline-none text-center w-4/5 mx-auto">
                                                 <option value="" disabled selected>Options</option>
-                                                <option value="sale">Sale</option>
-                                                <option value="done">Done</option>
+                                                <option value="sale" <?php echo ($reserved['status'] == 'Sold' || $reserved['status'] == 'Completed') ? 'disabled' : ''; ?>>Sale</option>
+<option value="done" <?php echo ($reserved['status'] == 'Sold' || $reserved['status'] == 'Completed') ? 'disabled' : ''; ?>>Done</option>
+
                                                 <option value="delete">Delete</option>
                                             </select>
                                         </td>
