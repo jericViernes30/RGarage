@@ -2898,6 +2898,11 @@ html {
   background-color: rgb(253 224 71 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#969191\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(150 145 145 / var(--tw-bg-opacity));
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
