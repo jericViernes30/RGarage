@@ -17,9 +17,10 @@ class ReservedUnit {
     }
 
     public function reserveUnit($user_id, $unit_id, $date_reserved, $estimated_time){
-        $query = "INSERT INTO reserved (user_id, unit_id, reserved_date, time) VALUES (?, ?, ?, ?)";
+        $status = 'Reserved';
+        $query = "INSERT INTO reserved (user_id, unit_id, reserved_date, time, status) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ssss', $user_id, $unit_id, $date_reserved, $estimated_time);
+        $stmt->bind_param('sssss', $user_id, $unit_id, $date_reserved, $estimated_time, $status);
         return $stmt->execute();
     }
     
@@ -165,6 +166,13 @@ class ReservedUnit {
         return $stmt->execute();
     }
 
+    public function soldStatus(){
+        $query = "UPDATE reserved SET status = 'Sold' WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $this->id);
+        return $stmt->execute();
+    }
+
     public function rate() {
         // SQL query to update the rating in the 'reserved' table
         $query = "UPDATE reserved SET rating = ? WHERE id = ?";
@@ -217,6 +225,8 @@ class ReservedUnit {
             return "No completed reservations found."; // Handle case where no rows match
         }
     }
+
+
     
     
 }

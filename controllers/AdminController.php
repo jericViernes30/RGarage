@@ -11,6 +11,7 @@ class AdminController{
     private $activity;
     private $reserved;
     private $sale;
+    private $user;
 
     public function __construct() {
         // Get the database connection
@@ -22,6 +23,34 @@ class AdminController{
         $this->activity = new Activity($db);
         $this->reserved = new ReservedUnit($db);
         $this->sale = new Sale($db);
+        $this->user = new User($db);
+    }
+
+    public function login(){
+        include 'views/admin/admin_login.php';
+    }
+
+    public function createAdmin(){
+        $create = $this->user->createAdmin();
+        if($create){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public function authAdmin(){
+        $admin_id = $_POST['admin_id'];
+        $admin_password = $_POST['password'];
+        $this->user->admin_id = $admin_id;
+        $this->user->admin_password = $admin_password;
+        $auth = $this->user->authAdmin();
+
+        if($auth){
+            $this->dashboard();
+        } else {
+            header('Location: /RGarage/admin/login');
+        }
     }
 
     public function displayUnits() {
@@ -148,9 +177,16 @@ class AdminController{
         }
 
         if($this->sale->sold()){
+            $this->sale->id = htmlspecialchars(strip_tags($_POST['reservedID']));
             $this->reserved->id = htmlspecialchars(strip_tags($_POST['reservedID']));
-            $this->reserved->deleteRow();
-            header('Location: /RGarage/admin/dashboard');
+            // Get the current date as sold_date
+            $emails = $this->sale->getAllEmailOfUserID();
+            $this->unit = $this->sale->unit;
+            if($emails){
+                $this->reserved->soldStatus();
+                header('Location: /RGarage/admin/dashboard');
+                exit();
+            }
         }
     }
 

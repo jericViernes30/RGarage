@@ -18,11 +18,69 @@ class User{
     public $status = 'Not Verified';
     public $verification_code;
     public $password;
+    public $admin_password;
+    public $admin_id;
 
     // database connection
     public function __construct($db)
     {
         $this->conn = $db;
+    }
+
+    public function createAdmin() {
+        // Define admin details
+        $admin_id = 'ADMIN_001';
+        $password = 'admin_001';
+        $email = 'jericviernes06@gmail.com';
+    
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    
+        // Prepare SQL query using placeholders to prevent SQL injection
+        $query = "INSERT INTO admin (admin_id, email, password) VALUES (?,?,?)";
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Bind the parameters
+        $stmt->bind_param('sss', $admin_id, $email, $hashed_password);
+    
+        // Execute the query
+        if ($stmt->execute()) {
+            echo "Admin created successfully.";
+        } else {
+            echo "Error creating admin.";
+        }
+    }
+
+    public function authAdmin(){
+        $query = "SELECT * FROM admin WHERE admin_id = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $this->admin_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+    
+            // Check if password is correct
+            if (password_verify($this->password, $row['password'])) {
+                return [
+                    'status' => true,
+                    'message' => 'Login successful.'
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => 'Invalid password.'
+                ];
+            }
+        } else {
+            return [
+                'status' => false,
+                'message' => 'User not found.'
+            ];
+        }
     }
 
     // Method to create a new user
