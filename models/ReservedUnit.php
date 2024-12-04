@@ -25,7 +25,7 @@ class ReservedUnit {
     }
     
     public function getReservedDates($unit_id) {
-        $query = "SELECT * FROM reserved WHERE unit_id = ?";
+        $query = "SELECT * FROM reserved WHERE unit_id = ? ORDER BY created_at ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('s', $unit_id);
         $stmt->execute();
@@ -34,9 +34,10 @@ class ReservedUnit {
         while ($row = $result->fetch_assoc()) {
             $reserved_dates[] = $row;
         }
-
+    
         return $reserved_dates;
     }
+    
 
     public function fetchUserReservedUnits($id){
         $query = "SELECT reserved_date, id AS reserved_id, unit_id, rating, status FROM reserved WHERE user_id = ?";
@@ -154,6 +155,13 @@ class ReservedUnit {
     
     public function deleteRow(){
         $query = "DELETE FROM reserved WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $this->id);
+        return $stmt->execute();
+    }
+
+    public function deleteFromUnit(){
+        $query = "DELETE FROM units WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $this->id);
         return $stmt->execute();
