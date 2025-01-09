@@ -18,6 +18,7 @@
             <a href="/RGarage/admin/reserved-units" class="py-2 px-5 text-white w-full">Reserved Units</a>
             <a href="/RGarage/admin/messages" class="py-2 px-5 text-white w-full">Messages</a>
             <a href="/RGarage/admin/history" class="py-2 px-5 text-white w-full">History</a>
+            <button id="print" class="py-2 px-5 text-white text-left w-full">Print Deed of Sale</button>
         </div>
     </div>
     <div class="w-[84%]">
@@ -89,5 +90,14 @@
             </div>
         </div>
     </div>
+<script>
+    document.getElementById('print').addEventListener('click', function() {
+        // File path to the .pdf file
+        const filePath = '/RGarage/public/deed-of-sale.pdf'; // Replace with the actual path
+
+        // Open the .pdf file in a new tab
+        window.open(filePath, '_blank');
+    });
+</script>
 </body>
 </html>
