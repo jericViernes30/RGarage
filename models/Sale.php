@@ -19,8 +19,21 @@ class Sale{
     }
 
     public function sold(){
-        $query = "INSERT INTO sales (name, contact, email, unit, price, or_number) VALUES (?, ?, ?, ?, ?, ?)";
+        // Check if the or_number is unique
+        $checkQuery = "SELECT COUNT(*) as count FROM sales WHERE or_number = ?";
+        $checkStmt = $this->conn->prepare($checkQuery);
+        $checkStmt->bind_param('s', $this->or_number);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
+        $row = $checkResult->fetch_assoc();
 
+        if ($row['count'] > 0) {
+            // or_number is not unique
+            return false;
+        }
+
+        // Insert the sale if or_number is unique
+        $query = "INSERT INTO sales (name, contact, email, unit, price, or_number) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ssssis', $this->name, $this->contact, $this->email, $this->unit, $this->price, $this->or_number);
         return $stmt->execute();
