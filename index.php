@@ -122,6 +122,10 @@ switch ($action) {
         $controller->filterYamahaUnits();
         break;
 
+    case 'user/profile':
+        $controller->profileView();
+        break;  
+
     case 'user/reserve-unit':
         $reserveController->reserveUnit();
         break;
@@ -181,6 +185,10 @@ switch ($action) {
 
     case 'admin/send-message':
         $messageController->sendAdminMessage();
+        break;
+
+    case 'admin/send-image':
+        $messageController->sendImage();
         break;
 
     case 'admin/get-recent-messages':
