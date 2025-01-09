@@ -18,6 +18,58 @@ class MessageController
         $this->msg = new Message($db);
     }
 
+    public function sendImage() {
+        // Check if the request method is POST and the file is uploaded
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
+            $image = $_FILES['image'];
+
+            // Validate the image file
+            if ($image['error'] !== UPLOAD_ERR_OK) {
+                return json_encode(['status' => 'error', 'message' => 'Failed to upload image']);
+            }
+
+            // Define the target directory and file path
+            $targetDir = 'C:/xampp/htdocs/RGarage/public/images/uploads/';
+            $targetFilePath = $targetDir . basename($image['name']);
+            ?>
+                <script>
+                    console.log('Image path: <?php echo $targetFilePath; ?>');
+                    console.log('Receiver <?php echo $_POST['receiver']; ?>');
+                </script>
+            <?php
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($image['tmp_name'], $targetFilePath)) {
+                // Save the image file path and other details in the database
+                $this->msg->image_path = basename($image['name']);
+                $this->msg->receiver_name = $_POST['receiver'] ?? 'Unknown';
+                $this->msg->sender_name = 'Admin';
+                $this->msg->created_at = date('Y-m-d H:i:s');
+
+                // Save the message with the image file path
+                $isSaved = $this->msg->saveMessageWithImagePath();
+
+                // Set the content type header for JSON response
+                header('Content-Type: application/json');
+
+                if ($isSaved) {
+                    return json_encode(['status' => 'success', 'message' => 'Image sent successfully']);
+                } else {
+                    return json_encode(['status' => 'error', 'message' => 'Failed to save image message']);
+                }
+            } else {
+                return json_encode(['status' => 'error', 'message' => 'Failed to move uploaded image']);
+            }
+        } else {
+            return json_encode(['status' => 'error', 'message' => 'Invalid request']);
+        }
+    }
+
     public function storeMessage($messageContent)
     {
         // Validate message
