@@ -136,8 +136,8 @@ November 25, 2024:
 revision:
 
 
-- reservation button
-- hyperlink for LTO
-- deed of sale print
-- upload image in message box
-- unique OR number
+- reservation button /
+- hyperlink for LTO /
+- deed of sale print /
+- upload image in message box /
+- unique OR number /
