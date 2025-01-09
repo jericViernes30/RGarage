@@ -110,21 +110,21 @@ foreach ($units as $unit):
 
     $counter++;
     ?>
-		          <div id="card-btn" class="card bg-base-100 w-80 shadow-xl h-[550px] text-white unit-card">
-		              <figure>
-		                  <img
-		                      src="/RGarage/public/images/<?php echo $firstImage ?>"
-		                      alt="<?php echo $firstImage ?>" />
-		              </figure>
-		              <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
-		                  <h2 class="card-title text-sm"><?php echo $unit['year'] . ' ' . $unit['brand'] . ' ' . $unit['model'] ?></h2>
-		                  <p class="text-xs">For only <?php echo number_format($unit['shand_price']); ?>.00!</p>
-		                  <div class="card-actions justify-end">
-		                      <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo $unit['id'] ?>'" id="inquire" data-id="<?php echo $unit['id'] ?>" type="button" class="btn btn-primary inquire-btn">Inquire Now</button>
-		                  </div>
-		              </div>
-		          </div>
-		      <?php endforeach;?>
+			          <div id="card-btn" class="card bg-base-100 w-80 shadow-xl h-[550px] text-white unit-card">
+			              <figure>
+			                  <img
+			                      src="/RGarage/public/images/<?php echo $firstImage ?>"
+			                      alt="<?php echo $firstImage ?>" />
+			              </figure>
+			              <div class="card-body bg-black-v1 rounded-bl-2xl rounded-br-2xl">
+			                  <h2 class="card-title text-sm"><?php echo $unit['year'] . ' ' . $unit['brand'] . ' ' . $unit['model'] ?></h2>
+			                  <p class="text-xs">For only <?php echo number_format($unit['shand_price']); ?>.00!</p>
+			                  <div class="card-actions justify-end">
+			                      <button onclick="window.location.href='/RGarage/user/unit-detail?unitID=<?php echo $unit['id'] ?>'" id="inquire" data-id="<?php echo $unit['id'] ?>" type="button" class="btn btn-primary inquire-btn">Inquire Now</button>
+			                  </div>
+			              </div>
+			          </div>
+			      <?php endforeach;?>
     </div>
   </div>
 
@@ -178,6 +178,13 @@ foreach ($units as $unit):
         </form>
       </div>
     <div>
+  </div>
+  </div>
+  </div>
+
+  <div class="w-full bg-black-v1 py-4 flex items-center justify-center gap-10">
+    <p class="text-white">All rights reserved.</p>
+    <a href="https://lto.gov.ph/?appgw_azwaf_jsc=7mMZKmosfZ8dgLxXZCiRxaJ2I5NI-zmdZISQv2bskj0" target="_blank" class="text-blue-500">For latest news in the road, please visit the LTO official website.</a>
   </div>
 </body>
 </html>
