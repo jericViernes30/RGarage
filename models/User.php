@@ -436,5 +436,8 @@ class User{
             echo 'Message not sent. Mailer Error: {$mail->ErrorInfo}';
         }
     }
-    
+ 
+    public function profileView(){
+        $query = "SELECT * FROM users WHERE id = ?";
+    }
 }
