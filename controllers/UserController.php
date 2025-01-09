@@ -523,5 +523,9 @@ public function filterYamahaUnits() {
             echo 'Error: Missing form fields';
         }
     }
+
+    public function profileView(){
+        include 'views/user/profile.php';
+    }
     
 }
