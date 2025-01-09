@@ -8,11 +8,42 @@ class Message
     public $sender_name;
     public $receiver_name;
     public $content;
+    public $image_path;
     public $created_at;
 
     public function __construct($db)
     {
         $this->conn = $db;
+    }
+
+    public function saveMessageWithImagePath()
+    {
+        $type = 'image';
+        $content = 'Image sent'; // Default message content
+        // Prepare the SQL query to insert the message into the database
+        $query = "INSERT INTO " . $this->table_name . " (sender_name, receiver_name, content, image_path, type) 
+                  VALUES (?, ?, ?, ?, ?)";
+
+        // Reconnect to the database if the connection has gone away
+        if (!$this->conn->ping()) {
+            $this->conn->close();
+            $this->conn->connect();
+        }
+
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+
+        // Bind parameters to the query to prevent SQL injection
+        $stmt->bind_param("sssss", $this->sender_name, $this->receiver_name, $content, $this->image_path, $type);
+
+        // Execute the query and check if it was successful
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true; // Success
+        } else {
+            $stmt->close();
+            return false; // Failure
+        }
     }
 
     // Method to save message to the database
@@ -22,20 +53,21 @@ class Message
     $timezone = new DateTimeZone('Asia/Manila');
 
     // Get the current time in Philippine Standard Time (PST)
-    $now = new DateTime('now', $timezone);;
+    $now = new DateTime('now', $timezone);
+    $type = 'text'; // Default message type
 
     // Format the UTC time to store in the database
     $this->created_at = $now->format('Y-m-d H:i:s');
 
     // Prepare the SQL query to insert the message into the database
-    $query = "INSERT INTO " . $this->table_name . " (sender_name, receiver_name, content) 
-              VALUES (?, ?, ?)";
+    $query = "INSERT INTO " . $this->table_name . " (sender_name, receiver_name, content, type) 
+              VALUES (?, ?, ?, ?)";
 
     // Prepare the statement
     $stmt = $this->conn->prepare($query);
 
     // Bind parameters to the query to prevent SQL injection
-    $stmt->bind_param("sss", $this->sender_name, $this->receiver_name, $this->content);
+    $stmt->bind_param("ssss", $this->sender_name, $this->receiver_name, $this->content, $type);
 
     // Execute the query and check if it was successful
     if ($stmt->execute()) {
@@ -52,7 +84,7 @@ public function getMessagesByUser($userName)
 {
 
     // Query modified to check both sender_name and receiver_name
-    $query = "SELECT sender_name, receiver_name, content, created_at 
+    $query = "SELECT * 
             FROM " . $this->table_name . " 
             WHERE sender_name = ? OR receiver_name = ? 
             ORDER BY created_at ASC";
@@ -79,7 +111,7 @@ public function getMessagesFromDistinctSenders()
     // SQL query to select sender_name, content, and created_at excluding 'Admin' 
     // and getting the latest message for each sender
     $query = "
-        SELECT sender_name, content, created_at 
+        SELECT sender_name, content, image_path, created_at 
         FROM " . $this->table_name . " 
         WHERE sender_name != 'Admin' 
         AND created_at IN (
@@ -122,7 +154,7 @@ public function getMessagesFromLatestSenderAndAdmin()
 {
     // SQL query to get all conversations from the latest sender and Admin
     $query = "
-        SELECT sender_name, content, created_at
+        SELECT sender_name, content, image_path, created_at
         FROM " . $this->table_name . "
         WHERE sender_name IN (
             'Admin', 
@@ -153,6 +185,7 @@ public function getMessagesFromLatestSenderAndAdmin()
         $messages[] = [
             'sender_name' => $row['sender_name'],
             'content' => $row['content'],
+            'image_path' => $row['image_path'],
             'created_at' => $row['created_at']
         ];
     }
@@ -166,7 +199,7 @@ public function getMessagesFromLatestSenderAndAdmin()
     public function getMessageBySenderName($senderName) {
         // SQL query to fetch messages for the specified sender or where sender is Admin and receiver is the senderName
         $query = "
-            SELECT content, created_at, sender_name
+            SELECT *
             FROM messages
             WHERE (sender_name = ? OR (sender_name = 'Admin' AND receiver_name = ?))
             ORDER BY created_at ASC
