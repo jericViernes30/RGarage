@@ -528,4 +528,63 @@ public function filterYamahaUnits() {
         include 'views/user/profile.php';
     }
     
+
+    public function updateProfile(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? '';
+            $contact_number = $_POST['contact'] ?? '';
+            $address = $_POST['address'] ?? '';
+
+            // Update the user instance with new properties
+            $this->user->id = $id;
+            $this->user->contact_number = $contact_number;
+            $this->user->address = $address;
+
+            // Call the updateProfile method in the User model
+            if ($this->user->updateProfile()) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Profile updated successfully.'
+                ]);
+            } else {
+                http_response_code(500);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Could not update profile. Please try again.'
+                ]);
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Invalid request method.'
+            ]);
+        }
+    }
+
+    public function getProfile() {
+        if (isset($_POST['id'])) {
+            $user_id = $_POST['id'];
+            $profile = $this->user->getProfile($user_id);
+            if ($profile) {
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => $profile
+                ]);
+            } else {
+                http_response_code(404);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'User not found.'
+                ]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'User ID is required.'
+            ]);
+        }
+    }
+    
 }
