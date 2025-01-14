@@ -440,4 +440,37 @@ class User{
     public function profileView(){
         $query = "SELECT * FROM users WHERE id = ?";
     }
+
+    public function updateProfile() {
+
+        // Prepare the SQL query to update the user data
+        $query = "UPDATE " . $this->table_name . " SET contact_number = ?, address = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+
+        // Bind parameters including the profile picture
+        $stmt->bind_param("ssi", $this->contact_number, $this->address, $this->id);
+
+        // Execute the query and return the result
+        if (!$stmt->execute()) {
+            error_log("Error executing query: " . $stmt->error);
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+
+    public function getProfile($userID) {
+        $query = "SELECT * FROM users WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
 }
