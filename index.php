@@ -126,6 +126,14 @@ switch ($action) {
         $controller->profileView();
         break;  
 
+    case 'user/update-profile':
+        $controller->updateProfile();
+        break;
+
+    case 'user/get-profile':
+        $controller->getProfile();
+        break;
+
     case 'user/reserve-unit':
         $reserveController->reserveUnit();
         break;
