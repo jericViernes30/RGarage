@@ -49,7 +49,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 <button onclick="window.location.href='/RGarage/user/signup'" class="btn">Signup</button>
             <?php endif; ?>
             <div id="profileDropdown" class="hidden w-1/2 absolute right-0 top-14 flex-col gap-2 text-sm rounded-bl-lg rounded-br-lg p-4 text-white bg-[#1b1c1e]">
-                <a href="#">Profile</a>
+                <a href="/RGarage/user/profile">Profile</a>
                 <a href="/RGarage/user/units/reserved?user_id=<?php echo $_SESSION['user']['user_id']; ?>">Reserved Units</a>
                 <a href="/RGarage/user/logout">Logout</a>
             </div>
@@ -78,7 +78,7 @@ function fetchMessages() {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log('Response Data:', data);  // Log the whole response to check its structure
+            // console.log('Response Data:', data);  // Log the whole response to check its structure
 
             if (data.status === 'success') {
                 if (Array.isArray(data.messages) && data.messages.length === 0) {
@@ -110,7 +110,7 @@ function displayMessages(messages) {
         $('#contents').append('<p class="text-white">No messages found.</p>');
     } else {
         $.each(messages, function(index, message) {
-            console.log(message.image_path)
+            // console.log(message.image_path)
             $('#contents').append(`
                 <p id="sender" class="text-white text-xs ${message.sender_name !== 'Admin' ? 'text-right' : ''} mb-1">
                     ${message.sender_name === 'Admin' ? 'Admin' : 'You'}
@@ -147,7 +147,7 @@ $(document).ready(function() {
                 data: { message: message },
                 dataType: 'json',
                 success: function(data) {
-                    console.log('Success response:', data);  // Check the success response
+                    // console.log('Success response:', data);  // Check the success response
                     $('#messageInput').val(''); // Clear input field after sending message
 
                     // Fetch messages again after sending
